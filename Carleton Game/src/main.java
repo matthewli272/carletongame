@@ -13,23 +13,15 @@ import java.awt.*;
  */
 public class main extends JFrame {
 
-//	public main(double width, double height) {
-//
-//		super("Carleton");
-//
-//		Container window = getContentPane();
-//
-//	}
- 
 	public static void main(String args[]) {
-DrawingSurface drawing = new DrawingSurface();
-		
+		DrawingSurface drawing = new DrawingSurface();
+
 		PSurfaceAWT surf = (PSurfaceAWT) drawing.getSurface();
 		PSurfaceAWT.SmoothCanvas canvas = (PSurfaceAWT.SmoothCanvas) surf.getNative();
-		JFrame window = (JFrame)canvas.getFrame();
+		JFrame window = (JFrame) canvas.getFrame();
 
 		window.setSize(600, 500);
-		window.setMinimumSize(new Dimension(100,100));
+		window.setMinimumSize(new Dimension(100, 100));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(true);
 
