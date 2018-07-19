@@ -10,7 +10,6 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 	private ArrayList<String> test = new ArrayList<>(30);
 	private int x;
 	private int y;
-	private int player1NameX = 25;
 	private boolean startMenu = true;
 	private Players player1;
 	private Players player2;
