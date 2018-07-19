@@ -12,7 +12,7 @@ import java.awt.*;
  *
  */
 public class main extends JFrame {
-
+ 
 	public static void main(String args[]) {
 		DrawingSurface drawing = new DrawingSurface();
 
@@ -26,5 +26,9 @@ public class main extends JFrame {
 		window.setResizable(true);
 
 		window.setVisible(true);
+
+
+
 	}
+
 }
