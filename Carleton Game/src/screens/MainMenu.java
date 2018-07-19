@@ -42,7 +42,7 @@ public class MainMenu {
 		// "nidhogg_blood.gif");
 		// drawer.image(img, 0, 0);
 		drawer.background(255);
-		drawer.image(myAnimation, 10, 10);
+		drawer.image(myAnimation, 0, 0);
 
 	}
 }

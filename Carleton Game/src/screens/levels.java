@@ -68,43 +68,43 @@ public class levels {
 
 	}
 
-	public int getNeighbors(int i, int j) {
-		int count = 0;
-		int startIndexX = i - 1, startIndexY = j - 1;
-		int endIndexX = i + 1, endIndexY = j + 1;
-		if (i - 1 < 0) {
-			startIndexX = i;
-			// System.out.println("first, " + startIndexX);
-		}
-		if (i + 1 > grid.length - 1) {
-			endIndexX = i;
-			// System.out.println("second, " + endIndexX);
-		}
-		if (j - 1 < 0) {
-			startIndexY = j;
-			// System.out.println("third, " + startIndexY);
-		}
-		if (j + 1 > grid[0].length - 1) {
-			endIndexY = j;
-			// System.out.println("fourth, " + endIndexY);
-		}
-		System.out.println("startIndexX, " + startIndexX);
-		System.out.println("endIndexX, " + endIndexX);
-		System.out.println("startIndexY, " + startIndexY);
-		System.out.println("endIndexY, " + endIndexY);
-
-		for (int k = startIndexX; k <= endIndexX; k++) {
-			for (int l = startIndexY; l <= endIndexY; l++) {
-				if (grid[k][l])
-					count++;
-				System.out.println(grid[k][l]);
-			}
-		}
-		if (grid[i][j])
-			count--;
-		System.out.println(count);
-		return count;
-	}
+//	public int getNeighbors(int i, int j) {
+//		int count = 0;
+//		int startIndexX = i - 1, startIndexY = j - 1;
+//		int endIndexX = i + 1, endIndexY = j + 1;
+//		if (i - 1 < 0) {
+//			startIndexX = i;
+//			// System.out.println("first, " + startIndexX);
+//		}
+//		if (i + 1 > grid.length - 1) {
+//			endIndexX = i;
+//			// System.out.println("second, " + endIndexX);
+//		}
+//		if (j - 1 < 0) {
+//			startIndexY = j;
+//			// System.out.println("third, " + startIndexY);
+//		}
+//		if (j + 1 > grid[0].length - 1) {
+//			endIndexY = j;
+//			// System.out.println("fourth, " + endIndexY);
+//		}
+//		System.out.println("startIndexX, " + startIndexX);
+//		System.out.println("endIndexX, " + endIndexX);
+//		System.out.println("startIndexY, " + startIndexY);
+//		System.out.println("endIndexY, " + endIndexY);
+//
+//		for (int k = startIndexX; k <= endIndexX; k++) {
+//			for (int l = startIndexY; l <= endIndexY; l++) {
+//				if (grid[k][l])
+//					count++;
+//				System.out.println(grid[k][l]);
+//			}
+//		}
+//		if (grid[i][j])
+//			count--;
+//		System.out.println(count);
+//		return count;
+//	}
 
 	// Runs n turns of the Game Of Life
 	public void step(int n) {
