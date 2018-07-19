@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
+import Characters.Players;
 import processing.core.PApplet;
 
 /*
@@ -19,12 +20,16 @@ import processing.core.PApplet;
 
 public class levels {
 	private boolean[][] grid;
-	private int[][] neighbors;
-
+	private Players[][] playerPosition;
+	//private Bosses[][] bossesPosition;
+	//private Obstacles[][] obstaclePosition;
+	
 	// Constructs an empty grid
 	public levels() {
 		grid = new boolean[20][20];
-		neighbors = new int[20][20];
+		playerPosition = new Players[20][20];
+		//bossesPosition = new Bosses[20][20];
+		//obstaclePosition = new Obstacles[20][20];
 	}
 
 

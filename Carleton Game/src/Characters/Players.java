@@ -1,3 +1,5 @@
+package Characters;
+
 public class Players {
     private int playerHealth;
     private Weapons currentWeapon;
