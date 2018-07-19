@@ -5,9 +5,9 @@ import java.awt.*;
  * @author matthewli, Jeffrey Chi
  *
  */
-public class main extends JFrame {
+public class Main extends JFrame {
 
-	public main(double width, double height){
+	public Main(double width, double height){
 
 		super("Carleton");
 
@@ -18,7 +18,7 @@ public class main extends JFrame {
 
 	}
 
-	public static void main(String[] args) {
+	public static void Main(String[] args) {
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double width = screenSize.getWidth();
 		double height = screenSize.getHeight();
