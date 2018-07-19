@@ -1,5 +1,11 @@
 import javax.swing.*;
+import javax.swing.JFrame;
+
+import processing.awt.PSurfaceAWT;
+import processing.core.PApplet;
+
 import java.awt.*;
+
 /**
  * 
  * @author matthewli, Jeffrey Chi
@@ -7,28 +13,26 @@ import java.awt.*;
  */
 public class main extends JFrame {
 
-	public main(double width, double height){
+//	public main(double width, double height) {
+//
+//		super("Carleton");
+//
+//		Container window = getContentPane();
+//
+//	}
+ 
+	public static void main(String args[]) {
+DrawingSurface drawing = new DrawingSurface();
+		
+		PSurfaceAWT surf = (PSurfaceAWT) drawing.getSurface();
+		PSurfaceAWT.SmoothCanvas canvas = (PSurfaceAWT.SmoothCanvas) surf.getNative();
+		JFrame window = (JFrame)canvas.getFrame();
 
-		super("Carleton");
+		window.setSize(600, 500);
+		window.setMinimumSize(new Dimension(100,100));
+		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.setResizable(true);
 
-
-
-		Container window = getContentPane();
-
-
-	}
-
-	public static void main(String[] args) {
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		double width = screenSize.getWidth();
-		double height = screenSize.getHeight();
-		int setWidth = (int) (width * (2.0 / 3.0));
-		int setHeight = (int) (height * (5.0 / 6.0));
-		main myApp = new main(setWidth,setHeight);
-		myApp.setBounds((int) (setWidth * (1.0 / 3.0)) ,50,setWidth ,setHeight );
-
-		myApp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		myApp.setResizable(false);
-		myApp.setVisible(true);
+		window.setVisible(true);
 	}
 }
