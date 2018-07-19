@@ -44,5 +44,6 @@ public class MainMenu {
 		drawer.background(255);
 		drawer.image(myAnimation, 10, 10);
 
+
 	}
 }

@@ -1,5 +1,5 @@
 public class Players {
-    private int playerHealth;
+    private int playerHealth = 100;
     private Weapons currentWeapon;
     private String name;
     private int playerType;
@@ -11,6 +11,19 @@ public class Players {
         this.playerType = playerType;
     }
 
+    public int[] meleeAtk(){
+        int[] x = {0,2};
+        return x;
+    }
+
+    public int[] rangedAtk(){
+        int[] x = {0,2};
+        return x;
+    }
+
+    public boolean isDead(){
+        return playerHealth == 0;
+    }
 
 
     //Getters & Setters
@@ -37,5 +50,13 @@ public class Players {
 
     public void setPlayerY(int playerY) {
         this.playerY = playerY;
+    }
+
+    public int getPlayerHealth() {
+        return playerHealth;
+    }
+
+    public void setPlayerHealth(int playerHealth) {
+        this.playerHealth = playerHealth;
     }
 }
