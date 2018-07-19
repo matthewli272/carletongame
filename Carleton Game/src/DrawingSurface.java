@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 import screens.MainMenu;
+import screens.levels;
 
 
 
@@ -17,9 +18,14 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 	private Players player2;
 	private boolean player1ChangeName = false;
 	private boolean player2ChangeName = false;
+	private enum State {
+		PAUSED, MENU, GAME, INSTRUCTIONS, WIN, LOSE, STARTUP 
+	};
+	private State state;
 	
 	public DrawingSurface() {
-		mainMenu= new MainMenu();
+		mainMenu = new MainMenu();
+		state = State.MENU;
 		runSketch();
 	}
 	
