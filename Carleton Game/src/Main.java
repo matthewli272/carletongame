@@ -1,3 +1,6 @@
+
+
+
 import javax.swing.*;
 import javax.swing.JFrame;
 
@@ -11,7 +14,7 @@ import java.awt.*;
  * @author matthewli, Jeffrey Chi
  *
  */
-public class main extends JFrame {
+public class Main extends JFrame {
  
 	public static void main(String args[]) {
 		DrawingSurface drawing = new DrawingSurface();
@@ -35,3 +38,4 @@ public class main extends JFrame {
 	}
 
 }
+

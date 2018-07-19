@@ -3,11 +3,13 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
+import screens.MainMenu;
 
 
 
 public class DrawingSurface extends PApplet /*implements MouseListener, ActionListener, KeyListener*/ {
 	private ArrayList<String> test = new ArrayList<>(30);
+	private MainMenu mainMenu;
 	private int x;
 	private int y;
 	private boolean startMenu = true;
@@ -17,7 +19,7 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 	private boolean player2ChangeName = false;
 	
 	public DrawingSurface() {
-		
+		mainMenu= new MainMenu();
 		runSketch();
 	}
 	
@@ -26,6 +28,7 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 	public void setup() {
 		player1 = new Players(" ", 1);
 		player2 = new Players(" ", 2);
+		mainMenu.setup(this);
 
 
 	}
@@ -39,6 +42,7 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 		fill(255);
 		textAlign(CENTER);
 		textSize(12);
+		mainMenu.draw(this);
 		rect(x,y,20,20);
 		rect(20,150,250,30);
 		rect(300,150,250,30);
