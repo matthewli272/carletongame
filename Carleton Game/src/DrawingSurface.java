@@ -10,6 +10,12 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 	private ArrayList<String> test = new ArrayList<>(30);
 	private int x;
 	private int y;
+	private int player1NameX = 25;
+	private boolean startMenu = true;
+	private Players player1;
+	private Players player2;
+	private boolean player1ChangeName = false;
+	private boolean player2ChangeName = false;
 	
 	public DrawingSurface() {
 		
@@ -19,7 +25,10 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 	// The statements in the setup() function 
 	// execute once when the program begins
 	public void setup() {
-		
+		player1 = new Players(" ", 1);
+		player2 = new Players(" ", 2);
+
+
 	}
 	
 	// The statements in draw() are executed until the 
@@ -32,6 +41,8 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 		textAlign(CENTER);
 		textSize(12);
 		rect(x,y,20,20);
+		rect(20,150,250,30);
+		rect(300,150,250,30);
 		//System.out.println("im here");
 		if(test.contains("w")){
 			fill(0, 102, 153);
@@ -41,27 +52,51 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 			//System.out.println("hello");
 		}
 
-		if(x > mouseX)
-			x-=1;
-		else if (x < mouseX)
-			x+=1;
+		if(startMenu){
+			fill(0, 102, 153);
+			textAlign(LEFT);
+			textSize(12);
+			text(player1.getName(), 25, 172);
+			text(player2.getName(), 305, 172);
 
-		if(y > mouseY)
-			y-=1;
-		else if(y < mouseY)
-			y+=1;
+
+		}else {
+
+			if (x > mouseX)
+				x -= 1;
+			else if (x < mouseX)
+				x += 1;
+
+			if (y > mouseY)
+				y -= 1;
+			else if (y < mouseY)
+				y += 1;
+		}
 
 
 	
 	}
 	public void keyPressed(){
 
-
-		switch (key) {
-			case 'w':
-				if(!test.contains("w"))
-					test.add("w");
-				break;
+		if(!startMenu) {
+			switch (key) {
+				case 'w':
+					if (!test.contains("w"))
+						test.add("w");
+					break;
+			}
+		} else{
+			if(player1ChangeName) {
+				if (((int) key >= 65 && (int) key <= 90) || ((int) key >= 97 && (int) key <= 122))
+					player1.setName(player1.getName() + key);
+				else if(key == 8)
+					player1.setName(player1.getName().substring(0,player1.getName().length() - 1));
+			} else if (player2ChangeName) {
+				if (((int) key >= 65 && (int) key <= 90) || ((int) key >= 97 && (int) key <= 122))
+					player2.setName(player2.getName() + key);
+				else if(key == 8)
+					player2.setName(player2.getName().substring(0,player2.getName().length() - 1));
+			}
 		}
 	}
 	public void keyReleased(){
@@ -69,6 +104,23 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 			case 'w':
 				test.remove("w");
 				break;
+		}
+	}
+	public void mousePressed(){
+		System.out.println(mouseX + " " + mouseY);
+		if(startMenu){
+			if(mouseX >= 20 && mouseX <= 270 && mouseY >= 150 && mouseY <= 180) {
+				player2ChangeName = false;
+				player1ChangeName = true;
+				System.out.println("p1");
+			}else if(mouseX >= 300 && mouseX <= 550 && mouseY >= 150 && mouseY <= 180) {
+				player1ChangeName = false;
+				player2ChangeName = true;
+				System.out.println("p2");
+			}else{
+				player1ChangeName = false;
+				player2ChangeName = false;
+			}
 		}
 	}
 
