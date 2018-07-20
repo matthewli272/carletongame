@@ -25,38 +25,42 @@ public class Levels {
 	private Entity[][] map;
 	private Players player1;
 	private Players player2;
-	private int player1X, player1Y, player2X, player2Y,bossX,bossY;
+	private int player1X, player1Y, player2X, player2Y, bossX, bossY;
 	private Bosses boss;
+	private float cellWidth;
+	private float cellHeight;
+
 	private enum Weapon {
-		SWORD, THROWINGSWORD, KNIFE, PISTOL, RIFLE  
+		SWORD, THROWINGSWORD, KNIFE, PISTOL, RIFLE
 	};
+
 	private Weapon weapon;
-	//Somehow add shields or smt like that
-	
+	// Somehow add shields or smt like that
+
 	// Constructs an empty grid
 	public Levels() {
 		player1X = 20;
 		player1Y = 40;
-		player2X = 50;
-		player2Y = 50;
-		bossX=bossY = 0;
+		player2X = 49;
+		player2Y = 49;
+		bossX = bossY = 0;
 		player1 = new Players(" ", 1, player1X, player1Y);
-		player2 = new Players(" ", 2,player2X,player2Y);
-		boss = new Bosses("Boss", 100, 0,0);
+		player2 = new Players(" ", 2, player2X, player2Y);
+		boss = new Bosses("Boss", 100, 0, 0);
 		grid = new boolean[50][50];
 		map = new Entity[50][50];
 		weapon = Weapon.SWORD;
 		map[player1X][player1Y] = player1;
 		map[player2X][player2Y] = player2;
 		map[bossX][bossY] = boss;
-		
-		//obstaclePosition = new Obstacles[20][20];
+
+		// obstaclePosition = new Obstacles[20][20];
 	}
 
 	public Bosses getBoss() {
 		return boss;
 	}
-	
+
 	public Players getPlayer1() {
 		return player1;
 	}
@@ -64,45 +68,46 @@ public class Levels {
 	public Players getPlayer2() {
 		return player2;
 	}
+	
 	// Runs a single turn of the Game Of Life
-//	public void step() {
-//		int count = 0;
-//		for (int i = 0; i < grid[0].length; i++) {
-//			for (int j = 0; j < grid.length; j++) {
-//				neighbors[i][j] = getNeighbors(i, j);
-//			}
-//		}
-//		for (int i = 0; i < grid[0].length; i++) {
-//			for (int j = 0; j < grid.length; j++) {
-//				if ((neighbors[i][j] == 3)) {
-//					grid[i][j] = true;
-//				} else if (neighbors[i][j] >= 4 || neighbors[i][j] <= 1) {
-//					grid[i][j] = false;
-//				}
-//			}
-//		}
-//		for (int i = 0; i < grid.length; i++) {
-//			for (int j = 0; j < grid.length; j++) {
-//				if (grid[i][j])
-//					count++;
-//			}
-//		}
-//		System.out.println(count);
-		// for (int i = 0; i < grid.length; i++) {
-		// for (int j = 0; j < grid[0].length; j++) {
-		// System.out.println(grid[i][j]);
-		//// if (grid[i][j])
-		//// count++;
-		// }
-		// }
-		// System.out.println(count);
+	// public void step() {
+	// int count = 0;
+	// for (int i = 0; i < grid[0].length; i++) {
+	// for (int j = 0; j < grid.length; j++) {
+	// neighbors[i][j] = getNeighbors(i, j);
+	// }
+	// }
+	// for (int i = 0; i < grid[0].length; i++) {
+	// for (int j = 0; j < grid.length; j++) {
+	// if ((neighbors[i][j] == 3)) {
+	// grid[i][j] = true;
+	// } else if (neighbors[i][j] >= 4 || neighbors[i][j] <= 1) {
+	// grid[i][j] = false;
+	// }
+	// }
+	// }
+	// for (int i = 0; i < grid.length; i++) {
+	// for (int j = 0; j < grid.length; j++) {
+	// if (grid[i][j])
+	// count++;
+	// }
+	// }
+	// System.out.println(count);
+	// for (int i = 0; i < grid.length; i++) {
+	// for (int j = 0; j < grid[0].length; j++) {
+	// System.out.println(grid[i][j]);
+	//// if (grid[i][j])
+	//// count++;
+	// }
+	// }
+	// System.out.println(count);
 
-	//}
+	// }
 
 	public void update() {
-		
+
 	}
-	
+
 	public int getNeighbors(int i, int j) {
 		int count = 0;
 		int startIndexX = i - 1, startIndexY = j - 1;
@@ -142,10 +147,10 @@ public class Levels {
 	}
 
 	// Runs n turns of the Game Of Life
-//	public void step(int n) {
-//		for (int i = 0; i < n; i++)
-//			step();
-//	}
+	// public void step(int n) {
+	// for (int i = 0; i < n; i++)
+	// step();
+	// }
 
 	// Formats this Life grid as a String to be printed (one call to this method
 	// returns the whole multi-line grid)
@@ -182,8 +187,8 @@ public class Levels {
 	 *            The pixel height of the grid drawing.
 	 */
 	public void draw(PApplet marker, float x, float y, float width, float height) {
-		float cellWidth = width / grid[0].length;
-		float cellHeight = height / grid.length;
+		cellWidth = width / grid[0].length;
+		cellHeight = height / grid.length;
 		for (int i = 0; i < grid[0].length; i++) {
 			for (int j = 0; j < grid.length; j++) {
 				if (grid[j][i]) {
@@ -241,6 +246,14 @@ public class Levels {
 	 */
 	public void toggleCell(int i, int j) {
 		grid[i][j] = !grid[i][j];
+	}
+
+	public float getCellWidth() {
+		return cellWidth;
+	}
+
+	public float getCellHeight() {
+		return cellHeight;
 	}
 
 }

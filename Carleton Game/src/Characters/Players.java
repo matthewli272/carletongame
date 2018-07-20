@@ -1,5 +1,7 @@
 package Characters;
 
+import processing.core.PApplet;
+
 public class Players implements Entity {
 	private int playerHealth;
 	private Weapons currentWeapon;
@@ -16,6 +18,19 @@ public class Players implements Entity {
 	}
 
 	// Getters & Setters
+	public int[] meleeAtk() {
+		int[] x = { 0, 2 };
+		return x;
+	}
+
+	public int[] rangedAtk() {
+		int[] x = { 0, 2 };
+		return x;
+	}
+
+	public boolean isDead() {
+		return playerHealth == 0;
+	}
 
 	public String getName() {
 		return name;
@@ -36,14 +51,34 @@ public class Players implements Entity {
 	}
 
 	@Override
-	public void setX(int x) {
+	public void setY(int y) {
 		// TODO Auto-generated method stub
+		playerY = y;
+	}
 
+	public int getPlayerHealth() {
+		return playerHealth;
+	}
+
+	public void setPlayerHealth(int playerHealth) {
+		this.playerHealth = playerHealth;
 	}
 
 	@Override
-	public void setY(int y) {
-		// TODO Auto-generated method stub
-
+	public void setX(int x) {
+		this.playerX = x;
 	}
+
+	public void draw(PApplet drawer, float x, float y) {
+		drawer.fill(0, 0, 0);
+		// System.out.println(x + " " + y);
+
+		drawer.rect(playerX, playerY, x, y);
+		drawer.fill(237, 24, 245);
+		drawer.textSize(10);
+		drawer.text(name, playerX, playerY);
+
+		drawer.fill(255);
+	}
+
 }

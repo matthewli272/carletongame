@@ -9,6 +9,8 @@ import processing.core.PImage;
 
 public class MainMenu {
 	Gif myAnimation;
+	PImage startButton;
+
 	private int frames, totalFrames;
 
 	public MainMenu() {
@@ -24,10 +26,20 @@ public class MainMenu {
 		myAnimation = new Gif(drawer,
 				"executable/sprites" + System.getProperty("file.separator") + "nidhogg_blood.gif");
 		myAnimation.play();
+
+		startButton = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "start_button.png");
+		
+
+
 	}
 
 	public void draw(PApplet drawer) {
 		drawer.background(255);
 		drawer.image(myAnimation, 0, 0);
+
+		drawer.image(startButton,75,200);
+
 	}
+
+
 }
