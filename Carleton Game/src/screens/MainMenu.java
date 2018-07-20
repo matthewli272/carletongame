@@ -8,7 +8,6 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 public class MainMenu {
-	// GifMaker gifExport;
 	Gif myAnimation;
 	private int frames, totalFrames;
 
@@ -25,24 +24,10 @@ public class MainMenu {
 		myAnimation = new Gif(drawer,
 				"executable/sprites" + System.getProperty("file.separator") + "nidhogg_blood.gif");
 		myAnimation.play();
-		// gifExport = new GifMaker(drawer,
-		// "executable/sprites" + System.getProperty("file.separator") +
-		// "nidhogg_blood.gif", 100);
-		// gifExport.setRepeat(0); // make it an "endless" animation
-		//
-		// drawer.noFill();
-		// drawer.stroke(0);
-		// drawer.strokeWeight(20);
-
 	}
 
 	public void draw(PApplet drawer) {
-		// PImage img = drawer
-		// .loadImage("executable/sprites" + System.getProperty("file.separator") +
-		// "nidhogg_blood.gif");
-		// drawer.image(img, 0, 0);
 		drawer.background(255);
 		drawer.image(myAnimation, 0, 0);
-
 	}
 }

@@ -4,7 +4,7 @@ public class Players {
     private int playerHealth;
     private Weapons currentWeapon;
     private String name;
-    private int playerType;
+    private int playerType;//player 1 or player 2
     private int playerX;
     private int playerY;
 

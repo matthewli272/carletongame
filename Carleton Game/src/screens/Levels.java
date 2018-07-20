@@ -6,57 +6,64 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
+import Characters.Bosses;
 import Characters.Players;
 import processing.core.PApplet;
 
 /*
 
-	Represents a Game Of Life grid.
+	Represents a level in the game
 
 	Coded by: Matthew Li
 	Modified on:
 
 */
 
-public class levels {
+public class Levels {
 	private boolean[][] grid;
 	private Players[][] playerPosition;
-	//private Bosses[][] bossesPosition;
+	private enum Weapon {
+		SWORD, THROWINGSWORD, KNIFE, PISTOL, RIFLE  
+	};
+	private Weapon weapon;
+	//Somehow add shields or smt like that
+	private Bosses[][] bossesPosition;
 	//private Obstacles[][] obstaclePosition;
 	
 	// Constructs an empty grid
-	public levels() {
-		grid = new boolean[20][20];
-		playerPosition = new Players[20][20];
-		//bossesPosition = new Bosses[20][20];
+	public Levels() {
+		grid = new boolean[100][100];
+		playerPosition = new Players[100][100];
+		weapon = Weapon.SWORD;
+		bossesPosition = new Bosses[100][100];
 		//obstaclePosition = new Obstacles[20][20];
 	}
 
 
 	// Runs a single turn of the Game Of Life
-	public void step() {
-		int count = 0;
-		for (int i = 0; i < grid[0].length; i++) {
-			for (int j = 0; j < grid.length; j++) {
-				neighbors[i][j] = getNeighbors(i, j);
-			}
-		}
-		for (int i = 0; i < grid[0].length; i++) {
-			for (int j = 0; j < grid.length; j++) {
-				if ((neighbors[i][j] == 3)) {
-					grid[i][j] = true;
-				} else if (neighbors[i][j] >= 4 || neighbors[i][j] <= 1) {
-					grid[i][j] = false;
-				}
-			}
-		}
-		for (int i = 0; i < grid.length; i++) {
-			for (int j = 0; j < grid.length; j++) {
-				if (grid[i][j])
-					count++;
-			}
-		}
-		System.out.println(count);
+//	public void step() {
+//		int count = 0;
+//		for (int i = 0; i < grid[0].length; i++) {
+//			for (int j = 0; j < grid.length; j++) {
+//				neighbors[i][j] = getNeighbors(i, j);
+//			}
+//		}
+//		for (int i = 0; i < grid[0].length; i++) {
+//			for (int j = 0; j < grid.length; j++) {
+//				if ((neighbors[i][j] == 3)) {
+//					grid[i][j] = true;
+//				} else if (neighbors[i][j] >= 4 || neighbors[i][j] <= 1) {
+//					grid[i][j] = false;
+//				}
+//			}
+//		}
+//		for (int i = 0; i < grid.length; i++) {
+//			for (int j = 0; j < grid.length; j++) {
+//				if (grid[i][j])
+//					count++;
+//			}
+//		}
+//		System.out.println(count);
 		// for (int i = 0; i < grid.length; i++) {
 		// for (int j = 0; j < grid[0].length; j++) {
 		// System.out.println(grid[i][j]);
@@ -66,51 +73,51 @@ public class levels {
 		// }
 		// System.out.println(count);
 
-	}
+	//}
 
-//	public int getNeighbors(int i, int j) {
-//		int count = 0;
-//		int startIndexX = i - 1, startIndexY = j - 1;
-//		int endIndexX = i + 1, endIndexY = j + 1;
-//		if (i - 1 < 0) {
-//			startIndexX = i;
-//			// System.out.println("first, " + startIndexX);
-//		}
-//		if (i + 1 > grid.length - 1) {
-//			endIndexX = i;
-//			// System.out.println("second, " + endIndexX);
-//		}
-//		if (j - 1 < 0) {
-//			startIndexY = j;
-//			// System.out.println("third, " + startIndexY);
-//		}
-//		if (j + 1 > grid[0].length - 1) {
-//			endIndexY = j;
-//			// System.out.println("fourth, " + endIndexY);
-//		}
-//		System.out.println("startIndexX, " + startIndexX);
-//		System.out.println("endIndexX, " + endIndexX);
-//		System.out.println("startIndexY, " + startIndexY);
-//		System.out.println("endIndexY, " + endIndexY);
-//
-//		for (int k = startIndexX; k <= endIndexX; k++) {
-//			for (int l = startIndexY; l <= endIndexY; l++) {
-//				if (grid[k][l])
-//					count++;
-//				System.out.println(grid[k][l]);
-//			}
-//		}
-//		if (grid[i][j])
-//			count--;
-//		System.out.println(count);
-//		return count;
-//	}
+	public int getNeighbors(int i, int j) {
+		int count = 0;
+		int startIndexX = i - 1, startIndexY = j - 1;
+		int endIndexX = i + 1, endIndexY = j + 1;
+		if (i - 1 < 0) {
+			startIndexX = i;
+			// System.out.println("first, " + startIndexX);
+		}
+		if (i + 1 > grid.length - 1) {
+			endIndexX = i;
+			// System.out.println("second, " + endIndexX);
+		}
+		if (j - 1 < 0) {
+			startIndexY = j;
+			// System.out.println("third, " + startIndexY);
+		}
+		if (j + 1 > grid[0].length - 1) {
+			endIndexY = j;
+			// System.out.println("fourth, " + endIndexY);
+		}
+		System.out.println("startIndexX, " + startIndexX);
+		System.out.println("endIndexX, " + endIndexX);
+		System.out.println("startIndexY, " + startIndexY);
+		System.out.println("endIndexY, " + endIndexY);
+
+		for (int k = startIndexX; k <= endIndexX; k++) {
+			for (int l = startIndexY; l <= endIndexY; l++) {
+				if (grid[k][l])
+					count++;
+				System.out.println(grid[k][l]);
+			}
+		}
+		if (grid[i][j])
+			count--;
+		System.out.println(count);
+		return count;
+	}
 
 	// Runs n turns of the Game Of Life
-	public void step(int n) {
-		for (int i = 0; i < n; i++)
-			step();
-	}
+//	public void step(int n) {
+//		for (int i = 0; i < n; i++)
+//			step();
+//	}
 
 	// Formats this Life grid as a String to be printed (one call to this method
 	// returns the whole multi-line grid)
