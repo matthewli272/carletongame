@@ -111,5 +111,17 @@ public class Levels {
 	public float getCellHeight() {
 		return cellHeight;
 	}
+	/**
+	 * Optionally, complete this method to toggle a cell in the game of life grid
+	 * between alive and dead.
+	 * 
+	 * @param i
+	 *            The x coordinate of the cell in the grid.
+	 * @param j
+	 *            The y coordinate of the cell in the grid.
+	 */
+	public void toggleCell(int i, int j) {
+		//grid[i][j] = !grid[i][j];
+	}
 
 }
