@@ -8,7 +8,6 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 public class MainMenu {
-	// GifMaker gifExport;
 	Gif myAnimation;
 	PImage startButton;
 
@@ -27,6 +26,7 @@ public class MainMenu {
 		myAnimation = new Gif(drawer,
 				"executable/sprites" + System.getProperty("file.separator") + "nidhogg_blood.gif");
 		myAnimation.play();
+<<<<<<< HEAD
 		startButton = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "start_button.png");
 		// gifExport = new GifMaker(drawer,
 		// "executable/sprites" + System.getProperty("file.separator") +
@@ -37,18 +37,21 @@ public class MainMenu {
 		// drawer.stroke(0);
 		// drawer.strokeWeight(20);
 
+=======
+>>>>>>> 025115cab0cbfe70b428c36ea4f9a46bbb024061
 	}
 
 	public void draw(PApplet drawer) {
-		// PImage img = drawer
-		// .loadImage("executable/sprites" + System.getProperty("file.separator") +
-		// "nidhogg_blood.gif");
-		// drawer.image(img, 0, 0);
 		drawer.background(255);
 		drawer.image(myAnimation, 0, 0);
+<<<<<<< HEAD
 		drawer.image(startButton,75,200);
 
 	}
 
 
 }
+=======
+	}
+}
+>>>>>>> 025115cab0cbfe70b428c36ea4f9a46bbb024061

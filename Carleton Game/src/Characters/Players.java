@@ -1,8 +1,10 @@
+package Characters;
+
 public class Players {
     private int playerHealth = 100;
     private Weapons currentWeapon;
     private String name;
-    private int playerType;
+    private int playerType;//player 1 or player 2
     private int playerX;
     private int playerY;
 

@@ -1,3 +1,4 @@
+package Characters;
 public class Weapons {
     private String wpnName;
     private int wpnDmg;
