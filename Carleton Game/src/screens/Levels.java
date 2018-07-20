@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import Characters.Bosses;
+import Characters.Entity;
 import Characters.Players;
 import processing.core.PApplet;
 
@@ -21,25 +22,48 @@ import processing.core.PApplet;
 
 public class Levels {
 	private boolean[][] grid;
-	private Players[][] playerPosition;
+	private Entity[][] map;
+	private Players player1;
+	private Players player2;
+	private int player1X, player1Y, player2X, player2Y,bossX,bossY;
+	private Bosses boss;
 	private enum Weapon {
 		SWORD, THROWINGSWORD, KNIFE, PISTOL, RIFLE  
 	};
 	private Weapon weapon;
 	//Somehow add shields or smt like that
-	private Bosses[][] bossesPosition;
-	//private Obstacles[][] obstaclePosition;
 	
 	// Constructs an empty grid
 	public Levels() {
-		grid = new boolean[100][100];
-		playerPosition = new Players[100][100];
+		player1X = 20;
+		player1Y = 40;
+		player2X = 50;
+		player2Y = 50;
+		bossX=bossY = 0;
+		player1 = new Players(" ", 1, player1X, player1Y);
+		player2 = new Players(" ", 2,player2X,player2Y);
+		boss = new Bosses("Boss", 100, 0,0);
+		grid = new boolean[50][50];
+		map = new Entity[50][50];
 		weapon = Weapon.SWORD;
-		bossesPosition = new Bosses[100][100];
+		map[player1X][player1Y] = player1;
+		map[player2X][player2Y] = player2;
+		map[bossX][bossY] = boss;
+		
 		//obstaclePosition = new Obstacles[20][20];
 	}
 
+	public Bosses getBoss() {
+		return boss;
+	}
+	
+	public Players getPlayer1() {
+		return player1;
+	}
 
+	public Players getPlayer2() {
+		return player2;
+	}
 	// Runs a single turn of the Game Of Life
 //	public void step() {
 //		int count = 0;
@@ -75,6 +99,10 @@ public class Levels {
 
 	//}
 
+	public void update() {
+		
+	}
+	
 	public int getNeighbors(int i, int j) {
 		int count = 0;
 		int startIndexX = i - 1, startIndexY = j - 1;
@@ -135,39 +163,6 @@ public class Levels {
 		}
 
 		return temp;
-	}
-
-	// Reads in array data from a simple text file containing asterisks (*)
-	public void readData(String filename, boolean[][] gameData) {
-		File dataFile = new File(filename);
-
-		if (dataFile.exists()) {
-			int count = 0;
-
-			FileReader reader = null;
-			Scanner in = null;
-			try {
-				reader = new FileReader(dataFile);
-				in = new Scanner(reader);
-
-				while (in.hasNext()) {
-					String line = in.nextLine();
-					for (int i = 0; i < line.length(); i++)
-						if (i < gameData.length && count < gameData[i].length && line.charAt(i) == '*')
-							gameData[i][count] = true;
-
-					count++;
-				}
-			} catch (IOException ex) {
-				throw new IllegalArgumentException("Data file " + filename + " cannot be read.");
-			} finally {
-				if (in != null)
-					in.close();
-			}
-
-		} else {
-			throw new IllegalArgumentException("Data file " + filename + " does not exist.");
-		}
 	}
 
 	/**
