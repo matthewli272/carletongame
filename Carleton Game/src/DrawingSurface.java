@@ -70,7 +70,7 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 			textAlign(LEFT);
 			textSize(12);
 			text(level1.getPlayer1().getName(), 25, 172);
-			text(level1.getPlayer1().getName(), 305, 172);
+			text(level1.getPlayer2().getName(), 305, 172);
 
 		}else {//this can be added to players class later
 
