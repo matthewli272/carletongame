@@ -1,15 +1,15 @@
 import java.util.ArrayList;
 
-import Characters.Players;
 import processing.core.PApplet;
 import screens.MainMenu;
-
+import sprites.Bosses;
+import sprites.Obstacle;
+import sprites.Players;
 import screens.Levels;
 
 public class DrawingSurface extends PApplet /* implements MouseListener, ActionListener, KeyListener */ {
 	private ArrayList<String> player1movement = new ArrayList<>(30);
 	private ArrayList<String> player2movement = new ArrayList<>(30);
-	private Obstacle obstacle;
 	private MainMenu mainMenu;
 	private Levels level1;
 	private int x;
@@ -30,16 +30,14 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		mainMenu = new MainMenu();
 		state = State.MENU;
 		runSketch();
-		level1 = new Levels();
-		obstacle = new Obstacle(0, 0);
+		level1 = new Levels(new Players("", 1,10,10),new Players("", 2, 40,30), new Bosses("Donald Trump", 100,0,0), new ArrayList<Obstacle>());
 	}
 
 	// The statements in the setup() function
 	// execute once when the program begins
 	public void setup() {
-		mainMenu.setup(this);
-		obstacle.setup(this);
-
+		mainMenu.setup(this);	
+		level1.setup(this);
 	}
 
 	// The statements in draw() are executed until the
@@ -58,9 +56,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		if (player1movement.contains("w")) {
 			fill(0, 102, 153);
 			textSize(32);
-			text("Hello There!", 100, 100);
 			fill(255);
-			// System.out.println("hello");
 		}
 
 		if (state == State.MENU) {
@@ -75,7 +71,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 
 		} else {// this can be added to players class later
 
-			level1.draw(this, 0, 0, 600, 500);
+			level1.draw(this, 0, 0, 580, 480);
 			cellHeight = level1.getCellHeight();
 			cellWidth = level1.getCellWidth();
 
@@ -109,7 +105,6 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			level1.getPlayer1().draw(this, cellHeight, cellWidth);
 			level1.getPlayer2().draw(this, cellHeight, cellWidth);
 		}
-		obstacle.draw(this);
 
 	}
 

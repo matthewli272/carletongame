@@ -1,4 +1,4 @@
-package Characters;
+package sprites;
 public class Weapons {
     private String wpnName;
     private int wpnDmg;

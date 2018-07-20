@@ -1,4 +1,4 @@
-package Characters;
+package sprites;
 
 import processing.core.PApplet;
 

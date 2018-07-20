@@ -1,4 +1,4 @@
-import Characters.Entity;
+package sprites;
 import processing.core.PApplet;
 import processing.core.PImage;
 

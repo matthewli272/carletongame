@@ -1,10 +1,13 @@
-package Characters;
+package sprites;
 
 import java.lang.*;
+import gifAnimation.*;
+import processing.core.PApplet;
 
 public class Bosses implements Entity {
 
 	// fields
+	Gif myAnimation;
 	private int bossHealth;
 	private Weapons currentWeapon;
 	private String name;
@@ -92,12 +95,15 @@ public class Bosses implements Entity {
 
 	/**
 	 * 
-	 * @param x pos of player
-	 * @param y pos of player
-	 * @param map of the grid
+	 * @param x
+	 *            pos of player
+	 * @param y
+	 *            pos of player
+	 * @param map
+	 *            of the grid
 	 * @return direction boss should shoot
 	 * 
-	 * only is called if the the player is within range of the boss
+	 *         only is called if the the player is within range of the boss
 	 */
 	private int direction(int x, int y, Entity[][] map) {
 		if (bossY - y > 0) {
@@ -110,4 +116,14 @@ public class Bosses implements Entity {
 			return 3;
 	}
 
+	public void setup(PApplet drawer) {
+		drawer.smooth();
+		myAnimation = new Gif(drawer,
+				"executable/sprites" + System.getProperty("file.separator") + "TestTrump.gif");
+		myAnimation.play();
+	}
+
+	public void draw(PApplet drawer) {
+		drawer.image(myAnimation, 10, 10);
+	}
 }

@@ -1,4 +1,4 @@
-package Characters;
+package sprites;
 
 public interface Entity {
 	
