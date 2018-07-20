@@ -32,7 +32,11 @@ public class Players extends PApplet{
     public void draw(PApplet drawer,float x, float y){
         drawer.fill(0,0,0);
         //System.out.println(x + " " + y);
+
         drawer.rect(playerX,playerY,x,y);
+        drawer.fill(237,24,245);
+        drawer.textSize(10);
+        drawer.text(name,playerX,playerY);
 
         drawer.fill(255);
     }
