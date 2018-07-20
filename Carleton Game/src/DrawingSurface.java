@@ -7,7 +7,13 @@ import sprites.Obstacle;
 import sprites.Players;
 import screens.Levels;
 
-public class DrawingSurface extends PApplet /* implements MouseListener, ActionListener, KeyListener */ {
+
+
+
+
+public class DrawingSurface extends PApplet /*implements MouseListener, ActionListener, KeyListener*/ {
+
+
 	private ArrayList<String> player1movement = new ArrayList<>(30);
 	private ArrayList<String> player2movement = new ArrayList<>(30);
 	private MainMenu mainMenu;
@@ -30,7 +36,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		mainMenu = new MainMenu();
 		state = State.MENU;
 		runSketch();
-		level1 = new Levels(new Players("", 1,10,10),new Players("", 2, 40,30), new Bosses("Donald Trump", 100,0,0), new ArrayList<Obstacle>());
+		level1 = new Levels(new Players("", 1,10,10),new Players("", 2, 20,10), new Bosses("Donald Trump", 100,0,0), new ArrayList<Obstacle>());
 	}
 
 	// The statements in the setup() function
@@ -71,7 +77,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 
 		} else {// this can be added to players class later
 
-			level1.draw(this, 0, 0, 580, 480);
+			level1.draw(this, 0, 0, 620, 530);
 			cellHeight = level1.getCellHeight();
 			cellWidth = level1.getCellWidth();
 
@@ -164,7 +170,36 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 						player2movement.add("d");
 					}
 					break;
-				}
+
+				case 'c':
+					if (!player1movement.contains("c"))
+						player1movement.add("c");
+					break;
+			}
+			if(key == CODED)
+				switch (keyCode) {
+					case UP:
+						//System.out.println("x");
+						if (!player2movement.contains("w"))
+							player2movement.add("w");
+						break;
+					case DOWN:
+						if (!player2movement.contains("s"))
+							player2movement.add("s");
+						break;
+					case LEFT:
+						if (!player2movement.contains("a"))
+							player2movement.add("a");
+						break;
+					case RIGHT:
+						if (!player2movement.contains("d"))
+							player2movement.add("d");
+						break;
+					case SHIFT:
+						if (!player2movement.contains("c"))
+							player2movement.add("c");
+						break;
+		}
 
 		} else {
 			if (player1ChangeName) {

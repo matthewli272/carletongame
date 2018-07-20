@@ -45,7 +45,7 @@ public class Levels {
 		this.player2 = player2;
 		this.boss = boss;
 		this.obstacle = obstacle;
-		map = new Entity[50][50];
+		map = new Entity[30][30];
 		for(Obstacle o : obstacle) {
 			map[o.getX()][o.getY()] = o;
 		}
