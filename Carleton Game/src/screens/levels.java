@@ -28,6 +28,8 @@ public class Levels {
 	private Weapon weapon;
 	//Somehow add shields or smt like that
 	private Bosses[][] bossesPosition;
+	private float cellWidth;
+	private float cellHeight;
 	//private Obstacles[][] obstaclePosition;
 	
 	// Constructs an empty grid
@@ -38,6 +40,8 @@ public class Levels {
 		bossesPosition = new Bosses[100][100];
 		//obstaclePosition = new Obstacles[20][20];
 	}
+
+
 
 
 	// Runs a single turn of the Game Of Life
@@ -187,8 +191,8 @@ public class Levels {
 	 *            The pixel height of the grid drawing.
 	 */
 	public void draw(PApplet marker, float x, float y, float width, float height) {
-		float cellWidth = width / grid[0].length;
-		float cellHeight = height / grid.length;
+		cellWidth = width / grid[0].length;
+		cellHeight = height / grid.length;
 		for (int i = 0; i < grid[0].length; i++) {
 			for (int j = 0; j < grid.length; j++) {
 				if (grid[j][i]) {
@@ -201,6 +205,14 @@ public class Levels {
 			}
 		}
 
+	}
+
+	public float getCellWidth(){
+		return  cellWidth;
+	}
+
+	public float getCellHeight(){
+		return  cellHeight;
 	}
 
 	/**

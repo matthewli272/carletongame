@@ -1,12 +1,14 @@
 package Characters;
 
-public class Players {
+import processing.core.PApplet;
+
+public class Players extends PApplet{
     private int playerHealth = 100;
     private Weapons currentWeapon;
     private String name;
     private int playerType;//player 1 or player 2
-    private int playerX;
-    private int playerY;
+    private int playerX = 0;
+    private int playerY = 0;
 
     public Players(String name, int playerType ){
         this.name = name;
@@ -25,6 +27,14 @@ public class Players {
 
     public boolean isDead(){
         return playerHealth == 0;
+    }
+
+    public void draw(PApplet drawer,float x, float y){
+        drawer.fill(0,0,0);
+        //System.out.println(x + " " + y);
+        drawer.rect(playerX,playerY,x,y);
+
+        drawer.fill(255);
     }
 
 

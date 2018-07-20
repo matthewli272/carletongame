@@ -1,5 +1,3 @@
-import java.awt.event.*;
-import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 import Characters.Players;
@@ -12,8 +10,10 @@ import screens.Levels;
 
 
 public class DrawingSurface extends PApplet /*implements MouseListener, ActionListener, KeyListener*/ {
-	private ArrayList<String> test = new ArrayList<>(30);
+	private ArrayList<String> player1movement = new ArrayList<>(30);
+	private ArrayList<String> player2movement = new ArrayList<>(30);
 	private MainMenu mainMenu;
+	private Levels level1;
 	private int x;
 	private int y;
 	//private boolean startMenu = true;
@@ -25,11 +25,14 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 		PAUSED, MENU, GAME, INSTRUCTIONS, WIN, LOSE, STARTUP 
 	};
 	private State state;
+	private float cellWidth;
+	private float cellHeight;
 	
 	public DrawingSurface() {
 		mainMenu = new MainMenu();
 		state = State.MENU;
 		runSketch();
+		level1 = new Levels();
 	}
 	
 	// The statements in the setup() function 
@@ -55,7 +58,7 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 
 		//rect(x,y,20,20);
 		//System.out.println("im here");
-		if(test.contains("w")){
+		if(player1movement.contains("w")){
 			fill(0, 102, 153);
 			textSize(32);
 			text("Hello There!", 100, 100);
@@ -73,17 +76,38 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 			text(player1.getName(), 25, 172);
 			text(player2.getName(), 305, 172);
 
-		}else {
+		}else {//this can be added to players class later
 
-			if (x > mouseX)
-				x -= 1;
-			else if (x < mouseX)
-				x += 1;
+			level1.draw(this,0,0,600,500);
+			cellHeight = level1.getCellHeight();
+			cellWidth = level1.getCellWidth();
+			if(player1movement.contains("w")) {
+				player1.setPlayerY((int) (player1.getPlayerY() - cellHeight) );
+			}else if(player1movement.contains("a"))
+			{
+				player1.setPlayerX((int) (player1.getPlayerX() - cellWidth) );
+			}else if(player1movement.contains("s"))
+			{
+				player1.setPlayerY((int) (player1.getPlayerY() + cellHeight) );
+			}else if(player1movement.contains("d")){
+				player1.setPlayerX((int) (player1.getPlayerX() + cellWidth) );
+			}
+///*
+			if(player2movement.contains("w")) {
+				player2.setPlayerY((int) (player2.getPlayerY() - cellHeight) );
+			}else if(player2movement.contains("a"))
+			{
+				player2.setPlayerX((int) (player2.getPlayerX() - cellWidth) );
+			}else if(player2movement.contains("s"))
+			{
+				player2.setPlayerY((int) (player2.getPlayerY() + cellHeight) );
+			}else if(player2movement.contains("d")){
+				player2.setPlayerX((int) (player2.getPlayerX() + cellWidth) );
+			}
 
-			if (y > mouseY)
-				y -= 1;
-			else if (y < mouseY)
-				y += 1;
+//*/
+			player1.draw(this,cellHeight,cellWidth);
+			player2.draw(this,cellHeight,cellWidth);
 		}
 
 
@@ -93,11 +117,45 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 
 		if(state != State.MENU) {
 			switch (key) {
-				case 'w':
-					if (!test.contains("w"))
-						test.add("w");
+				case 'w': //this can be added to players class later
+					if (!player1movement.contains("w"))
+						player1movement.add("w");
+					break;
+				case 'a':
+					if (!player1movement.contains("a"))
+						player1movement.add("a");
+					break;
+				case 's':
+					if (!player1movement.contains("s"))
+						player1movement.add("s");
+					break;
+				case 'd':
+					//System.out.println("y");
+					if (!player1movement.contains("d"))
+						player1movement.add("d");
 					break;
 			}
+			if(key == CODED)
+				switch (keyCode) {
+					case UP:
+						//System.out.println("x");
+						if (!player2movement.contains("w"))
+							player2movement.add("w");
+						break;
+					case DOWN:
+						if (!player2movement.contains("s"))
+							player2movement.add("s");
+						break;
+					case LEFT:
+						if (!player2movement.contains("a"))
+							player2movement.add("a");
+						break;
+					case RIGHT:
+						if (!player2movement.contains("d"))
+							player2movement.add("d");
+						break;
+				}
+
 		} else{
 			if(player1ChangeName) {
 				if (((int) key >= 65 && (int) key <= 90) || ((int) key >= 97 && (int) key <= 122))
@@ -112,12 +170,42 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 			}
 		}
 	}
-	public void keyReleased(){
+	public void keyReleased(){//this can be added to players class later
 		switch (key) {
 			case 'w':
-				test.remove("w");
+				player1movement.remove("w");
+				break;
+
+			case 'a':
+				player1movement.remove("a");
+				break;
+
+			case 's':
+				player1movement.remove("s");
+				break;
+
+			case 'd':
+				player1movement.remove("d");
 				break;
 		}
+
+			if(key == CODED)
+				switch (keyCode) {
+					case UP:
+						player2movement.remove("w");
+						break;
+					case DOWN:
+						player2movement.remove("s");
+						break;
+					case RIGHT:
+						player2movement.remove("d");
+						break;
+					case LEFT:
+						player2movement.remove("a");
+						break;
+				}
+
+
 	}
 	public void mousePressed(){
 		System.out.println(mouseX + " " + mouseY);
@@ -159,8 +247,8 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 		System.out.println("no");
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_W:
-				if(!test.contains("w"))
-					test.add("w");
+				if(!player1movement.contains("w"))
+					player1movement.add("w");
 				break;
 		}
 	}
@@ -170,7 +258,7 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 		System.out.println("yes");
 		switch (e.getKeyCode()) {
 			case KeyEvent.VK_W:
-				test.remove("w");
+				player1movement.remove("w");
 				break;
 		}
 	}
