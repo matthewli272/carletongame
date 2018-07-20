@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 import screens.MainMenu;
+import screens.levels;
 
 
 
@@ -12,14 +13,19 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 	private MainMenu mainMenu;
 	private int x;
 	private int y;
-	private boolean startMenu = true;
+	//private boolean startMenu = true;
 	private Players player1;
 	private Players player2;
 	private boolean player1ChangeName = false;
 	private boolean player2ChangeName = false;
+	private enum State {
+		PAUSED, MENU, GAME, INSTRUCTIONS, WIN, LOSE, STARTUP 
+	};
+	private State state;
 	
 	public DrawingSurface() {
-		mainMenu= new MainMenu();
+		mainMenu = new MainMenu();
+		state = State.MENU;
 		runSketch();
 	}
 	
@@ -42,10 +48,9 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 		fill(255);
 		textAlign(CENTER);
 		textSize(12);
-		mainMenu.draw(this);
-		rect(x,y,20,20);
-		rect(20,150,250,30);
-		rect(300,150,250,30);
+
+
+		//rect(x,y,20,20);
 		//System.out.println("im here");
 		if(test.contains("w")){
 			fill(0, 102, 153);
@@ -55,13 +60,15 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 			//System.out.println("hello");
 		}
 
-		if(startMenu){
+		if(state == State.MENU){
+			mainMenu.draw(this);
+			rect(20,150,250,30);
+			rect(300,150,250,30);
 			fill(0, 102, 153);
 			textAlign(LEFT);
 			textSize(12);
 			text(player1.getName(), 25, 172);
 			text(player2.getName(), 305, 172);
-
 
 		}else {
 
@@ -81,7 +88,7 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 	}
 	public void keyPressed(){
 
-		if(!startMenu) {
+		if(state != State.MENU) {
 			switch (key) {
 				case 'w':
 					if (!test.contains("w"))
@@ -111,7 +118,8 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 	}
 	public void mousePressed(){
 		System.out.println(mouseX + " " + mouseY);
-		if(startMenu){
+
+		if(state == State.MENU){
 			if(mouseX >= 20 && mouseX <= 270 && mouseY >= 150 && mouseY <= 180) {
 				player2ChangeName = false;
 				player1ChangeName = true;
@@ -120,6 +128,11 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 				player1ChangeName = false;
 				player2ChangeName = true;
 				System.out.println("p2");
+			}else if(mouseX >= 75 && mouseX <= 525 && mouseY >= 200 && mouseY <= 370){
+				state = State.GAME;
+				System.out.println("startGame");
+				player1ChangeName = false;
+				player2ChangeName = false;
 			}else{
 				player1ChangeName = false;
 				player2ChangeName = false;
