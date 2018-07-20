@@ -10,6 +10,7 @@ import screens.Levels;
 
 
 public class DrawingSurface extends PApplet /*implements MouseListener, ActionListener, KeyListener*/ {
+
 	private ArrayList<String> player1movement = new ArrayList<>(30);
 	private ArrayList<String> player2movement = new ArrayList<>(30);
 	private MainMenu mainMenu;
@@ -130,6 +131,10 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 					if (!player1movement.contains("d"))
 						player1movement.add("d");
 					break;
+				case 'c':
+					if (!player1movement.contains("c"))
+						player1movement.add("c");
+					break;
 			}
 			if(key == CODED)
 				switch (keyCode) {
@@ -149,6 +154,10 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 					case RIGHT:
 						if (!player2movement.contains("d"))
 							player2movement.add("d");
+						break;
+					case SHIFT:
+						if (!player2movement.contains("c"))
+							player2movement.add("c");
 						break;
 				}
 

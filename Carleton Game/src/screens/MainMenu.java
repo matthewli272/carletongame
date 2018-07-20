@@ -4,12 +4,14 @@ import java.lang.Math;
 import gifAnimation.*;
 import java.awt.Image;
 
+//import processing.
 import processing.core.PApplet;
 import processing.core.PImage;
 
 public class MainMenu {
 	Gif myAnimation;
 	PImage startButton;
+	//private Soundfile startMusic;
 
 	private int frames, totalFrames;
 
