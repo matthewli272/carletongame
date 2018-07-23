@@ -13,6 +13,7 @@ public class Bosses implements Entity {
 	private String name;
 	private int bossX;
 	private int bossY;
+	//private int bossSize;
 
 	// constructor
 	public Bosses(String name, int bossHealth, int bossX, int bossY) {
@@ -20,6 +21,7 @@ public class Bosses implements Entity {
 		this.bossHealth = bossHealth;
 		this.bossX = bossX;
 		this.bossY = bossY;
+		//this.bossSize = bossSize;
 
 	}
 
@@ -117,10 +119,13 @@ public class Bosses implements Entity {
 			return 3;
 	}
 
-	public void setup(PApplet drawer) {
+	public void setup(PApplet drawer,int bossSize) {
+		//System.out.println("im in bosses");
 		drawer.smooth();
+
 		myAnimation = new Gif(drawer,
 				"executable/sprites" + System.getProperty("file.separator") + "TestTrump.gif");
+		myAnimation.resize(0,bossSize);
 		myAnimation.play();
 	}
 	//eventually determine damage taken by bullet type
@@ -130,5 +135,9 @@ public class Bosses implements Entity {
 	public void draw(PApplet drawer) {
 		//System.out.println(bossX + " " + bossY);
 		drawer.image(myAnimation, bossX, bossY);
+		drawer.fill(255,0,0);
+		drawer.rect(bossX - 2, bossY - 4, bossHealth / 2, 2);
 	}
+
+
 }
