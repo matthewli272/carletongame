@@ -22,13 +22,11 @@ public class Obstacle implements Entity {
 
 	@Override
 	public void setX(int x) {
-		// TODO Auto-generated method stub
 		this.x = x;
 	}
 
 	@Override
 	public void setY(int y) {
-		// TODO Auto-generated method stub
 		this.y = y;
 	}
 
