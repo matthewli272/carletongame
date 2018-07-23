@@ -31,6 +31,7 @@ public class Levels {
 	private Bosses boss;
 	private float cellWidth;
 	private float cellHeight;
+	private int count = 0;
 
 	private enum Weapon {
 		SWORD, THROWINGSWORD, KNIFE, PISTOL, RIFLE
@@ -100,8 +101,48 @@ public class Levels {
 //				drawer.rect(cellWidth * j + x, cellHeight * i + y, cellWidth, cellHeight);
 //			}
 //		}
-		boss.draw(drawer);
+		if(count == 3) {
+			count = 0;
+			if ((boss.getX() - player1.getX()) * (boss.getX() - player1.getX()) + (boss.getY() - player1.getY()) * (boss.getY() - player1.getY())
+					< (boss.getX() - player2.getX()) * (boss.getX() - player2.getX()) + (boss.getY() - player2.getY()) * (boss.getY() - player2.getY())) {
+				//System.out.println("I am in x");
+				if (Math.abs((boss.getX() - player1.getX())) > Math.abs((boss.getY() - player1.getY()))) {
+					if (boss.getX() > player1.getX()) {
+						boss.setX(boss.getX() - 3);
+					} else {
+						//else if (boss.getX() < player1.getX()){
+						boss.setX(boss.getX() + 3);
+					}
+				} else {
+					if (boss.getY() > player1.getY()) {
+						boss.setY(boss.getY() - 3);
+					} else {
+						//if (boss.getY() < player1.getY()){
+						boss.setY(boss.getY() + 3);
+					}
+				}
+			} else {
+				//System.out.println("I am in y");
+				if (Math.abs((boss.getX() - player2.getX())) > Math.abs((boss.getY() - player2.getY()))) {
+					if (boss.getX() > player2.getX()) {
+						boss.setX(boss.getX() - 3);
+					} else {
+						//else if (boss.getX() < player2.getX()){
+						boss.setX(boss.getX() + 3);
+					}
+				}else {
+					if (boss.getY() > player2.getY()) {
+						boss.setY(boss.getY() - 3);
+					} else {
+						//if (boss.getY() < player2.getY()){
+						boss.setY(boss.getY() + 3);
+					}
+				}
+			}
+		}
 
+		boss.draw(drawer);
+		count++;
 	}
 
 	public float getCellWidth() {

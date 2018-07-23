@@ -23,6 +23,7 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 	// private boolean startMenu = true;
 	private boolean player1ChangeName = false;
 	private boolean player2ChangeName = false;
+	private int count = 0;
 
 	private enum State {
 		PAUSED, MENU, GAME, INSTRUCTIONS, WIN, LOSE, STARTUP
@@ -81,35 +82,39 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 			cellHeight = level1.getCellHeight();
 			cellWidth = level1.getCellWidth();
 
-			if (player1movement.contains("w") && (int)(level1.getPlayer1().getY() - cellHeight / 2) > -3) {
-				level1.getPlayer1().setY((int) (level1.getPlayer1().getY() - cellHeight / 2));
-			}
-			if (player1movement.contains("a") && (int)(level1.getPlayer1().getX() - cellWidth / 2) > 0) {
-				level1.getPlayer1().setX((int) (level1.getPlayer1().getX() - cellWidth / 2));
-			}
-			if (player1movement.contains("s") && (int)(level1.getPlayer1().getY() - cellHeight / 2) < 480) {
-				level1.getPlayer1().setY((int) (level1.getPlayer1().getY() + cellHeight / 2));
-			}
-			if (player1movement.contains("d") && (int)(level1.getPlayer1().getX() - cellWidth / 2) < 580) {
-				level1.getPlayer1().setX((int) (level1.getPlayer1().getX() + cellWidth / 2));
-			}
-			/// *
-			if (player2movement.contains("w") && (int)(level1.getPlayer2().getY() - cellHeight / 2) > -3) {
-				level1.getPlayer2().setY((int) (level1.getPlayer2().getY() - cellHeight / 2));
-			}
-			if (player2movement.contains("a") && (int)(level1.getPlayer2().getX() - cellWidth / 2) > 0) {
-				level1.getPlayer2().setX((int) (level1.getPlayer2().getX() - cellWidth / 2));
-			}
-			if (player2movement.contains("s") && (int)(level1.getPlayer2().getY() - cellHeight / 2) < 480) {
-				level1.getPlayer2().setY((int) (level1.getPlayer2().getY() + cellHeight / 2));
-			}
-			if (player2movement.contains("d") && (int)(level1.getPlayer2().getX() - cellWidth / 2) < 580) {
-				level1.getPlayer2().setX((int) (level1.getPlayer2().getX() + cellWidth / 2));
+			if(count == 5) {
+				if (player1movement.contains("w") && (int) (level1.getPlayer1().getY() - cellHeight / 2) > -3) {
+					level1.getPlayer1().setY((int) (level1.getPlayer1().getY() - cellHeight / 2));
+				}
+				if (player1movement.contains("a") && (int) (level1.getPlayer1().getX() - cellWidth / 2) > 0) {
+					level1.getPlayer1().setX((int) (level1.getPlayer1().getX() - cellWidth / 2));
+				}
+				if (player1movement.contains("s") && (int) (level1.getPlayer1().getY() - cellHeight / 2) < 480) {
+					level1.getPlayer1().setY((int) (level1.getPlayer1().getY() + cellHeight / 2));
+				}
+				if (player1movement.contains("d") && (int) (level1.getPlayer1().getX() - cellWidth / 2) < 580) {
+					level1.getPlayer1().setX((int) (level1.getPlayer1().getX() + cellWidth / 2));
+				}
+				/// *
+				if (player2movement.contains("w") && (int) (level1.getPlayer2().getY() - cellHeight / 2) > -3) {
+					level1.getPlayer2().setY((int) (level1.getPlayer2().getY() - cellHeight / 2));
+				}
+				if (player2movement.contains("a") && (int) (level1.getPlayer2().getX() - cellWidth / 2) > 0) {
+					level1.getPlayer2().setX((int) (level1.getPlayer2().getX() - cellWidth / 2));
+				}
+				if (player2movement.contains("s") && (int) (level1.getPlayer2().getY() - cellHeight / 2) < 480) {
+					level1.getPlayer2().setY((int) (level1.getPlayer2().getY() + cellHeight / 2));
+				}
+				if (player2movement.contains("d") && (int) (level1.getPlayer2().getX() - cellWidth / 2) < 580) {
+					level1.getPlayer2().setX((int) (level1.getPlayer2().getX() + cellWidth / 2));
+				}
+				count = 0;
 			}
 
 			// */
 			level1.getPlayer1().draw(this, cellHeight, cellWidth);
 			level1.getPlayer2().draw(this, cellHeight, cellWidth);
+			count++;
 		}
 
 	}

@@ -124,6 +124,7 @@ public class Bosses implements Entity {
 	}
 
 	public void draw(PApplet drawer) {
-		drawer.image(myAnimation, 10, 10);
+		//System.out.println(bossX + " " + bossY);
+		drawer.image(myAnimation, bossX, bossY);
 	}
 }
