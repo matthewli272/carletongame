@@ -128,4 +128,5 @@ public class Players implements Entity {
 	public void takeDamage(Bullet b) {
 		playerHealth -= 15;
 	}
+
 }
