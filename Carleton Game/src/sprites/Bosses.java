@@ -123,7 +123,10 @@ public class Bosses implements Entity {
 				"executable/sprites" + System.getProperty("file.separator") + "TestTrump.gif");
 		myAnimation.play();
 	}
-
+	//eventually determine damage taken by bullet type
+	public void takeDamage(Bullet b) {
+		bossHealth -= 15;
+	}
 	public void draw(PApplet drawer) {
 		//System.out.println(bossX + " " + bossY);
 		drawer.image(myAnimation, bossX, bossY);

@@ -124,5 +124,8 @@ public class Players implements Entity {
 		testX = playerX;
 		testY = playerY;
 	}
-
+	//eventually determine damage taken by bullet type
+	public void takeDamage(Bullet b) {
+		playerHealth -= 15;
+	}
 }
