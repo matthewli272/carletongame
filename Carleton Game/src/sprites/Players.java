@@ -12,6 +12,7 @@ public class Players implements Entity {
 	private int playerY;
 	private PImage knight;
 	private PImage otherKnight;
+	private PImage placeHolder;
 	private int count = 0;
 	private int area = 1;
 	private int testX;
@@ -92,12 +93,13 @@ public class Players implements Entity {
 
 	public void draw(PApplet drawer, float x, float y) {
         knight = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "test.png");
-
+		placeHolder = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "runningsprite.gif");
 		drawer.fill(0, 0, 0);
 		// System.out.println(x + " " + y);
 
 		//drawer.rect(playerX, playerY, x, y);
         //knight.resize(0,(int) y);
+		placeHolder.resize(0,20);
         //otherKnight = knight.get(0,0,(int)x,(int)y);
         knight.resize(0,(int) y);
         if(count == 10) { //20/55
@@ -112,8 +114,9 @@ public class Players implements Entity {
                 area = 16;
         }
         //System.out.println(area);
-        otherKnight = knight.get(area,0,(int) x - 2,(int) y);
-        drawer.image(otherKnight,playerX,playerY);
+        //otherKnight = knight.get(area,0,(int) x - 2,(int) y);
+        //drawer.image(otherKnight,playerX,playerY);
+		drawer.image(placeHolder,playerX,playerY);
 
         drawer.fill(237, 24, 245);
 		drawer.textSize(10);

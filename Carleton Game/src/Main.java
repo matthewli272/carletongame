@@ -26,7 +26,7 @@ public class Main extends JFrame {
 		//drawing.addKeyListener(drawing);
 
 
-		window.setSize(620,530);
+		window.setSize(600,700);
 		window.setMinimumSize(new Dimension(100, 100));
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		window.setResizable(true);

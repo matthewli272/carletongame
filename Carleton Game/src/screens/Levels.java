@@ -41,7 +41,7 @@ public class Levels {
 	// Somehow add shields or smt like that
 
 	// Constructs an empty grid
-	public Levels(Players player1, Players player2, Bosses boss, ArrayList<Obstacle> obstacle) {
+	public Levels(Players player1, Players player2, Bosses boss, ArrayList<Obstacle> obstacle,float width, float height) {
 		this.player1 = player1;
 		this.player2 = player2;
 		this.boss = boss;
@@ -54,6 +54,11 @@ public class Levels {
 		map[player1.getX()][player1.getY()] = player1;
 		map[player2.getX()][player2.getY()] = player2;
 		map[boss.getX()][boss.getY()] = boss;
+
+		cellWidth = width / map[0].length;
+		cellHeight = height / map.length;
+		//System.out.println("im in constructor " + (int) cellHeight);
+
 
 	}
 
@@ -74,7 +79,9 @@ public class Levels {
 	}
 
 	public void setup(PApplet drawer) {
-		boss.setup(drawer);
+		//System.out.println("im in setup " + cellHeight);
+		boss.setup(drawer,(int)cellHeight);
+
 	}
 
 	/**
@@ -93,50 +100,50 @@ public class Levels {
 	 * @param height
 	 *            The pixel height of the grid drawing.
 	 */
-	public void draw(PApplet drawer, float x, float y, float width, float height) {
-		cellWidth = width / map[0].length;
-		cellHeight = height / map.length;
+	public void draw(PApplet drawer, float x, float y/*, float width, float height*/) {
+		/*cellWidth = width / map[0].length;
+		cellHeight = height / map.length;*/
 
-//		for (int i = 0; i < map[0].length; i++) {
-//			for (int j = 0; j < map.length; j++) {
-//				drawer.rect(cellWidth * j + x, cellHeight * i + y, cellWidth, cellHeight);
-//			}
-//		}
-		if(count == 3) {
+		for (int i = 0; i < map[0].length; i++) {
+			for (int j = 0; j < map.length; j++) {
+				drawer.rect(cellWidth * j + x, cellHeight * i + y, cellWidth, cellHeight);
+			}
+		}
+		if(count == 20) {
 			count = 0;
 			if ((boss.getX() - player1.getX()) * (boss.getX() - player1.getX()) + (boss.getY() - player1.getY()) * (boss.getY() - player1.getY())
 					< (boss.getX() - player2.getX()) * (boss.getX() - player2.getX()) + (boss.getY() - player2.getY()) * (boss.getY() - player2.getY())) {
 				//System.out.println("I am in x");
 				if (Math.abs((boss.getX() - player1.getX())) > Math.abs((boss.getY() - player1.getY()))) {
 					if (boss.getX() > player1.getX()) {
-						boss.setX(boss.getX() - 3);
+						boss.setX(boss.getX() - Math.round(cellWidth));
 					} else {
 						//else if (boss.getX() < player1.getX()){
-						boss.setX(boss.getX() + 3);
+						boss.setX(boss.getX() + Math.round(cellWidth));
 					}
 				} else {
 					if (boss.getY() > player1.getY()) {
-						boss.setY(boss.getY() - 3);
+						boss.setY(boss.getY() - Math.round(cellHeight));
 					} else {
 						//if (boss.getY() < player1.getY()){
-						boss.setY(boss.getY() + 3);
+						boss.setY(boss.getY() + Math.round(cellHeight));
 					}
 				}
 			} else {
 				//System.out.println("I am in y");
 				if (Math.abs((boss.getX() - player2.getX())) > Math.abs((boss.getY() - player2.getY()))) {
 					if (boss.getX() > player2.getX()) {
-						boss.setX(boss.getX() - 3);
+						boss.setX(boss.getX() - Math.round(cellWidth));
 					} else {
 						//else if (boss.getX() < player2.getX()){
-						boss.setX(boss.getX() + 3);
+						boss.setX(boss.getX() + Math.round(cellWidth));
 					}
 				}else {
 					if (boss.getY() > player2.getY()) {
-						boss.setY(boss.getY() - 3);
+						boss.setY(boss.getY() - Math.round(cellHeight));
 					} else {
 						//if (boss.getY() < player2.getY()){
-						boss.setY(boss.getY() + 3);
+						boss.setY(boss.getY() + Math.round(cellHeight));
 					}
 				}
 			}
