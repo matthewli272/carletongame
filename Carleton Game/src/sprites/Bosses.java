@@ -46,7 +46,7 @@ public class Bosses implements Entity {
 		this.bossY = y;
 	}
 
-	// will not work if there is an obstacle in between
+	// I think this works bc it only checks once square next to it?
 	/**
 	 * 
 	 * @param player
@@ -85,6 +85,7 @@ public class Bosses implements Entity {
 			for (int k = startIndexX; k <= endIndexX; k++) {
 				for (int l = startIndexY; l <= endIndexY; l++) {
 					if (map[k][l] == z) {
+						
 						direction(k, l, map);
 					}
 				}
