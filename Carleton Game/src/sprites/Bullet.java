@@ -18,6 +18,11 @@ public class Bullet implements Entity {
 		this.type = type;
 		this.direction = direction;
 	}
+	public Bullet(int x, int y, String type) {
+		this.x = x;
+		this.y = y;
+		this.type = type;
+	}
 
 	@Override
 	public int getX() {
@@ -45,49 +50,17 @@ public class Bullet implements Entity {
 
 	public Entity collisions(Entity[][] map, Players[] player, Bosses[] boss,Obstacle[] obstacles) {
 		for (Players p : player) {
-			if (direction == Direction.LEFT) {
-				if (map[x - 1][y] == p)
-					return p;
-			} else if (direction == Direction.UP) {
-				if (map[x][y - 1] == p)
-					return p;
-			} else if (direction == Direction.RIGHT) {
-				if (map[x + 1][y] == p)
-					return p;
-			} else {
-				if (map[x][y + 1] == p)
-					return p;
-			}
+			if(map[x][y] == p) 
+				return p;
 		}
 		for (Bosses b : boss) {
-			if (direction == Direction.LEFT) {
-				if (map[x - 1][y] == b)
-					return b;
-			} else if (direction == Direction.UP) {
-				if (map[x][y - 1] == b)
-					return b;
-			} else if (direction == Direction.RIGHT) {
-				if (map[x + 1][y] == b)
-					return b;
-			} else {
-				if (map[x][y + 1] == b)
-					return b;
+			if(map[x][y] == b) {
+				return b;
 			}
 		}
 		for(Obstacle o : obstacles) {
-			if (direction == Direction.LEFT) {
-				if (map[x - 1][y] == o)
-					return o;
-			} else if (direction == Direction.UP) {
-				if (map[x][y - 1] == o)
-					return o;
-			} else if (direction == Direction.RIGHT) {
-				if (map[x + 1][y] == o)
-					return o;
-			} else {
-				if (map[x][y + 1] == o)
-					return o;
-			}
+			if(map[x][y] == o) 
+				return o;
 		}
 		return null;
 	}

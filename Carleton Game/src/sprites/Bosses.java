@@ -128,7 +128,10 @@ public class Bosses implements Entity {
 		myAnimation.resize(0,bossSize);
 		myAnimation.play();
 	}
-
+	//eventually determine damage taken by bullet type
+	public void takeDamage(Bullet b) {
+		bossHealth -= 15;
+	}
 	public void draw(PApplet drawer) {
 		//System.out.println(bossX + " " + bossY);
 		drawer.image(myAnimation, bossX, bossY);

@@ -8,10 +8,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import processing.core.PApplet;
-import sprites.Bosses;
-import sprites.Entity;
-import sprites.Obstacle;
-import sprites.Players;
+import sprites.*;
 
 /*
 
@@ -28,6 +25,7 @@ public class Levels {
 	private Entity[][] map;
 	private Players player1;
 	private Players player2;
+	private Bullet bullets;
 	private Bosses boss;
 	private float cellWidth;
 	private float cellHeight;
@@ -54,6 +52,7 @@ public class Levels {
 		map[player1.getX()][player1.getY()] = player1;
 		map[player2.getX()][player2.getY()] = player2;
 		map[boss.getX()][boss.getY()] = boss;
+		bullets = new Bullet(0, 0, "pistol");
 
 		cellWidth = width / map[0].length;
 		cellHeight = height / map.length;
@@ -111,9 +110,10 @@ public class Levels {
 		}
 		if(count == 20) {
 			count = 0;
-			if ((boss.getX() - player1.getX()) * (boss.getX() - player1.getX()) + (boss.getY() - player1.getY()) * (boss.getY() - player1.getY())
-					< (boss.getX() - player2.getX()) * (boss.getX() - player2.getX()) + (boss.getY() - player2.getY()) * (boss.getY() - player2.getY())) {
-				//System.out.println("I am in x");
+			if ((boss.getX() - player1.getX()) * (boss.getX() - player1.getX()) + (boss.getY() - player1.getY())
+					* (boss.getY() - player1.getY()) < (boss.getX() - player2.getX()) * (boss.getX() - player2.getX())
+							+ (boss.getY() - player2.getY()) * (boss.getY() - player2.getY())) {
+				// System.out.println("I am in x");
 				if (Math.abs((boss.getX() - player1.getX())) > Math.abs((boss.getY() - player1.getY()))) {
 					if (boss.getX() > player1.getX()) {
 						boss.setX(boss.getX() - Math.round(cellWidth));
@@ -130,7 +130,7 @@ public class Levels {
 					}
 				}
 			} else {
-				//System.out.println("I am in y");
+				// System.out.println("I am in y");
 				if (Math.abs((boss.getX() - player2.getX())) > Math.abs((boss.getY() - player2.getY()))) {
 					if (boss.getX() > player2.getX()) {
 						boss.setX(boss.getX() - Math.round(cellWidth));
@@ -138,7 +138,7 @@ public class Levels {
 						//else if (boss.getX() < player2.getX()){
 						boss.setX(boss.getX() + Math.round(cellWidth));
 					}
-				}else {
+				} else {
 					if (boss.getY() > player2.getY()) {
 						boss.setY(boss.getY() - Math.round(cellHeight));
 					} else {
@@ -155,7 +155,6 @@ public class Levels {
 		// }
 		// }
 
-
 		boss.draw(drawer);
 		count++;
 	}
@@ -166,6 +165,25 @@ public class Levels {
 
 	public float getCellHeight() {
 		return cellHeight;
+	}
+
+	public void takeDmg() {
+		Players[] player = { player1, player2 };
+		Obstacle[] obs = {};
+		Bosses[] b = { boss };
+		Entity e = bullets.collisions(map, player, b, obs);
+		for(Players p : player) {
+			if(e==p)
+				p.takeDamage(bullets);
+		}
+		for(Bosses s : b) {
+			if (e==s)
+				s.takeDamage(bullets);
+		}
+		for(Obstacle o : obs) {
+			if(o==e)
+				map[bullets.getX()][bullets.getY()] = null;
+		}
 	}
 
 	/**
