@@ -1,13 +1,14 @@
 package sprites;
 
+import processing.core.PApplet;
+import processing.core.PImage;
+
 public class Bullet implements Entity {
 	// fields
 	private int x, y;
 	private String type;
-
-	private enum Direction {
-		LEFT, UP, RIGHT, DOWN
-	};
+	private PImage basicBullet;
+	private int counter;
 
 	private Direction direction;
 
@@ -17,7 +18,9 @@ public class Bullet implements Entity {
 		this.y = y;
 		this.type = type;
 		this.direction = direction;
+		counter = 0;
 	}
+
 	public Bullet(int x, int y, String type) {
 		this.x = x;
 		this.y = y;
@@ -48,20 +51,43 @@ public class Bullet implements Entity {
 		this.y = y;
 	}
 
-	public Entity collisions(Entity[][] map, Players[] player, Bosses[] boss,Obstacle[] obstacles) {
+	public void move() {
+		if (counter % 3 == 0) {
+			if (direction == Direction.LEFT) {
+				x--;
+			} else if (direction == Direction.UP) {
+				y--;
+			} else if (direction == Direction.RIGHT) {
+				x++;
+			} else {
+				y++;
+			}
+		}
+		counter++;
+	}
+
+	public Entity collisions(Entity[][] map, Players[] player, Bosses[] boss, Obstacle[] obstacles) {
 		for (Players p : player) {
-			if(map[x][y] == p) 
+			if (map[x][y] == p)
 				return p;
 		}
 		for (Bosses b : boss) {
-			if(map[x][y] == b) {
+			if (map[x][y] == b) {
 				return b;
 			}
 		}
-		for(Obstacle o : obstacles) {
-			if(map[x][y] == o) 
+		for (Obstacle o : obstacles) {
+			if (map[x][y] == o)
 				return o;
 		}
 		return null;
+	}
+
+	public void setup(PApplet drawer) {
+		basicBullet = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "smallcircle.jpg");
+	}
+
+	public void draw(PApplet drawer) {
+		drawer.image(basicBullet, x, y);
 	}
 }

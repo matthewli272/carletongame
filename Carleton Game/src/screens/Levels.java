@@ -22,7 +22,7 @@ import sprites.*;
 public class Levels {
 	private ArrayList<Obstacle> obstacle;
 	// private boolean[][] grid;
-	private Entity[][] map;
+	protected Entity[][] map;
 	private Players player1;
 	private Players player2;
 	private Bullet bullets;
@@ -39,7 +39,8 @@ public class Levels {
 	// Somehow add shields or smt like that
 
 	// Constructs an empty grid
-	public Levels(Players player1, Players player2, Bosses boss, ArrayList<Obstacle> obstacle,float width, float height) {
+	public Levels(Players player1, Players player2, Bosses boss, ArrayList<Obstacle> obstacle, float width,
+			float height) {
 		this.player1 = player1;
 		this.player2 = player2;
 		this.boss = boss;
@@ -56,8 +57,7 @@ public class Levels {
 
 		cellWidth = width / map[0].length;
 		cellHeight = height / map.length;
-		//System.out.println("im in constructor " + (int) cellHeight);
-
+		// System.out.println("im in constructor " + (int) cellHeight);
 
 	}
 
@@ -78,8 +78,8 @@ public class Levels {
 	}
 
 	public void setup(PApplet drawer) {
-		//System.out.println("im in setup " + cellHeight);
-		boss.setup(drawer,(int)cellHeight);
+		// System.out.println("im in setup " + cellHeight);
+		boss.setup(drawer, (int) cellHeight);
 
 	}
 
@@ -99,16 +99,17 @@ public class Levels {
 	 * @param height
 	 *            The pixel height of the grid drawing.
 	 */
-	public void draw(PApplet drawer, float x, float y/*, float width, float height*/) {
-		/*cellWidth = width / map[0].length;
-		cellHeight = height / map.length;*/
+	public void draw(PApplet drawer, float x, float y/* , float width, float height */) {
+		/*
+		 * cellWidth = width / map[0].length; cellHeight = height / map.length;
+		 */
 
 		for (int i = 0; i < map[0].length; i++) {
 			for (int j = 0; j < map.length; j++) {
 				drawer.rect(cellWidth * j + x, cellHeight * i + y, cellWidth, cellHeight);
 			}
 		}
-		if(count == 20) {
+		if (count == 20) {
 			count = 0;
 			if ((boss.getX() - player1.getX()) * (boss.getX() - player1.getX()) + (boss.getY() - player1.getY())
 					* (boss.getY() - player1.getY()) < (boss.getX() - player2.getX()) * (boss.getX() - player2.getX())
@@ -118,14 +119,14 @@ public class Levels {
 					if (boss.getX() > player1.getX()) {
 						boss.setX(boss.getX() - Math.round(cellWidth));
 					} else {
-						//else if (boss.getX() < player1.getX()){
+						// else if (boss.getX() < player1.getX()){
 						boss.setX(boss.getX() + Math.round(cellWidth));
 					}
 				} else {
 					if (boss.getY() > player1.getY()) {
 						boss.setY(boss.getY() - Math.round(cellHeight));
 					} else {
-						//if (boss.getY() < player1.getY()){
+						// if (boss.getY() < player1.getY()){
 						boss.setY(boss.getY() + Math.round(cellHeight));
 					}
 				}
@@ -135,14 +136,14 @@ public class Levels {
 					if (boss.getX() > player2.getX()) {
 						boss.setX(boss.getX() - Math.round(cellWidth));
 					} else {
-						//else if (boss.getX() < player2.getX()){
+						// else if (boss.getX() < player2.getX()){
 						boss.setX(boss.getX() + Math.round(cellWidth));
 					}
 				} else {
 					if (boss.getY() > player2.getY()) {
 						boss.setY(boss.getY() - Math.round(cellHeight));
 					} else {
-						//if (boss.getY() < player2.getY()){
+						// if (boss.getY() < player2.getY()){
 						boss.setY(boss.getY() + Math.round(cellHeight));
 					}
 				}
@@ -172,16 +173,20 @@ public class Levels {
 		Obstacle[] obs = {};
 		Bosses[] b = { boss };
 		Entity e = bullets.collisions(map, player, b, obs);
-		for(Players p : player) {
-			if(e==p)
+		for (Players p : player) {
+			if (e == p) {
 				p.takeDamage(bullets);
+				map[bullets.getX()][bullets.getY()] = null;
+			}
 		}
-		for(Bosses s : b) {
-			if (e==s)
+		for (Bosses s : b) {
+			if (e == s) {
 				s.takeDamage(bullets);
+				map[bullets.getX()][bullets.getY()] = null;
+			}
 		}
-		for(Obstacle o : obs) {
-			if(o==e)
+		for (Obstacle o : obs) {
+			if (o == e)
 				map[bullets.getX()][bullets.getY()] = null;
 		}
 	}
