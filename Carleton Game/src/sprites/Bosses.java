@@ -3,11 +3,13 @@ package sprites;
 import java.lang.*;
 import gifAnimation.*;
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class Bosses implements Entity {
 
 	// fields
 	Gif myAnimation;
+	//PImage dancingMan;
 	private int bossHealth;
 	private Weapons currentWeapon;
 	private String name;
@@ -137,7 +139,11 @@ public class Bosses implements Entity {
 		drawer.image(myAnimation, bossX, bossY);
 		drawer.fill(255,0,0);
 		drawer.rect(bossX - 2, bossY - 4, bossHealth / 2, 2);
+
+
 	}
+
+
 
 
 }

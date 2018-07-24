@@ -37,7 +37,7 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 		mainMenu = new MainMenu();
 		state = State.MENU;
 		runSketch();
-		level1 = new Levels(new Players("", 1,0,0),new Players("", 2, 0,20), new Bosses("Donald Trump", 100,0,0), new ArrayList<Obstacle>(),600,600);
+		level1 = new Levels(new Players("PlayerOne", 1,0,0),new Players("PlayerTwo", 2, 0,20), new Bosses("Donald Trump", 100,0,0), new ArrayList<Obstacle>(),600,600);
 	}
 
 	// The statements in the setup() function
@@ -209,13 +209,15 @@ public class DrawingSurface extends PApplet /*implements MouseListener, ActionLi
 
 		} else {
 			if (player1ChangeName) {
-				if (((int) key >= 65 && (int) key <= 90) || ((int) key >= 97 && (int) key <= 122))
+				if (((int) key >= 65 && (int) key <= 90) || ((int) key >= 97 && (int) key <= 122)
+						|| (int) key == 32 || ((int) key >= 48 && (int) key <= 57))
 					level1.getPlayer1().setName(level1.getPlayer1().getName() + key);
 				else if (key == 8)
 					level1.getPlayer1().setName(
 							level1.getPlayer1().getName().substring(0, level1.getPlayer1().getName().length() - 1));
 			} else if (player2ChangeName) {
-				if (((int) key >= 65 && (int) key <= 90) || ((int) key >= 97 && (int) key <= 122))
+				if (((int) key >= 65 && (int) key <= 90) || ((int) key >= 97 && (int) key <= 122)
+						|| (int) key == 32 || ((int) key >= 48 && (int) key <= 57))
 					level1.getPlayer2().setName(level1.getPlayer2().getName() + key);
 				else if (key == 8)
 					level1.getPlayer2().setName(

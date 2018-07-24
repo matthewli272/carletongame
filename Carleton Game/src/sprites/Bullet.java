@@ -64,4 +64,5 @@ public class Bullet implements Entity {
 		}
 		return null;
 	}
+
 }

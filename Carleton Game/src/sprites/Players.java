@@ -4,7 +4,7 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 public class Players implements Entity {
-	private int playerHealth;
+	private int playerHealth = 100;
 	private Weapons currentWeapon;
 	private String name;
 	private int playerType;// player 1 or player 2
@@ -21,6 +21,7 @@ public class Players implements Entity {
 		LEFT, UP, RIGHT, DOWN
 	};
 	private Direction direction;
+	private int fontHeight = 20;
 
 	public Players(String name, int playerType, int playerX, int playerY) {
 		this.name = name;
@@ -121,11 +122,33 @@ public class Players implements Entity {
         drawer.fill(237, 24, 245);
 		drawer.textSize(10);
 		drawer.text(name, playerX, playerY);
+		drawer.fill(0,0,0);
+		drawer.textSize(fontHeight);
+		while(drawer.textWidth(name) > drawer.textWidth("PlayerTwoE")) {
+			fontHeight--;
+			drawer.textSize(fontHeight);
+		}
+		if(playerType == 1){
+			drawer.textAlign(drawer.LEFT);
+			drawer.text(name, 10, 630);
+			drawer.fill(255,0,0);
+			drawer.rect(drawer.textWidth(name) + 20,610, playerHealth,20);
+		} else if (playerType == 2){
+			drawer.textAlign(drawer.RIGHT);
+			drawer.text(name, 580, 660);
+			drawer.fill(255,0,0);
+			drawer.rect(480 - (drawer.textWidth(name) + 20),640, playerHealth,20);
+		}
+
+
+
 
 		drawer.fill(255);
 		count++;
 		testX = playerX;
 		testY = playerY;
+
+
 	}
 	//eventually determine damage taken by bullet type
 	public void takeDamage(Bullet b) {
