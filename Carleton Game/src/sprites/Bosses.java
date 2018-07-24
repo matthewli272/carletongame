@@ -8,14 +8,15 @@ import processing.core.PImage;
 public class Bosses implements Entity {
 
 	// fields
-	Gif myAnimation;
-	//PImage dancingMan;
+	//Gif myAnimation;
 	private int bossHealth;
 	private Weapons currentWeapon;
 	private String name;
 	private int bossX;
 	private int bossY;
 	//private int bossSize;
+	private PImage Boss;
+
 
 	// constructor
 	public Bosses(String name, int bossHealth, int bossX, int bossY) {
@@ -86,6 +87,7 @@ public class Bosses implements Entity {
 			System.out.println("startIndexY, " + startIndexY);
 			System.out.println("endIndexY, " + endIndexY);
 
+
 			for (int k = startIndexX; k <= endIndexX; k++) {
 				for (int l = startIndexY; l <= endIndexY; l++) {
 					if (map[k][l] == z) {
@@ -124,22 +126,27 @@ public class Bosses implements Entity {
 	public void setup(PApplet drawer,int bossSize) {
 		//System.out.println("im in bosses");
 		drawer.smooth();
-
-		myAnimation = new Gif(drawer,
-				"executable/sprites" + System.getProperty("file.separator") + "TestTrump.gif");
-		myAnimation.resize(0,bossSize);
-		myAnimation.play();
+		Boss = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "unturned.jpg");
+		Boss.resize(0,bossSize);
+//		myAnimation = new Gif(drawer,
+//				"executable/sprites" + System.getProperty("file.separator") + "TestTrump.gif");
+//		myAnimation.resize(0,bossSize);
+//		myAnimation.play();
 	}
 	//eventually determine damage taken by bullet type
 	public void takeDamage(Bullet b) {
 		bossHealth -= 15;
 	}
 	public void draw(PApplet drawer) {
+
+		drawer.image(Boss, bossX, bossY);
 		//System.out.println(bossX + " " + bossY);
-		drawer.image(myAnimation, bossX, bossY);
+		//drawer.image(myAnimation, bossX, bossY);
 		drawer.fill(255,0,0);
 		drawer.rect(bossX - 2, bossY - 4, bossHealth / 2, 2);
-
+		drawer.fill(237, 24, 245);
+		drawer.textSize(10);
+		drawer.text(name, bossX, bossY);
 
 	}
 

@@ -3,6 +3,10 @@ package sprites;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+enum Direction {
+	LEFT, UP, RIGHT, DOWN
+};
+
 public class Players implements Entity {
 	private int playerHealth = 100;
 	private Weapons currentWeapon;
@@ -17,9 +21,7 @@ public class Players implements Entity {
 	private int area = 1;
 	private int testX;
 	private int testY;
-	private enum Direction {
-		LEFT, UP, RIGHT, DOWN
-	};
+	
 	private Direction direction;
 	private int fontHeight = 20;
 
@@ -153,5 +155,10 @@ public class Players implements Entity {
 	//eventually determine damage taken by bullet type
 	public void takeDamage(Bullet b) {
 		playerHealth -= 15;
+	}
+	
+	public void shoot() {
+		Bullet bullet = new Bullet(playerX, playerY, "", direction);
+		
 	}
 }
