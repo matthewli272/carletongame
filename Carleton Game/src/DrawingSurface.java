@@ -1,3 +1,5 @@
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -6,6 +8,8 @@ import sprites.Bosses;
 import sprites.Obstacle;
 import sprites.Players;
 import screens.Levels;
+
+import javax.sound.sampled.*;
 
 public class DrawingSurface extends PApplet /* implements MouseListener, ActionListener, KeyListener */ {
 
@@ -25,6 +29,11 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 	private State state;
 	private float cellWidth;
 	private float cellHeight;
+	private Clip clip1;
+	private Clip clip2;
+	private SourceDataLine line = null;
+	private byte[] audioBytes;
+	private int numBytes;
 
 	public DrawingSurface() {
 		mainMenu = new MainMenu();
@@ -33,6 +42,51 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		level1 = new Levels(new Players("Player One", 1, 0, 0), new Players("Player Two", 2, 0, 20), new Bosses("Zambie", 100, 0, 0),
 				new ArrayList<Obstacle>(), 600, 600);
 		time1 = time2 = count = 0;
+
+		//File soundFile1 = new File("executable/sound/seinfield.mp3");
+		File soundFile1 = new File("executable/sound/microsoft.wav");
+		//File soundFile2 = new File("Visager-DarkSanctumBossLoop.wav");
+		AudioInputStream audioInputStream1 = null;
+		AudioInputStream audioInputStream2;
+		try {
+			audioInputStream1 = AudioSystem.getAudioInputStream(soundFile1);
+			clip1 = AudioSystem.getClip();
+
+			//audioInputStream2 = AudioSystem.getAudioInputStream(soundFile2);
+			//clip2 = AudioSystem.getClip();
+
+			clip1.open(audioInputStream1);
+			//clip2.open(audioInputStream2);
+			clip1.loop(Clip.LOOP_CONTINUOUSLY);
+		}
+		catch (Exception ex) {
+			System.out.println("*** Cannot find audio files ***");
+			System.exit(1);
+		}
+
+		AudioFormat audioFormat = audioInputStream1.getFormat();
+		DataLine.Info info = new DataLine.Info(SourceDataLine.class,
+				audioFormat);
+		try {
+			line = (SourceDataLine)AudioSystem.getLine(info);
+			line.open(audioFormat);
+		}
+		catch (LineUnavailableException ex) {
+			System.out.println("*** Audio line unavailable ***");
+			System.exit(1);
+		}
+
+		line.start();
+
+		audioBytes = new byte[(int) soundFile1.length()];
+
+		try {
+			numBytes = audioInputStream1.read(audioBytes, 0, audioBytes.length);
+		}
+		catch (IOException ex) {
+			System.out.println("*** Cannot read " + "Rolemusic-TheWhite.mp3" + " ***");
+			System.exit(1);
+		}
 	}
 
 	// The statements in the setup() function
@@ -72,7 +126,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			text(level1.getPlayer2().getName(), 305, 172);
 
 		} else {// this can be added to players class later
-
+			clip1.stop();
 			level1.draw(this, 0, 0/* , 620, 530 */);
 			cellHeight = level1.getCellHeight();
 			cellWidth = level1.getCellWidth();

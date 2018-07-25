@@ -3,6 +3,8 @@ package sprites;
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import java.util.ArrayList;
+
 enum Direction {
 	LEFT, UP, RIGHT, DOWN
 };
@@ -21,6 +23,7 @@ public class Players implements Entity {
 	private int area = 1;
 	private int testX;
 	private int testY;
+	private ArrayList<Bullet> playerBullets;
 	
 	private Direction direction;
 	private int fontHeight = 20;
@@ -35,6 +38,12 @@ public class Players implements Entity {
 		direction = Direction.UP;
 
 
+	}
+	public void addBullet(Bullet bullet){
+		playerBullets.add(bullet);
+	}
+	public ArrayList<Bullet> getBullets(){
+		return playerBullets;
 	}
 
 	// Getters & Setters
