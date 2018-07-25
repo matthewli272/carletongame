@@ -159,6 +159,9 @@ public class Bosses implements Entity {
 		drawer.text(name, bossX, bossY);
 
 	}
+	public int getHealth() {
+		return bossHealth;
+	}
 
 	public void shoot(/*map parameters from map here*/) {
 		Bullet bullet = new Bullet(bossX, bossY, "", null/*direction*/);

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import processing.core.PApplet;
-
+import processing.core.PImage;
 import sprites.*;
 
 /*
@@ -25,7 +25,8 @@ public class Levels {
 
 
 	// private boolean[][] grid;
-	protected Entity[][] map;
+	private PImage pause; 
+	private Entity[][] map;
 	private Players player1;
 	private Players player2;
 	private Bullet bullets;
@@ -84,7 +85,7 @@ public class Levels {
 	public void setup(PApplet drawer) {
 		// System.out.println("im in setup " + cellHeight);
 		boss.setup(drawer, (int) cellHeight);
-
+		pause = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "pause.png");
 	}
 
 	/**
@@ -169,7 +170,7 @@ public class Levels {
 		// drawer.rect(cellWidth * j + x, cellHeight * i + y, cellWidth, cellHeight);
 		// }
 		// }
-
+		drawer.image(pause, 600, 0);
 		boss.draw(drawer);
 		count++;
 	}

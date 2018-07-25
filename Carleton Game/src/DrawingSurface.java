@@ -3,7 +3,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
-import screens.MainMenu;
+import screens.*;
 import sprites.Bosses;
 import sprites.Obstacle;
 import sprites.Players;
@@ -16,7 +16,9 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 	private ArrayList<String> player1movement = new ArrayList<>(30);
 	private ArrayList<String> player2movement = new ArrayList<>(30);
 	private MainMenu mainMenu;
+	private PauseMenu pauseMenu;
 	private Levels level1;
+	private LoseScreen lost;
 	private long time1, time2;
 	private boolean player1ChangeName = false;
 	private boolean player2ChangeName = false;
@@ -37,11 +39,13 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 
 	public DrawingSurface() {
 		mainMenu = new MainMenu();
+		lost = new LoseScreen();
 		state = State.MENU;
 		runSketch();
-		level1 = new Levels(new Players("Player One", 1, 0, 0), new Players("Player Two", 2, 0, 20), new Bosses("Zambie", 100, 0, 0),
-				new ArrayList<Obstacle>(), 600, 600);
+		level1 = new Levels(new Players("Player One", 1, 0, 0), new Players("Player Two", 2, 0, 20),
+				new Bosses("Zambie", 100, 0, 0), new ArrayList<Obstacle>(), 600, 600);
 		time1 = time2 = count = 0;
+		pauseMenu = new PauseMenu();
 
 		//File soundFile1 = new File("executable/sound/seinfield.mp3");
 		File soundFile1 = new File("executable/sound/microsoft.wav");
@@ -94,6 +98,8 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 	public void setup() {
 		mainMenu.setup(this);
 		level1.setup(this);
+		pauseMenu.setup(this);
+		lost.setup(this);
 	}
 
 	// The statements in draw() are executed until the
@@ -114,7 +120,9 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			textSize(32);
 			fill(255);
 		}
-
+		if(level1.getBoss().getHealth()==0) {
+			state = State.LOSE;
+		}
 		if (state == State.MENU) {
 			mainMenu.draw(this);
 			rect(20, 150, 250, 30);
@@ -125,7 +133,8 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			text(level1.getPlayer1().getName(), 25, 172);
 			text(level1.getPlayer2().getName(), 305, 172);
 
-		} else {// this can be added to players class later
+		} else if (state == State.GAME) {
+		//} else {// this can be added to players class later
 			clip1.stop();
 			level1.draw(this, 0, 0/* , 620, 530 */);
 			cellHeight = level1.getCellHeight();
@@ -181,8 +190,12 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			level1.getPlayer1().draw(this, cellHeight, cellWidth);
 			level1.getPlayer2().draw(this, cellHeight, cellWidth);
 			count++;
-		}
+		}else if(state == State.PAUSED) {
+			pauseMenu.draw(this);
 
+		}else if(state == State.LOSE) {
+			lost.draw(this);
+		}
 	}
 
 	public void keyPressed() {
@@ -276,15 +289,15 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 
 		} else {
 			if (player1ChangeName) {
-				if (((int) key >= 65 && (int) key <= 90) || ((int) key >= 97 && (int) key <= 122)
-						|| (int) key == 32 || ((int) key >= 48 && (int) key <= 57))
+				if (((int) key >= 65 && (int) key <= 90) || ((int) key >= 97 && (int) key <= 122) || (int) key == 32
+						|| ((int) key >= 48 && (int) key <= 57))
 					level1.getPlayer1().setName(level1.getPlayer1().getName() + key);
 				else if (key == 8)
 					level1.getPlayer1().setName(
 							level1.getPlayer1().getName().substring(0, level1.getPlayer1().getName().length() - 1));
 			} else if (player2ChangeName) {
-				if (((int) key >= 65 && (int) key <= 90) || ((int) key >= 97 && (int) key <= 122)
-						|| (int) key == 32 || ((int) key >= 48 && (int) key <= 57))
+				if (((int) key >= 65 && (int) key <= 90) || ((int) key >= 97 && (int) key <= 122) || (int) key == 32
+						|| ((int) key >= 48 && (int) key <= 57))
 					level1.getPlayer2().setName(level1.getPlayer2().getName() + key);
 				else if (key == 8)
 					level1.getPlayer2().setName(
@@ -350,6 +363,10 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			} else {
 				player1ChangeName = false;
 				player2ChangeName = false;
+			}
+		} else if (state == State.GAME) {
+			if (mouseX >= 600 && mouseX <= 620 && mouseY >= 0 && mouseY <= 20) {
+				state = State.PAUSED;
 			}
 		}
 	}
