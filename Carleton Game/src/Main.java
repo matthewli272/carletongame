@@ -22,6 +22,7 @@ public class Main extends JFrame {
 		PSurfaceAWT surf = (PSurfaceAWT) drawing.getSurface();
 		PSurfaceAWT.SmoothCanvas canvas = (PSurfaceAWT.SmoothCanvas) surf.getNative();
 		JFrame window = (JFrame) canvas.getFrame();
+		surf.setResizable(false);
 
 		//drawing.addKeyListener(drawing);
 
