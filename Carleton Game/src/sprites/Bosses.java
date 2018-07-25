@@ -149,7 +149,9 @@ public class Bosses implements Entity {
 		drawer.text(name, bossX, bossY);
 
 	}
-
+	public int getHealth() {
+		return bossHealth;
+	}
 
 
 

@@ -14,6 +14,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 	private MainMenu mainMenu;
 	private PauseMenu pauseMenu;
 	private Levels level1;
+	private LoseScreen lost;
 	private long time1, time2;
 	private boolean player1ChangeName = false;
 	private boolean player2ChangeName = false;
@@ -29,6 +30,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 
 	public DrawingSurface() {
 		mainMenu = new MainMenu();
+		lost = new LoseScreen();
 		state = State.MENU;
 		runSketch();
 		level1 = new Levels(new Players("Player One", 1, 0, 0), new Players("Player Two", 2, 0, 20),
@@ -43,6 +45,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		mainMenu.setup(this);
 		level1.setup(this);
 		pauseMenu.setup(this);
+		lost.setup(this);
 	}
 
 	// The statements in draw() are executed until the
@@ -63,7 +66,9 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			textSize(32);
 			fill(255);
 		}
-
+		if(level1.getBoss().getHealth()==0) {
+			state = State.LOSE;
+		}
 		if (state == State.MENU) {
 			mainMenu.draw(this);
 			rect(20, 150, 250, 30);
@@ -132,6 +137,8 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		}else if(state == State.PAUSED) {
 			pauseMenu.draw(this);
 			
+		}else if(state == State.LOSE) {
+			lost.draw(this);
 		}
 	}
 

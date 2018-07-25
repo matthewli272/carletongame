@@ -4,7 +4,7 @@ import processing.core.PApplet;
 
 public class PauseMenu {
 	public PauseMenu() {
-
+		
 	}
 
 	public void setup(PApplet drawer) {
@@ -12,6 +12,6 @@ public class PauseMenu {
 	}
 
 	public void draw(PApplet drawer) {
-
+		
 	}
 }
