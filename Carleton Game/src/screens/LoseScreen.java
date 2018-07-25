@@ -18,6 +18,6 @@ public class LoseScreen {
 	public void draw(PApplet drawer) {
 		
 		drawer.image(trump, 0, 0);
-		drawer.text("YOU'RE FIRED", 100, 100);
+		drawer.textSize(10);
 	}
 }
