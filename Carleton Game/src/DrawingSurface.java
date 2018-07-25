@@ -115,11 +115,11 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 
 		// rect(x,y,20,20);
 		// System.out.println("im here");
-		if (player1movement.contains("w")) {
+		/*if (player1movement.contains("w")) {
 			fill(0, 102, 153);
 			textSize(32);
 			fill(255);
-		}
+		}*/
 		if(level1.getBoss().getHealth()==0) {
 			state = State.LOSE;
 		}
@@ -143,53 +143,56 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			if (player1movement.contains("c")) {
 				if (time1 == 0) {
 					time1 = System.currentTimeMillis();
-					level1.getPlayer1().shoot();
-				} else if (System.currentTimeMillis() - time1 > 1000) {
+					level1.getPlayer1().shoot(this);
+				} else if (System.currentTimeMillis() - time1 > 500) {
 					time1 = System.currentTimeMillis();
-					level1.getPlayer1().shoot();
+					level1.getPlayer1().shoot(this);
 				}
-			} else if (player2movement.contains("/")) {
+			}
+			if (player2movement.contains("c")) {
+			    //System.out.println("HULLO");
 				if (time2 == 0) {
 					time2 = System.currentTimeMillis();
-					level1.getPlayer1().shoot();
-				} else if (System.currentTimeMillis() - time2 > 1000) {
+					level1.getPlayer2().shoot(this);
+				} else if (System.currentTimeMillis() - time2 > 500) {
 					time2 = System.currentTimeMillis();
-					level1.getPlayer1().shoot();
+					level1.getPlayer2().shoot(this);
 				}
 			}
-			if (count == 7) {
-				if (player1movement.contains("w") && (int) (level1.getPlayer1().getY() - cellHeight /* / 2 */) > -3) {
-					level1.getPlayer1().setY((int) (level1.getPlayer1().getY() - cellHeight /* / 2 */));
-				}
-				if (player1movement.contains("a") && (int) (level1.getPlayer1().getX() - cellWidth /* / 2 */) > -3) {
-					level1.getPlayer1().setX((int) (level1.getPlayer1().getX() - cellWidth /* / 2 */));
-				}
-				if (player1movement.contains("s") && (int) (level1.getPlayer1().getY() - cellHeight /* / 2 */) < 560) {
-					level1.getPlayer1().setY((int) (level1.getPlayer1().getY() + cellHeight /* / 2 */));
-				}
-				if (player1movement.contains("d") && (int) (level1.getPlayer1().getX() - cellWidth /* / 2 */) < 560) {
-					level1.getPlayer1().setX((int) (level1.getPlayer1().getX() + cellWidth /* / 2 */));
-				}
-				/// *
-				if (player2movement.contains("w") && (int) (level1.getPlayer2().getY() - cellHeight /* / 2 */) > -3) {
-					level1.getPlayer2().setY((int) (level1.getPlayer2().getY() - cellHeight /* / 2 */));
-				}
-				if (player2movement.contains("a") && (int) (level1.getPlayer2().getX() - cellWidth /* / 2 */) > -3) {
-					level1.getPlayer2().setX((int) (level1.getPlayer2().getX() - cellWidth /* / 2 */));
-				}
-				if (player2movement.contains("s") && (int) (level1.getPlayer2().getY() - cellHeight /* / 2 */) < 560) {
-					level1.getPlayer2().setY((int) (level1.getPlayer2().getY() + cellHeight /* / 2 */));
-				}
-				if (player2movement.contains("d") && (int) (level1.getPlayer2().getX() - cellWidth /* / 2 */) < 560) {
-					level1.getPlayer2().setX((int) (level1.getPlayer2().getX() + cellWidth /* / 2 */));
-				}
-				count = 0;
-			}
+//			if (count == 7) {
+//				if (player1movement.contains("w") && (int) (level1.getPlayer1().getY() - cellHeight /* / 2 */) > -3) {
+//					level1.getPlayer1().setY((int) (level1.getPlayer1().getY() - cellHeight /* / 2 */));
+//                    level1.getPlayer1().setDirection(Direction.UP);
+//				}
+//				if (player1movement.contains("a") && (int) (level1.getPlayer1().getX() - cellWidth /* / 2 */) > -3) {
+//					level1.getPlayer1().setX((int) (level1.getPlayer1().getX() - cellWidth /* / 2 */));
+//				}
+//				if (player1movement.contains("s") && (int) (level1.getPlayer1().getY() - cellHeight /* / 2 */) < 560) {
+//					level1.getPlayer1().setY((int) (level1.getPlayer1().getY() + cellHeight /* / 2 */));
+//				}
+//				if (player1movement.contains("d") && (int) (level1.getPlayer1().getX() - cellWidth /* / 2 */) < 560) {
+//					level1.getPlayer1().setX((int) (level1.getPlayer1().getX() + cellWidth /* / 2 */));
+//				}
+//				/// *
+//				if (player2movement.contains("w") && (int) (level1.getPlayer2().getY() - cellHeight /* / 2 */) > -3) {
+//					level1.getPlayer2().setY((int) (level1.getPlayer2().getY() - cellHeight /* / 2 */));
+//				}
+//				if (player2movement.contains("a") && (int) (level1.getPlayer2().getX() - cellWidth /* / 2 */) > -3) {
+//					level1.getPlayer2().setX((int) (level1.getPlayer2().getX() - cellWidth /* / 2 */));
+//				}
+//				if (player2movement.contains("s") && (int) (level1.getPlayer2().getY() - cellHeight /* / 2 */) < 560) {
+//					level1.getPlayer2().setY((int) (level1.getPlayer2().getY() + cellHeight /* / 2 */));
+//				}
+//				if (player2movement.contains("d") && (int) (level1.getPlayer2().getX() - cellWidth /* / 2 */) < 560) {
+//					level1.getPlayer2().setX((int) (level1.getPlayer2().getX() + cellWidth /* / 2 */));
+//				}
+//				count = 0;
+//			}
 
 			// */
 			level1.getPlayer1().draw(this, cellHeight, cellWidth);
 			level1.getPlayer2().draw(this, cellHeight, cellWidth);
-			count++;
+			//count++;
 		}else if(state == State.PAUSED) {
 			pauseMenu.draw(this);
 
@@ -201,7 +204,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 	public void keyPressed() {
 		if (state != State.MENU) {
 			switch (key) {
-			case 'w': // this can be added to players class later
+			/*case 'w': // this can be added to players class later
 				if (!player1movement.contains("w")) {
 					player1movement.clear();
 					player1movement.add("w");
@@ -225,65 +228,62 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 					player1movement.clear();
 					player1movement.add("d");
 				}
-				break;
+				break;*/
+            case 'w': // this can be added to players class later
+                if (!level1.getPlayer1().getPlayerMovement().contains("w")) {
+                    level1.getPlayer1().getPlayerMovement().clear();
+                    level1.getPlayer1().getPlayerMovement().add("w");
+                }
+                break;
+            case 'a':
+                if (!level1.getPlayer1().getPlayerMovement().contains("a")) {
+                    level1.getPlayer1().getPlayerMovement().clear();
+                    level1.getPlayer1().getPlayerMovement().add("a");
+                }
+                break;
+            case 's':
+                if (!level1.getPlayer1().getPlayerMovement().contains("s")) {
+                    level1.getPlayer1().getPlayerMovement().clear();
+                    level1.getPlayer1().getPlayerMovement().add("s");
+                }
+                break;
+            case 'd':
+                // System.out.println("y");
+                if (!level1.getPlayer1().getPlayerMovement().contains("d")) {
+                    level1.getPlayer1().getPlayerMovement().clear();
+                    level1.getPlayer1().getPlayerMovement().add("d");
+                }
+                break;
 
 			case 'c':
 				player1movement.add("c");
 				break;
-			case '/':
-				player2movement.add("/");
-				break;
+
 			}
+
 			if (key == CODED)
 				switch (keyCode) {
 				case UP:
 					// System.out.println("x");
-					if (!player2movement.contains("w")) {
-						player2movement.clear();
-						player2movement.add("w");
-					}
+					if (!level1.getPlayer2().getPlayerMovement().contains("w"))
+                        level1.getPlayer2().getPlayerMovement().add("w");
 					break;
 				case DOWN:
-					if (!player2movement.contains("s")) {
-						player2movement.clear();
-						player2movement.add("s");
-					}
+					if (!level1.getPlayer2().getPlayerMovement().contains("s"))
+                        level1.getPlayer2().getPlayerMovement().add("s");
 					break;
 				case LEFT:
-					if (!player2movement.contains("a")) {
-						player2movement.clear();
-						player2movement.add("a");
-					}
+					if (!level1.getPlayer2().getPlayerMovement().contains("a"))
+                        level1.getPlayer2().getPlayerMovement().add("a");
 					break;
 				case RIGHT:
-					if (!player2movement.contains("d")) {
-						player2movement.clear();
-						player2movement.add("d");
-					}
-					break;
-				}
-			if (key == CODED)
-				switch (keyCode) {
-				case UP:
-					// System.out.println("x");
-					if (!player2movement.contains("w"))
-						player2movement.add("w");
-					break;
-				case DOWN:
-					if (!player2movement.contains("s"))
-						player2movement.add("s");
-					break;
-				case LEFT:
-					if (!player2movement.contains("a"))
-						player2movement.add("a");
-					break;
-				case RIGHT:
-					if (!player2movement.contains("d"))
-						player2movement.add("d");
+					if (!level1.getPlayer2().getPlayerMovement().contains("d"))
+                        level1.getPlayer2().getPlayerMovement().add("d");
 					break;
 				case SHIFT:
 					if (!player2movement.contains("c"))
 						player2movement.add("c");
+					//System.out.println("HULLO");
 					break;
 				}
 
@@ -309,36 +309,45 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 	public void keyReleased() {// this can be added to players class later
 		switch (key) {
 		case 'w':
-			player1movement.remove("w");
+            level1.getPlayer1().getPlayerMovement().remove("w");
 			break;
 
 		case 'a':
-			player1movement.remove("a");
+            level1.getPlayer1().getPlayerMovement().remove("a");
 			break;
 
 		case 's':
-			player1movement.remove("s");
+            level1.getPlayer1().getPlayerMovement().remove("s");
 			break;
 
 		case 'd':
-			player1movement.remove("d");
+            level1.getPlayer1().getPlayerMovement().remove("d");
 			break;
+
+        case 'c':
+            player1movement.remove("c");
+            break;
 		}
+
+
 
 		if (key == CODED)
 			switch (keyCode) {
 			case UP:
-				player2movement.remove("w");
+                level1.getPlayer2().getPlayerMovement().remove("w");
 				break;
 			case DOWN:
-				player2movement.remove("s");
+                level1.getPlayer2().getPlayerMovement().remove("s");
 				break;
 			case RIGHT:
-				player2movement.remove("d");
+                level1.getPlayer2().getPlayerMovement().remove("d");
 				break;
 			case LEFT:
-				player2movement.remove("a");
+                level1.getPlayer2().getPlayerMovement().remove("a");
 				break;
+            case SHIFT:
+                player2movement.remove("c");
+                break;
 			}
 
 	}

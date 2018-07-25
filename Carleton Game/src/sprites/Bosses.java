@@ -12,7 +12,7 @@ public class Bosses implements Entity {
 	// fields
 	//Gif myAnimation;
 	private int bossHealth;
-	private ArrayList<Bullet>bossBullets;
+	private ArrayList<Bullet>bossBullets = new ArrayList<>(10);
 	private Weapons currentWeapon;
 	private String name;
 	private int bossX;
@@ -158,13 +158,19 @@ public class Bosses implements Entity {
 		drawer.textSize(10);
 		drawer.text(name, bossX, bossY);
 
+		//if(bossBullets.size() > 0)
+		for(Bullet bullet : bossBullets){
+		    bullet.draw(drawer);
+        }
+
 	}
 	public int getHealth() {
 		return bossHealth;
 	}
 
 	public void shoot(/*map parameters from map here*/) {
-		Bullet bullet = new Bullet(bossX, bossY, "", null/*direction*/);
+		//Bullet bullet = new Bullet(bossX, bossY, "", null/*direction*/);
+		//bossBullets.add(bullet);
 
 	}
 

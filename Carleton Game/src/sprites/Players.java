@@ -20,10 +20,12 @@ public class Players implements Entity {
 	private PImage otherKnight;
 	private PImage placeHolder;
 	private int count = 0;
+	private int movementCount = 0;
 	private int area = 1;
 	private int testX;
 	private int testY;
-	private ArrayList<Bullet> playerBullets;
+	private ArrayList<Bullet> playerBullets = new ArrayList<>(10);
+	private ArrayList<String> playerMovement = new ArrayList<>(30);
 	
 	private Direction direction;
 	private int fontHeight = 20;
@@ -93,6 +95,22 @@ public class Players implements Entity {
 		this.playerHealth = playerHealth;
 	}
 
+	public void setDirection(Direction direct){
+		this.direction = direct;
+	}
+
+	public ArrayList<String> getPlayerMovement() {
+		return playerMovement;
+	}
+
+	public void addMovement(String movement){
+		playerMovement.add(movement);
+	}
+
+	public void removeMovement(String movement){
+		playerMovement.remove(movement);
+	}
+
 	@Override
 	public void setX(int x) {
 		this.playerX = x;
@@ -103,42 +121,10 @@ public class Players implements Entity {
 
     }
 
-	public void draw(PApplet drawer, float x, float y) {
+	public void draw(PApplet drawer, float cellHeight, float cellWidth) {
         knight = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "test.png");
 		placeHolder = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "runningsprite.gif");
-		drawer.fill(0, 0, 0);
-		// System.out.println(x + " " + y);
 
-		//drawer.rect(playerX, playerY, x, y);
-        //knight.resize(0,(int) y);
-		placeHolder.resize(0,20);
-        //otherKnight = knight.get(0,0,(int)x,(int)y);
-        knight.resize(0,(int) y);
-        if(count == 10) { //20/55
-            area += 7;
-            count = 0;
-        }
-        if(playerX == testX && playerY == testY) {
-            if (area > 9)
-                area = 1;
-        } else {
-            if (area > 24)
-                area = 16;
-        }
-        //System.out.println(area);
-        //otherKnight = knight.get(area,0,(int) x - 2,(int) y);
-        //drawer.image(otherKnight,playerX,playerY);
-		drawer.image(placeHolder,playerX,playerY);
-
-        drawer.fill(237, 24, 245);
-		drawer.textSize(10);
-		drawer.text(name, playerX, playerY);
-		drawer.fill(0,0,0);
-		drawer.textSize(fontHeight);
-		while(drawer.textWidth(name) > drawer.textWidth("PlayerTwoE")) {
-			fontHeight--;
-			drawer.textSize(fontHeight);
-		}
 		if(playerType == 1){
 			drawer.textAlign(drawer.LEFT);
 			drawer.text(name, 10, 630);
@@ -150,6 +136,68 @@ public class Players implements Entity {
 			drawer.fill(255,0,0);
 			drawer.rect(480 - (drawer.textWidth(name) + 20),640, playerHealth,20);
 		}
+
+		if (movementCount == 7) {
+			if (playerMovement.contains("w") && (int) (playerY - cellHeight /* / 2 */) > -3) {
+				playerY = ((int) (playerY - cellHeight /* / 2 */));
+				direction = Direction.UP;
+			}
+			if (playerMovement.contains("a") && (int) (playerX - cellWidth /* / 2 */) > -3) {
+				playerX = ((int) (playerX - cellWidth /* / 2 */));
+				direction = Direction.LEFT;
+			}
+			if (playerMovement.contains("s") && (int) (playerY - cellHeight /* / 2 */) < 560) {
+				playerY = ((int) (playerY + cellHeight /* / 2 */));
+				direction = Direction.DOWN;
+			}
+			if (playerMovement.contains("d") && (int) (playerX - cellWidth /* / 2 */) < 560) {
+				playerX = ((int) (playerX + cellWidth /* / 2 */));
+				direction = Direction.RIGHT;
+			}
+
+			movementCount = 0;
+		}
+
+		// */
+		movementCount++;
+		drawer.fill(0, 0, 0);
+		// System.out.println(x + " " + y);
+
+		//drawer.rect(playerX, playerY, x, y);
+		//knight.resize(0,(int) y);
+		placeHolder.resize(0,20);
+		//otherKnight = knight.get(0,0,(int)x,(int)y);
+		knight.resize(0,(int) cellWidth);
+		if(count == 10) { //20/55
+			area += 7;
+			count = 0;
+		}
+		if(playerX == testX && playerY == testY) {
+			if (area > 9)
+				area = 1;
+		} else {
+			if (area > 24)
+				area = 16;
+		}
+		//System.out.println(area);
+		//otherKnight = knight.get(area,0,(int) x - 2,(int) y);
+		//drawer.image(otherKnight,playerX,playerY);
+		drawer.image(placeHolder,playerX,playerY);
+
+		drawer.fill(237, 24, 245);
+		drawer.textSize(10);
+		drawer.text(name, playerX, playerY);
+		drawer.fill(0,0,0);
+		drawer.textSize(fontHeight);
+		while(drawer.textWidth(name) > drawer.textWidth("PlayerTwoE")) {
+			fontHeight--;
+			drawer.textSize(fontHeight);
+		}
+
+		for(Bullet bullet : playerBullets){
+			bullet.draw(drawer);
+		}
+
 
 
 
@@ -166,8 +214,10 @@ public class Players implements Entity {
 		playerHealth -= 15;
 	}
 	
-	public void shoot() {
-		Bullet bullet = new Bullet(playerX, playerY, "", direction);
-		
+	public void shoot(PApplet drawer) {
+		Bullet bullet = new Bullet(playerX, playerY, "", direction, drawer);
+		playerBullets.add(bullet);
 	}
+
+
 }

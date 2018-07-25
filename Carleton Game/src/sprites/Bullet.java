@@ -13,12 +13,15 @@ public class Bullet implements Entity {
 	private Direction direction;
 
 	// constructor
-	public Bullet(int x, int y, String type, Direction direction) {
+	public Bullet(int x, int y, String type, Direction direction, PApplet drawer) {
 		this.x = x;
 		this.y = y;
 		this.type = type;
 		this.direction = direction;
 		counter = 0;
+
+		basicBullet = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "smallcircle.png");
+		basicBullet.resize(0,20);
 	}
 
 	public Bullet(int x, int y, String type) {
@@ -54,13 +57,13 @@ public class Bullet implements Entity {
 	public void move() {
 		if (counter % 3 == 0) {
 			if (direction == Direction.LEFT) {
-				x--;
+				x-=20;
 			} else if (direction == Direction.UP) {
-				y--;
+				y-=20;
 			} else if (direction == Direction.RIGHT) {
-				x++;
+				x+=20;
 			} else {
-				y++;
+				y+=20;
 			}
 		}
 		counter++;
@@ -82,12 +85,13 @@ public class Bullet implements Entity {
 		}
 		return null;
 	}
-
+/*
 	public void setup(PApplet drawer) {
-		basicBullet = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "smallcircle.jpg");
+		basicBullet = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "smallcircle.png");
 	}
-
+*/
 	public void draw(PApplet drawer) {
 		drawer.image(basicBullet, x, y);
+		move();
 	}
 }
