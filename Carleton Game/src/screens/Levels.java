@@ -22,6 +22,8 @@ import sprites.*;
 
 public class Levels {
 	private ArrayList<Obstacle> obstacle;
+
+
 	// private boolean[][] grid;
 	private PImage pause; 
 	private Entity[][] map;
@@ -32,6 +34,7 @@ public class Levels {
 	private float cellWidth;
 	private float cellHeight;
 	private int count = 0;
+
 
 	private enum Weapon {
 		SWORD, THROWINGSWORD, KNIFE, PISTOL, RIFLE
@@ -114,52 +117,52 @@ public class Levels {
 		if (count == 20) {
 			count = 0;
 			if(boss.getX() - player1.getX() == 0){
-			    //boss.shoot(map parameters)
+			    //boss.shoot(map parameters);
             }else if(boss.getY() - player1.getY() == 0){
-                //
+                //boss.shoot(map parameters)
             }else if(boss.getX() - player2.getX() == 0){
-
+				//boss.shoot(map parameters)
             }else if(boss.getY() - player2.getY() == 0){
-
-            }else {
-                if ((boss.getX() - player1.getX()) * (boss.getX() - player1.getX()) + (boss.getY() - player1.getY())
-                        * (boss.getY() - player1.getY()) < (boss.getX() - player2.getX()) * (boss.getX() - player2.getX())
-                        + (boss.getY() - player2.getY()) * (boss.getY() - player2.getY())) {
-                    // System.out.println("I am in x");
-                    if (Math.abs((boss.getX() - player1.getX())) > Math.abs((boss.getY() - player1.getY()))) {
-                        if (boss.getX() > player1.getX()) {
-                            boss.setX(boss.getX() - Math.round(cellWidth));
-                        } else {
-                            //else if (boss.getX() < player1.getX()){
-                            boss.setX(boss.getX() + Math.round(cellWidth));
-                        }
-                    } else {
-                        if (boss.getY() > player1.getY()) {
-                            boss.setY(boss.getY() - Math.round(cellHeight));
-                        } else {
-                            //if (boss.getY() < player1.getY()){
-                            boss.setY(boss.getY() + Math.round(cellHeight));
-                        }
-                    }
-                } else {
-                    // System.out.println("I am in y");
-                    if (Math.abs((boss.getX() - player2.getX())) > Math.abs((boss.getY() - player2.getY()))) {
-                        if (boss.getX() > player2.getX()) {
-                            boss.setX(boss.getX() - Math.round(cellWidth));
-                        } else {
-                            //else if (boss.getX() < player2.getX()){
-                            boss.setX(boss.getX() + Math.round(cellWidth));
-                        }
-                    } else {
-                        if (boss.getY() > player2.getY()) {
-                            boss.setY(boss.getY() - Math.round(cellHeight));
-                        } else {
-                            //if (boss.getY() < player2.getY()){
-                            boss.setY(boss.getY() + Math.round(cellHeight));
-                        }
-                    }
-                }
+				//boss.shoot(map parameters)
             }
+			if ((boss.getX() - player1.getX()) * (boss.getX() - player1.getX()) + (boss.getY() - player1.getY())
+					* (boss.getY() - player1.getY()) < (boss.getX() - player2.getX()) * (boss.getX() - player2.getX())
+					+ (boss.getY() - player2.getY()) * (boss.getY() - player2.getY())) {
+				// System.out.println("I am in x");
+				if (Math.abs((boss.getX() - player1.getX())) > Math.abs((boss.getY() - player1.getY()))) {
+					if (boss.getX() > player1.getX()) {
+						boss.setX(boss.getX() - Math.round(cellWidth));
+					} else {
+						//else if (boss.getX() < player1.getX()){
+						boss.setX(boss.getX() + Math.round(cellWidth));
+					}
+				} else {
+					if (boss.getY() > player1.getY()) {
+						boss.setY(boss.getY() - Math.round(cellHeight));
+					} else {
+						//if (boss.getY() < player1.getY()){
+						boss.setY(boss.getY() + Math.round(cellHeight));
+					}
+				}
+			} else {
+				// System.out.println("I am in y");
+				if (Math.abs((boss.getX() - player2.getX())) > Math.abs((boss.getY() - player2.getY()))) {
+					if (boss.getX() > player2.getX()) {
+						boss.setX(boss.getX() - Math.round(cellWidth));
+					} else {
+						//else if (boss.getX() < player2.getX()){
+						boss.setX(boss.getX() + Math.round(cellWidth));
+					}
+				} else {
+					if (boss.getY() > player2.getY()) {
+						boss.setY(boss.getY() - Math.round(cellHeight));
+					} else {
+						//if (boss.getY() < player2.getY()){
+						boss.setY(boss.getY() + Math.round(cellHeight));
+					}
+				}
+			}
+
 		}
 
 		// for (int i = 0; i < map[0].length; i++) {

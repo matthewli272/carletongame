@@ -1,6 +1,8 @@
 package sprites;
 
 import java.lang.*;
+import java.util.ArrayList;
+
 import gifAnimation.*;
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -10,6 +12,7 @@ public class Bosses implements Entity {
 	// fields
 	//Gif myAnimation;
 	private int bossHealth;
+	private ArrayList<Bullet>bossBullets;
 	private Weapons currentWeapon;
 	private String name;
 	private int bossX;
@@ -49,6 +52,13 @@ public class Bosses implements Entity {
 	public void setY(int y) {
 		// TODO Auto-generated method stub
 		this.bossY = y;
+	}
+
+	public void addBullets(Bullet bullet){
+		bossBullets.add(bullet);
+	}
+	public ArrayList<Bullet> getBullets(){
+		return bossBullets;
 	}
 
 	// I think this works bc it only checks once square next to it?
@@ -153,6 +163,10 @@ public class Bosses implements Entity {
 		return bossHealth;
 	}
 
+	public void shoot(/*map parameters from map here*/) {
+		Bullet bullet = new Bullet(bossX, bossY, "", null/*direction*/);
+
+	}
 
 
 }
