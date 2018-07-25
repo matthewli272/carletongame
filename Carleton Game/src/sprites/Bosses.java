@@ -19,6 +19,7 @@ public class Bosses implements Entity {
 	private int bossY;
 	//private int bossSize;
 	private PImage Boss;
+	private Direction direction;
 
 
 	// constructor
@@ -138,6 +139,8 @@ public class Bosses implements Entity {
 		drawer.smooth();
 		Boss = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "unturned.jpg");
 		Boss.resize(0,bossSize);
+		bossX = bossX * 20;
+		bossY = bossY * 20;
 //		myAnimation = new Gif(drawer,
 //				"executable/sprites" + System.getProperty("file.separator") + "TestTrump.gif");
 //		myAnimation.resize(0,bossSize);
@@ -159,8 +162,12 @@ public class Bosses implements Entity {
 		drawer.text(name, bossX, bossY);
 
 		//if(bossBullets.size() > 0)
-		for(Bullet bullet : bossBullets){
-		    bullet.draw(drawer);
+		for(int i = 0; i < bossBullets.size();i++){
+            if(bossBullets.get(i).getX() < -10 || bossBullets.get(i).getY() < -10 || bossBullets.get(i).getX() > 600 || bossBullets.get(i).getY() > 600){
+                bossBullets.remove(i);
+            } else {
+                bossBullets.get(i).draw(drawer);
+            }
         }
 
 	}
@@ -168,9 +175,18 @@ public class Bosses implements Entity {
 		return bossHealth;
 	}
 
-	public void shoot(/*map parameters from map here*/) {
-		//Bullet bullet = new Bullet(bossX, bossY, "", null/*direction*/);
-		//bossBullets.add(bullet);
+	public void shoot(int direct, PApplet drawer) {
+	    if(direct == 1)
+	        direction = Direction.UP;
+	    else if(direct == 2)
+            direction = Direction.DOWN;
+        else if(direct == 3)
+            direction = Direction.LEFT;
+        else if(direct == 4)
+            direction = Direction.RIGHT;
+
+		Bullet bullet = new Bullet(bossX, bossY, "", direction/*direction*/,drawer);
+		bossBullets.add(bullet);
 
 	}
 

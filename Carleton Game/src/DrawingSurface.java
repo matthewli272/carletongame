@@ -43,7 +43,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		state = State.MENU;
 		runSketch();
 		level1 = new Levels(new Players("Player One", 1, 0, 0), new Players("Player Two", 2, 0, 20),
-				new Bosses("Zambie", 100, 0, 0), new ArrayList<Obstacle>(), 600, 600);
+				new Bosses("Zambie", 100, 20, 20), new ArrayList<Obstacle>(), 600, 600);
 		time1 = time2 = count = 0;
 		pauseMenu = new PauseMenu();
 
@@ -120,7 +120,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			textSize(32);
 			fill(255);
 		}*/
-		if(level1.getBoss().getHealth()==0) {
+		if(level1.getPlayer1().getPlayerHealth()==0 && level1.getPlayer2().getPlayerHealth()==0) {
 			state = State.LOSE;
 		}
 		if (state == State.MENU) {
