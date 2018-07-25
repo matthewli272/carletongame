@@ -66,7 +66,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			textSize(32);
 			fill(255);
 		}
-		if(level1.getBoss().getHealth()==0) {
+		if (level1.getBoss().getHealth() == 0 && state == State.GAME) {
 			state = State.LOSE;
 		}
 		if (state == State.MENU) {
@@ -134,10 +134,10 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			level1.getPlayer1().draw(this, cellHeight, cellWidth);
 			level1.getPlayer2().draw(this, cellHeight, cellWidth);
 			count++;
-		}else if(state == State.PAUSED) {
+		} else if (state == State.PAUSED) {
 			pauseMenu.draw(this);
-			
-		}else if(state == State.LOSE) {
+
+		} else if (state == State.LOSE) {
 			lost.draw(this);
 		}
 	}
@@ -311,6 +311,10 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		} else if (state == State.GAME) {
 			if (mouseX >= 600 && mouseX <= 620 && mouseY >= 0 && mouseY <= 20) {
 				state = State.PAUSED;
+			}
+		} else if (state == State.LOSE) {
+			if (mouseX >= 110 && mouseX <= 510 && mouseY >= 600 && mouseY <= 700) {
+				state = State.MENU;
 			}
 		}
 	}
