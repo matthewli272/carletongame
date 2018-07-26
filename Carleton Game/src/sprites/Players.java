@@ -196,8 +196,12 @@ public class Players implements Entity {
 			drawer.textSize(fontHeight);
 		}
 
-		for(Bullet bullet : playerBullets){
-			bullet.draw(drawer);
+		for(int i = 0; i < playerBullets.size(); i++){
+			if(playerBullets.get(i).getX() < -10 || playerBullets.get(i).getY() < -10 || playerBullets.get(i).getX() > 600 || playerBullets.get(i).getY() > 600){
+				playerBullets.remove(i);
+			} else {
+				playerBullets.get(i).draw(drawer);
+			}
 		}
 
 		drawer.fill(255);

@@ -81,6 +81,7 @@ public class Levels {
 	public void setup(PApplet drawer) {
 		// System.out.println("im in setup " + cellHeight);
 		boss.setup(drawer, (int) cellHeight);
+
 		pause = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "pause.png");
 	}
 
@@ -113,13 +114,25 @@ public class Levels {
 		if (count == 20) {
 			count = 0;
 			if(boss.getX() - player1.getX() == 0){
-			    //boss.shoot(map parameters);
+				if(boss.getY() - player1.getY() > 0)
+			    	boss.shoot(1,drawer);
+				else
+					boss.shoot(2,drawer);
             }else if(boss.getY() - player1.getY() == 0){
-                //boss.shoot(map parameters)
+				if(boss.getX() - player1.getX() > 0)
+					boss.shoot(3,drawer);
+				else
+					boss.shoot(4,drawer);
             }else if(boss.getX() - player2.getX() == 0){
-				//boss.shoot(map parameters)
+				if(boss.getY() - player2.getY() > 0)
+					boss.shoot(1,drawer);
+				else
+					boss.shoot(2,drawer);
             }else if(boss.getY() - player2.getY() == 0){
-				//boss.shoot(map parameters)
+				if(boss.getX() - player2.getX() > 0)
+					boss.shoot(3,drawer);
+				else
+					boss.shoot(4,drawer);
             }
 			if ((boss.getX() - player1.getX()) * (boss.getX() - player1.getX()) + (boss.getY() - player1.getY())
 					* (boss.getY() - player1.getY()) < (boss.getX() - player2.getX()) * (boss.getX() - player2.getX())
