@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -8,6 +9,7 @@ import sprites.Bosses;
 import sprites.Obstacle;
 import sprites.Players;
 import screens.Levels;
+import java.net.URI;
 
 import javax.sound.sampled.*;
 
@@ -47,7 +49,8 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 				new Bosses("Zambie", 100, 20, 20), new ArrayList<Obstacle>(), 600, 600);
 		time1 = time2 = count = 0;
 		pauseMenu = new PauseMenu();
-
+		
+		
 		//File soundFile1 = new File("executable/sound/seinfield.mp3");
 		File soundFile1 = new File("executable/sound/microsoft.wav");
 		//File soundFile2 = new File("Visager-DarkSanctumBossLoop.wav");
