@@ -115,7 +115,9 @@ public class Players implements Entity {
 	public void setX(int x) {
 		this.playerX = x;
 	}
-
+	public int getHealth() {
+		return playerHealth;
+	}
 	public void setup(PApplet drawer){
         //knight = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "test.png");
 
@@ -198,10 +200,6 @@ public class Players implements Entity {
 			bullet.draw(drawer);
 		}
 
-
-
-
-
 		drawer.fill(255);
 		count++;
 		testX = playerX;
@@ -218,6 +216,4 @@ public class Players implements Entity {
 		Bullet bullet = new Bullet(playerX, playerY, "", direction, drawer);
 		playerBullets.add(bullet);
 	}
-
-
 }

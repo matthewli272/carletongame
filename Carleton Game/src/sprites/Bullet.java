@@ -21,7 +21,7 @@ public class Bullet implements Entity {
 		counter = 0;
 
 		basicBullet = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "smallcircle.png");
-		basicBullet.resize(0,20);
+		basicBullet.resize(0, 20);
 	}
 
 	public Bullet(int x, int y, String type) {
@@ -57,39 +57,41 @@ public class Bullet implements Entity {
 	public void move() {
 		if (counter % 3 == 0) {
 			if (direction == Direction.LEFT) {
-				x-=20;
+				x -= 20;
 			} else if (direction == Direction.UP) {
-				y-=20;
+				y -= 20;
 			} else if (direction == Direction.RIGHT) {
-				x+=20;
+				x += 20;
 			} else {
-				y+=20;
+				y += 20;
 			}
 		}
 		counter++;
 	}
 
-	public Entity collisions(Entity[][] map, Players[] player, Bosses[] boss, Obstacle[] obstacles) {
+	public Entity collisions(Entity map[][], Bullet[][] bullets, Players[] player, Bosses[] boss,
+			Obstacle[] obstacles) {
 		for (Players p : player) {
-			if (map[x][y] == p)
+			if (map[x][y] == p && bullets[x][y] != null)
 				return p;
 		}
 		for (Bosses b : boss) {
-			if (map[x][y] == b) {
+			if (map[x][y] == b && bullets[x][y] != null) {
 				return b;
 			}
 		}
 		for (Obstacle o : obstacles) {
-			if (map[x][y] == o)
+			if (map[x][y] == o && bullets[x][y] != null)
 				return o;
 		}
 		return null;
 	}
-/*
-	public void setup(PApplet drawer) {
-		basicBullet = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "smallcircle.png");
-	}
-*/
+
+	/*
+	 * public void setup(PApplet drawer) { basicBullet =
+	 * drawer.loadImage("executable/sprites" + System.getProperty("file.separator")
+	 * + "smallcircle.png"); }
+	 */
 	public void draw(PApplet drawer) {
 		drawer.image(basicBullet, x, y);
 		move();

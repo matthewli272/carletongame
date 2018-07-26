@@ -12,19 +12,14 @@ import processing.core.PImage;
 import sprites.*;
 
 /*
-
 	Represents a level in the game
 
 	Coded by: Matthew Li
 	Modified on:
-
 */
-
 public class Levels {
+	
 	private ArrayList<Obstacle> obstacle;
-
-
-	// private boolean[][] grid;
 	private PImage pause; 
 	private Entity[][] map;
 	private Players player1;
@@ -34,6 +29,7 @@ public class Levels {
 	private float cellWidth;
 	private float cellHeight;
 	private int count = 0;
+	private Bullet[][] bullet;
 
 
 	private enum Weapon {
@@ -59,7 +55,7 @@ public class Levels {
 		map[player2.getX()][player2.getY()] = player2;
 		map[boss.getX()][boss.getY()] = boss;
 		bullets = new Bullet(0, 0, "pistol");
-
+		bullet = new Bullet[30][30];
 		cellWidth = width / map[0].length;
 		cellHeight = height / map.length;
 		// System.out.println("im in constructor " + (int) cellHeight);
@@ -187,7 +183,9 @@ public class Levels {
 		Players[] player = { player1, player2 };
 		Obstacle[] obs = {};
 		Bosses[] b = { boss };
-		Entity e = bullets.collisions(map, player, b, obs);
+		ArrayList<Bullet>  player1bullet = player1.getBullets();
+
+		Entity e = bullets.collisions(map, bullet, player, b, obs);
 		for (Players p : player) {
 			if (e == p) {
 				p.takeDamage(bullets);
@@ -205,7 +203,7 @@ public class Levels {
 				map[bullets.getX()][bullets.getY()] = null;
 		}
 	}
-
+	
 	/**
 	 * Optionally, complete this method to toggle a cell in the game of life grid
 	 * between alive and dead.
