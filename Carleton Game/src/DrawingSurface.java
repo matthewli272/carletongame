@@ -61,7 +61,8 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 
 			clip1.open(audioInputStream1);
 			//clip2.open(audioInputStream2);
-			clip1.loop(Clip.LOOP_CONTINUOUSLY);
+			//clip1.loop(Clip.LOOP_CONTINUOUSLY);
+
 		}
 		catch (Exception ex) {
 			System.out.println("*** Cannot find audio files ***");
@@ -198,6 +199,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 
 
 		}else if(state == State.LOSE) {
+		    clip1.start();
 			lost.draw(this);
 		}
 	}
