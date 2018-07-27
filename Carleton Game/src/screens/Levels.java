@@ -18,7 +18,9 @@ import sprites.*;
 	Modified on:
 */
 public class Levels {
-	
+
+	private ArrayList<Bosses> mobs = new ArrayList<>(30);
+	private ArrayList<Bosses> allThings = new ArrayList<>(30);
 	private ArrayList<Obstacle> obstacle;
 	private PImage pause; 
 	private Entity[][] map;
@@ -59,6 +61,15 @@ public class Levels {
 		cellWidth = width / map[0].length;
 		cellHeight = height / map.length;
 		// System.out.println("im in constructor " + (int) cellHeight);
+		allThings.add(this.boss);
+		for(int i = 0; i < 5; i++){
+			//System.out.println("wat");
+			mobs.add(new Bosses("Reaper",20,i * 4,20,1));
+		}
+		for(Bosses mob: mobs)
+			allThings.add(mob);
+
+
 
 	}
 
@@ -81,6 +92,8 @@ public class Levels {
 	public void setup(PApplet drawer) {
 		// System.out.println("im in setup " + cellHeight);
 		boss.setup(drawer, (int) cellHeight);
+		for(Bosses mob : mobs)
+			mob.setup(drawer,(int) cellHeight);
 
 		pause = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "pause.png");
 	}
@@ -134,7 +147,15 @@ public class Levels {
 				else
 					boss.shoot(4,drawer);
             }
-			if ((boss.getX() - player1.getX()) * (boss.getX() - player1.getX()) + (boss.getY() - player1.getY())
+            allThings.remove(boss);
+            boss.move(player1.getX(),player1.getY(),player2.getX(),player2.getY(), allThings);
+            allThings.add(boss);
+            for(Bosses mob: mobs) {
+            	allThings.remove(mob);
+				mob.move(player1.getX(), player1.getY(), player2.getX(), player2.getY(), allThings);
+				allThings.add(mob);
+			}
+/*			if ((boss.getX() - player1.getX()) * (boss.getX() - player1.getX()) + (boss.getY() - player1.getY())
 					* (boss.getY() - player1.getY()) < (boss.getX() - player2.getX()) * (boss.getX() - player2.getX())
 					+ (boss.getY() - player2.getY()) * (boss.getY() - player2.getY())) {
 				// System.out.println("I am in x");
@@ -170,7 +191,7 @@ public class Levels {
 						boss.setY(boss.getY() + Math.round(cellHeight));
 					}
 				}
-			}
+			}*/
 
 		}
 
@@ -181,6 +202,10 @@ public class Levels {
 		// }
 		drawer.image(pause, 600, 0);
 		boss.draw(drawer);
+		for(Bosses mob : mobs) {
+			mob.draw(drawer);
+			//System.out.println("what");
+		}
 		count++;
 	}
 

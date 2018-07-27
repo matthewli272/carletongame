@@ -1,6 +1,7 @@
 package sprites;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PImage;
 
 import java.util.ArrayList;
@@ -126,7 +127,8 @@ public class Players implements Entity {
 	public void draw(PApplet drawer, float cellHeight, float cellWidth) {
         knight = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "test.png");
 		placeHolder = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "runningsprite.gif");
-
+		drawer.textSize(20);
+		drawer.fill(0,0,0);
 		if(playerType == 1){
 			drawer.textAlign(drawer.LEFT);
 			drawer.text(name, 10, 630);
@@ -188,6 +190,7 @@ public class Players implements Entity {
 
 		drawer.fill(237, 24, 245);
 		drawer.textSize(10);
+		drawer.textAlign(drawer.LEFT);
 		drawer.text(name, playerX, playerY);
 		drawer.fill(0,0,0);
 		drawer.textSize(fontHeight);
@@ -197,7 +200,7 @@ public class Players implements Entity {
 		}
 
 		for(int i = 0; i < playerBullets.size(); i++){
-			if(playerBullets.get(i).getX() < -10 || playerBullets.get(i).getY() < -10 || playerBullets.get(i).getX() > 600 || playerBullets.get(i).getY() > 600){
+			if(playerBullets.get(i).getX() < -10 || playerBullets.get(i).getY() < -10 || playerBullets.get(i).getX() > 590 || playerBullets.get(i).getY() > 590){
 				playerBullets.remove(i);
 			} else {
 				playerBullets.get(i).draw(drawer);

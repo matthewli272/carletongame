@@ -20,15 +20,19 @@ public class Bosses implements Entity {
 	//private int bossSize;
 	private PImage Boss;
 	private Direction direction;
+	private int type;
+	private String typeName;
+	private int cellHeight;
 
 
 	// constructor
-	public Bosses(String name, int bossHealth, int bossX, int bossY) {
+	public Bosses(String name, int bossHealth, int bossX, int bossY, int type) {
 		this.name = name;
 		this.bossHealth = bossHealth;
 		this.bossX = bossX;
 		this.bossY = bossY;
 		//this.bossSize = bossSize;
+		this.type = type;
 
 	}
 
@@ -111,6 +115,88 @@ public class Bosses implements Entity {
 		return 0;
 	}
 
+	public void move(int player1X, int player1Y, int player2X, int player2Y, ArrayList<Bosses> mobs){
+
+		if ((bossX - player1X) * (bossX - player1X) + (bossY - player1Y)
+				* (bossY - player1Y) < (bossX - player2X) * (bossX - player2X)
+				+ (bossY - player2Y) * (bossY - player2Y)) {
+			// System.out.println("I am in x");
+			if (Math.abs((bossX - player1X)) > Math.abs((bossY - player1Y))) {
+				if (bossX > player1X) {
+					bossX = (bossX - Math.round(cellHeight));
+					for(int i = 0; i < mobs.size();i++)
+						if((bossX == mobs.get(i).getX()) && bossY == mobs.get(i).getY()) {
+							bossX = bossX + Math.round(cellHeight);
+							break;
+						}
+				} else {
+					//else if (boss.getX() < player1.getX()){
+					bossX = (bossX + Math.round(cellHeight));
+					for(int i = 0; i < mobs.size();i++)
+						if((bossX == mobs.get(i).getX()) && bossY == mobs.get(i).getY()) {
+							bossX = bossX - Math.round(cellHeight);
+							break;
+						}
+				}
+			} else {
+				if (bossY > player1Y) {
+					bossY = (bossY - Math.round(cellHeight));
+					for(int i = 0; i < mobs.size();i++)
+						if((bossY == mobs.get(i).getY()) && bossX == mobs.get(i).getX()) {
+							bossY = bossY + Math.round(cellHeight);
+							break;
+						}
+				} else {
+					//if (boss.getY() < player1.getY()){
+					bossY = (bossY + Math.round(cellHeight));
+					for(int i = 0; i < mobs.size();i++)
+						if((bossY == mobs.get(i).getY()) && bossX == mobs.get(i).getX()) {
+							bossY = bossY - Math.round(cellHeight);
+							break;
+						}
+				}
+			}
+		} else {
+			// System.out.println("I am in y");
+			if (Math.abs((bossX - player2X)) > Math.abs((bossY - player2Y))) {
+				if (bossX > player2X) {
+					bossX = (bossX - Math.round(cellHeight));
+					for(int i = 0; i < mobs.size();i++)
+						if((bossX == mobs.get(i).getX()) && bossY == mobs.get(i).getY()) {
+							bossX = bossX + Math.round(cellHeight);
+							break;
+						}
+				} else {
+					//else if (boss.getX() < player2.getX()){
+					bossX = (bossX + Math.round(cellHeight));
+					for(int i = 0; i < mobs.size();i++)
+						if((bossX == mobs.get(i).getX()) && bossY == mobs.get(i).getY()) {
+							bossX = bossX - Math.round(cellHeight);
+							break;
+						}
+				}
+			} else {
+				if (bossY > player2Y) {
+					bossY = (bossY - Math.round(cellHeight));
+					for(int i = 0; i < mobs.size();i++)
+						if((bossY == mobs.get(i).getY()) && bossX == mobs.get(i).getX()) {
+							bossY = bossY + Math.round(cellHeight);
+							break;
+						}
+				} else {
+					//if (boss.getY() < player2.getY()){
+					bossY = (bossY + Math.round(cellHeight));
+					for(int i = 0; i < mobs.size();i++)
+						if((bossY == mobs.get(i).getY()) && bossX == mobs.get(i).getX()) {
+							bossY = bossY - Math.round(cellHeight);
+							break;
+						}
+				}
+			}
+		}
+
+	}
+
 	/**
 	 * 
 	 * @param x
@@ -135,9 +221,14 @@ public class Bosses implements Entity {
 	}
 
 	public void setup(PApplet drawer,int bossSize) {
-		//System.out.println("im in bosses");
+		//System.out.println("im in bosses");]
+		cellHeight = bossSize;
 		drawer.smooth();
-		Boss = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "unturned.jpg");
+		if(type == 0)
+			typeName = "unturned.jpg";
+		else if(type == 1)
+			typeName = "reaper.png";
+		Boss = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + typeName);
 		Boss.resize(0,bossSize);
 		bossX = bossX * 20;
 		bossY = bossY * 20;
