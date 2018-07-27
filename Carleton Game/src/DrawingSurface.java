@@ -46,7 +46,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		state = State.MENU;
 		won = new WinScreen();
 		level1 = new Levels(new Players("Player One", 1, 0, 0), new Players("Player Two", 2, 0, 20),
-				new Bosses("Zambie", 100, 20, 20), new ArrayList<Obstacle>(), 600, 600);
+				new Bosses("Zambie", 100, 20, 20, 0), new ArrayList<Obstacle>(), 600, 600);
 		time1 = time2 = count = 0;
 		pauseMenu = new PauseMenu();
 		
@@ -159,7 +159,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 					time1 = System.currentTimeMillis();
 					level1.getPlayer1().shoot(this);
 				}
-				System.out.println(level1.getBoss().getHealth());
+				//System.out.println(level1.getBoss().getHealth());
 			}
 			if (player2movement.contains("c")) {
 			    //System.out.println("HULLO");
@@ -170,7 +170,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 					time2 = System.currentTimeMillis();
 					level1.getPlayer2().shoot(this);
 				}
-				System.out.println(level1.getBoss().getHealth());
+				//System.out.println(level1.getBoss().getHealth());
 			}
 //			if (count == 7) {
 //				if (player1movement.contains("w") && (int) (level1.getPlayer1().getY() - cellHeight /* / 2 */) > -3) {
