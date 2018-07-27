@@ -19,6 +19,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 	private ArrayList<String> player2movement = new ArrayList<>(30);
 	private MainMenu mainMenu;
 	private PauseMenu pauseMenu;
+	private Instructions instructions;
 	private Levels level1;
 	private LoseScreen lost;
 	private WinScreen won;
@@ -31,7 +32,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		PAUSED, MENU, GAME, INSTRUCTIONS, WIN, LOSE, STARTUP
 	};
 
-	private State state;
+	private State state,prevState;
 	private float cellWidth;
 	private float cellHeight;
 	private Clip clip1;
@@ -43,43 +44,40 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 	public DrawingSurface() {
 		mainMenu = new MainMenu();
 		lost = new LoseScreen();
-		state = State.MENU;
+		instructions = new Instructions();
+		state = prevState = State.MENU;
 		won = new WinScreen();
 		level1 = new Levels(new Players("Player One", 1, 0, 0), new Players("Player Two", 2, 0, 20),
 				new Bosses("Zambie", 100, 20, 20), new ArrayList<Obstacle>(), 600, 600);
 		time1 = time2 = count = 0;
 		pauseMenu = new PauseMenu();
-		
-		
-		//File soundFile1 = new File("executable/sound/seinfield.mp3");
+
+		// File soundFile1 = new File("executable/sound/seinfield.mp3");
 		File soundFile1 = new File("executable/sound/microsoft.wav");
-		//File soundFile2 = new File("Visager-DarkSanctumBossLoop.wav");
+		// File soundFile2 = new File("Visager-DarkSanctumBossLoop.wav");
 		AudioInputStream audioInputStream1 = null;
 		AudioInputStream audioInputStream2;
 		try {
 			audioInputStream1 = AudioSystem.getAudioInputStream(soundFile1);
 			clip1 = AudioSystem.getClip();
 
-			//audioInputStream2 = AudioSystem.getAudioInputStream(soundFile2);
-			//clip2 = AudioSystem.getClip();
+			// audioInputStream2 = AudioSystem.getAudioInputStream(soundFile2);
+			// clip2 = AudioSystem.getClip();
 
 			clip1.open(audioInputStream1);
-			//clip2.open(audioInputStream2);
+			// clip2.open(audioInputStream2);
 			clip1.loop(Clip.LOOP_CONTINUOUSLY);
-		}
-		catch (Exception ex) {
+		} catch (Exception ex) {
 			System.out.println("*** Cannot find audio files ***");
 			System.exit(1);
 		}
 
 		AudioFormat audioFormat = audioInputStream1.getFormat();
-		DataLine.Info info = new DataLine.Info(SourceDataLine.class,
-				audioFormat);
+		DataLine.Info info = new DataLine.Info(SourceDataLine.class, audioFormat);
 		try {
-			line = (SourceDataLine)AudioSystem.getLine(info);
+			line = (SourceDataLine) AudioSystem.getLine(info);
 			line.open(audioFormat);
-		}
-		catch (LineUnavailableException ex) {
+		} catch (LineUnavailableException ex) {
 			System.out.println("*** Audio line unavailable ***");
 			System.exit(1);
 		}
@@ -90,8 +88,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 
 		try {
 			numBytes = audioInputStream1.read(audioBytes, 0, audioBytes.length);
-		}
-		catch (IOException ex) {
+		} catch (IOException ex) {
 			System.out.println("*** Cannot read " + "Rolemusic-TheWhite.mp3" + " ***");
 			System.exit(1);
 		}
@@ -106,6 +103,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		pauseMenu.setup(this);
 		lost.setup(this);
 		won.setup(this);
+		instructions.setup(this);
 	}
 
 	// The statements in draw() are executed until the
@@ -113,23 +111,30 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 	// sequence and after the last line is read, the first
 	// line is executed again.
 	public void draw() {
+		if(level1 == null) {
+			level1 = new Levels(new Players("Player One", 1, 0, 0), new Players("Player Two", 2, 0, 20),
+					new Bosses("Zambie", 100, 20, 20), new ArrayList<Obstacle>(), 600, 600);
+			level1.setup(this);
+			System.out.println("setting up");
+		}
 		background(255); // Clear the screen with a white background
 		fill(255);
 		textAlign(CENTER);
 		textSize(12);
 		// obstacle.draw(this);
-		
+
 		// rect(x,y,20,20);
 		// System.out.println("im here");
-		/*if (player1movement.contains("w")) {
-			fill(0, 102, 153);
-			textSize(32);
-			fill(255);
-		}*/
-		if(level1.getPlayer1().getHealth()==0 &&level1.getPlayer2().getHealth()==0) {
+		/*
+		 * if (player1movement.contains("w")) { fill(0, 102, 153); textSize(32);
+		 * fill(255); }
+		 */
+		if (level1.getPlayer1().getHealth() == 0 && level1.getPlayer2().getHealth() == 0) {
+			prevState = state;
 			state = State.LOSE;
 		}
-		if(level1.getBoss().getHealth()==0&& state == State.GAME) {
+		if (level1.getBoss().getHealth() == 0 && state == State.GAME) {
+			prevState = state;
 			state = State.WIN;
 		}
 		if (state == State.MENU) {
@@ -143,7 +148,8 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			text(level1.getPlayer2().getName(), 305, 172);
 
 		} else if (state == State.GAME) {
-		//} else {// this can be added to players class later
+			// } else {// this can be added to players class later
+			System.out.println("IN STATE.GAME");
 			clip1.stop();
 			level1.draw(this, 0, 0/* , 620, 530 */);
 			cellHeight = level1.getCellHeight();
@@ -161,7 +167,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 				System.out.println(level1.getBoss().getHealth());
 			}
 			if (player2movement.contains("c")) {
-			    //System.out.println("HULLO");
+				// System.out.println("HULLO");
 				if (time2 == 0) {
 					time2 = System.currentTimeMillis();
 					level1.getPlayer2().shoot(this);
@@ -171,104 +177,61 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 				}
 				System.out.println(level1.getBoss().getHealth());
 			}
-//			if (count == 7) {
-//				if (player1movement.contains("w") && (int) (level1.getPlayer1().getY() - cellHeight /* / 2 */) > -3) {
-//					level1.getPlayer1().setY((int) (level1.getPlayer1().getY() - cellHeight /* / 2 */));
-//                    level1.getPlayer1().setDirection(Direction.UP);
-//				}
-//				if (player1movement.contains("a") && (int) (level1.getPlayer1().getX() - cellWidth /* / 2 */) > -3) {
-//					level1.getPlayer1().setX((int) (level1.getPlayer1().getX() - cellWidth /* / 2 */));
-//				}
-//				if (player1movement.contains("s") && (int) (level1.getPlayer1().getY() - cellHeight /* / 2 */) < 560) {
-//					level1.getPlayer1().setY((int) (level1.getPlayer1().getY() + cellHeight /* / 2 */));
-//				}
-//				if (player1movement.contains("d") && (int) (level1.getPlayer1().getX() - cellWidth /* / 2 */) < 560) {
-//					level1.getPlayer1().setX((int) (level1.getPlayer1().getX() + cellWidth /* / 2 */));
-//				}
-//				/// *
-//				if (player2movement.contains("w") && (int) (level1.getPlayer2().getY() - cellHeight /* / 2 */) > -3) {
-//					level1.getPlayer2().setY((int) (level1.getPlayer2().getY() - cellHeight /* / 2 */));
-//				}
-//				if (player2movement.contains("a") && (int) (level1.getPlayer2().getX() - cellWidth /* / 2 */) > -3) {
-//					level1.getPlayer2().setX((int) (level1.getPlayer2().getX() - cellWidth /* / 2 */));
-//				}
-//				if (player2movement.contains("s") && (int) (level1.getPlayer2().getY() - cellHeight /* / 2 */) < 560) {
-//					level1.getPlayer2().setY((int) (level1.getPlayer2().getY() + cellHeight /* / 2 */));
-//				}
-//				if (player2movement.contains("d") && (int) (level1.getPlayer2().getX() - cellWidth /* / 2 */) < 560) {
-//					level1.getPlayer2().setX((int) (level1.getPlayer2().getX() + cellWidth /* / 2 */));
-//				}
-//				count = 0;
-//			}
 
-			// */
 			level1.getPlayer1().draw(this, cellHeight, cellWidth);
 			level1.getPlayer2().draw(this, cellHeight, cellWidth);
-			//count++;
-		}else if(state == State.PAUSED) {
+			// count++;
+		} else if (state == State.PAUSED) {
 			pauseMenu.draw(this);
 
-
-		}else if(state == State.LOSE) {
+		} else if (state == State.LOSE) {
 			lost.draw(this);
-		}else if(state == State.WIN) {
+		} else if (state == State.WIN) {
 			won.draw(this);
+		} else if(state == State.INSTRUCTIONS) {
+			instructions.draw(this);
 		}
 	}
 
 	public void keyPressed() {
 		if (state != State.MENU) {
 			switch (key) {
-			/*case 'w': // this can be added to players class later
-				if (!player1movement.contains("w")) {
-					player1movement.clear();
-					player1movement.add("w");
+			/*
+			 * case 'w': // this can be added to players class later if
+			 * (!player1movement.contains("w")) { player1movement.clear();
+			 * player1movement.add("w"); } break; case 'a': if
+			 * (!player1movement.contains("a")) { player1movement.clear();
+			 * player1movement.add("a"); } break; case 's': if
+			 * (!player1movement.contains("s")) { player1movement.clear();
+			 * player1movement.add("s"); } break; case 'd': // System.out.println("y"); if
+			 * (!player1movement.contains("d")) { player1movement.clear();
+			 * player1movement.add("d"); } break;
+			 */
+			case 'w': // this can be added to players class later
+				if (!level1.getPlayer1().getPlayerMovement().contains("w")) {
+					level1.getPlayer1().getPlayerMovement().clear();
+					level1.getPlayer1().getPlayerMovement().add("w");
 				}
 				break;
 			case 'a':
-				if (!player1movement.contains("a")) {
-					player1movement.clear();
-					player1movement.add("a");
+				if (!level1.getPlayer1().getPlayerMovement().contains("a")) {
+					level1.getPlayer1().getPlayerMovement().clear();
+					level1.getPlayer1().getPlayerMovement().add("a");
 				}
 				break;
 			case 's':
-				if (!player1movement.contains("s")) {
-					player1movement.clear();
-					player1movement.add("s");
+				if (!level1.getPlayer1().getPlayerMovement().contains("s")) {
+					level1.getPlayer1().getPlayerMovement().clear();
+					level1.getPlayer1().getPlayerMovement().add("s");
 				}
 				break;
 			case 'd':
 				// System.out.println("y");
-				if (!player1movement.contains("d")) {
-					player1movement.clear();
-					player1movement.add("d");
+				if (!level1.getPlayer1().getPlayerMovement().contains("d")) {
+					level1.getPlayer1().getPlayerMovement().clear();
+					level1.getPlayer1().getPlayerMovement().add("d");
 				}
-				break;*/
-            case 'w': // this can be added to players class later
-                if (!level1.getPlayer1().getPlayerMovement().contains("w")) {
-                    level1.getPlayer1().getPlayerMovement().clear();
-                    level1.getPlayer1().getPlayerMovement().add("w");
-                }
-                break;
-            case 'a':
-                if (!level1.getPlayer1().getPlayerMovement().contains("a")) {
-                    level1.getPlayer1().getPlayerMovement().clear();
-                    level1.getPlayer1().getPlayerMovement().add("a");
-                }
-                break;
-            case 's':
-                if (!level1.getPlayer1().getPlayerMovement().contains("s")) {
-                    level1.getPlayer1().getPlayerMovement().clear();
-                    level1.getPlayer1().getPlayerMovement().add("s");
-                }
-                break;
-            case 'd':
-                // System.out.println("y");
-                if (!level1.getPlayer1().getPlayerMovement().contains("d")) {
-                    level1.getPlayer1().getPlayerMovement().clear();
-                    level1.getPlayer1().getPlayerMovement().add("d");
-                }
-                break;
+				break;
 
 			case 'c':
 				player1movement.add("c");
@@ -281,24 +244,24 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 				case UP:
 					// System.out.println("x");
 					if (!level1.getPlayer2().getPlayerMovement().contains("w"))
-                        level1.getPlayer2().getPlayerMovement().add("w");
+						level1.getPlayer2().getPlayerMovement().add("w");
 					break;
 				case DOWN:
 					if (!level1.getPlayer2().getPlayerMovement().contains("s"))
-                        level1.getPlayer2().getPlayerMovement().add("s");
+						level1.getPlayer2().getPlayerMovement().add("s");
 					break;
 				case LEFT:
 					if (!level1.getPlayer2().getPlayerMovement().contains("a"))
-                        level1.getPlayer2().getPlayerMovement().add("a");
+						level1.getPlayer2().getPlayerMovement().add("a");
 					break;
 				case RIGHT:
 					if (!level1.getPlayer2().getPlayerMovement().contains("d"))
-                        level1.getPlayer2().getPlayerMovement().add("d");
+						level1.getPlayer2().getPlayerMovement().add("d");
 					break;
 				case SHIFT:
 					if (!player2movement.contains("c"))
 						player2movement.add("c");
-					//System.out.println("HULLO");
+					// System.out.println("HULLO");
 					break;
 				}
 
@@ -324,52 +287,50 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 	public void keyReleased() {// this can be added to players class later
 		switch (key) {
 		case 'w':
-            level1.getPlayer1().getPlayerMovement().remove("w");
+			level1.getPlayer1().getPlayerMovement().remove("w");
 			break;
 
 		case 'a':
-            level1.getPlayer1().getPlayerMovement().remove("a");
+			level1.getPlayer1().getPlayerMovement().remove("a");
 			break;
 
 		case 's':
-            level1.getPlayer1().getPlayerMovement().remove("s");
+			level1.getPlayer1().getPlayerMovement().remove("s");
 			break;
 
 		case 'd':
-            level1.getPlayer1().getPlayerMovement().remove("d");
+			level1.getPlayer1().getPlayerMovement().remove("d");
 			break;
 
-        case 'c':
-            player1movement.remove("c");
-            break;
+		case 'c':
+			player1movement.remove("c");
+			break;
 		}
-
-
 
 		if (key == CODED)
 			switch (keyCode) {
 			case UP:
-                level1.getPlayer2().getPlayerMovement().remove("w");
+				level1.getPlayer2().getPlayerMovement().remove("w");
 				break;
 			case DOWN:
-                level1.getPlayer2().getPlayerMovement().remove("s");
+				level1.getPlayer2().getPlayerMovement().remove("s");
 				break;
 			case RIGHT:
-                level1.getPlayer2().getPlayerMovement().remove("d");
+				level1.getPlayer2().getPlayerMovement().remove("d");
 				break;
 			case LEFT:
-                level1.getPlayer2().getPlayerMovement().remove("a");
+				level1.getPlayer2().getPlayerMovement().remove("a");
 				break;
-            case SHIFT:
-                player2movement.remove("c");
-                break;
+			case SHIFT:
+				player2movement.remove("c");
+				break;
 			}
 
 	}
 
 	public void mousePressed() {
 		System.out.println(mouseX + " " + mouseY);
-
+		System.out.println(state);
 		if (state == State.MENU) {
 			if (mouseX >= 20 && mouseX <= 270 && mouseY >= 150 && mouseY <= 180) {
 				player2ChangeName = false;
@@ -380,6 +341,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 				player2ChangeName = true;
 				System.out.println("p2");
 			} else if (mouseX >= 75 && mouseX <= 525 && mouseY >= 200 && mouseY <= 370) {
+				prevState = state;
 				state = State.GAME;
 				System.out.println("startGame");
 				player1ChangeName = false;
@@ -390,11 +352,32 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			}
 		} else if (state == State.GAME) {
 			if (mouseX >= 600 && mouseX <= 620 && mouseY >= 0 && mouseY <= 20) {
+				prevState = state;
 				state = State.PAUSED;
+				System.out.println("Changed: " + state);
 			}
-		} else if (state == State.LOSE) {
+		} else if (state == State.LOSE || state == State.WIN) {
 			if (mouseX >= 110 && mouseX <= 510 && mouseY >= 600 && mouseY <= 700) {
+				prevState = state;
 				state = State.MENU;
+				level1 = null;
+			}
+		} else if (state == State.PAUSED) {
+			if (mouseX >= 0 && mouseX <= 620 && mouseY >= 200 && mouseY <= 400) {
+				prevState = state;
+				state = State.GAME;
+			} else if (mouseX >= 0 && mouseX <= 620 && mouseY > 400 && mouseY <= 500) {
+				prevState = state;
+				state = State.INSTRUCTIONS;
+			} else if (mouseX >= 110 && mouseX <= 510 && mouseY >= 580 && mouseY <= 680) {
+				prevState = state;
+				state = State.MENU;
+				level1 = null;
+			} 
+		}else if (state == State.INSTRUCTIONS) {
+			if (mouseX >= 0 && mouseX <=620 && mouseY >= 500&& mouseY <=700) {
+				state = prevState;
+				prevState = State.INSTRUCTIONS;
 			}
 		}
 	}
