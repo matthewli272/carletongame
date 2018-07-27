@@ -1,0 +1,6 @@
+#!/bin/bash
+cp -R bin/* jardir
+cd jardir
+jar cfm ../game.jar Manifest.txt *
+cd ..
+

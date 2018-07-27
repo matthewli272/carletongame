@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -8,6 +9,7 @@ import sprites.Bosses;
 import sprites.Obstacle;
 import sprites.Players;
 import screens.Levels;
+import java.net.URI;
 
 import javax.sound.sampled.*;
 
@@ -19,6 +21,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 	private PauseMenu pauseMenu;
 	private Levels level1;
 	private LoseScreen lost;
+	private WinScreen won;
 	private long time1, time2;
 	private boolean player1ChangeName = false;
 	private boolean player2ChangeName = false;
@@ -41,12 +44,13 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		mainMenu = new MainMenu();
 		lost = new LoseScreen();
 		state = State.MENU;
-		runSketch();
+		won = new WinScreen();
 		level1 = new Levels(new Players("Player One", 1, 0, 0), new Players("Player Two", 2, 0, 20),
 				new Bosses("Zambie", 100, 20, 20), new ArrayList<Obstacle>(), 600, 600);
 		time1 = time2 = count = 0;
 		pauseMenu = new PauseMenu();
-
+		
+		
 		//File soundFile1 = new File("executable/sound/seinfield.mp3");
 		File soundFile1 = new File("executable/sound/microsoft.wav");
 		//File soundFile2 = new File("Visager-DarkSanctumBossLoop.wav");
@@ -92,6 +96,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			System.out.println("*** Cannot read " + "Rolemusic-TheWhite.mp3" + " ***");
 			System.exit(1);
 		}
+		runSketch();
 	}
 
 	// The statements in the setup() function
@@ -101,6 +106,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		level1.setup(this);
 		pauseMenu.setup(this);
 		lost.setup(this);
+		won.setup(this);
 	}
 
 	// The statements in draw() are executed until the
@@ -113,7 +119,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		textAlign(CENTER);
 		textSize(12);
 		// obstacle.draw(this);
-
+		
 		// rect(x,y,20,20);
 		// System.out.println("im here");
 		/*if (player1movement.contains("w")) {
@@ -121,8 +127,11 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			textSize(32);
 			fill(255);
 		}*/
-		if(level1.getPlayer1().getPlayerHealth()==0 && level1.getPlayer2().getPlayerHealth()==0) {
+		if(level1.getPlayer1().getHealth()==0 &&level1.getPlayer2().getHealth()==0) {
 			state = State.LOSE;
+		}
+		if(level1.getBoss().getHealth()==0&& state == State.GAME) {
+			state = State.WIN;
 		}
 		if (state == State.MENU) {
 			mainMenu.draw(this);
@@ -140,7 +149,8 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			level1.draw(this, 0, 0/* , 620, 530 */);
 			cellHeight = level1.getCellHeight();
 			cellWidth = level1.getCellWidth();
-			// System.out.println(cellHeight + " " + cellWidth);
+			level1.takeDmg();
+
 			if (player1movement.contains("c")) {
 				if (time1 == 0) {
 					time1 = System.currentTimeMillis();
@@ -149,6 +159,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 					time1 = System.currentTimeMillis();
 					level1.getPlayer1().shoot(this);
 				}
+				System.out.println(level1.getBoss().getHealth());
 			}
 			if (player2movement.contains("c")) {
 			    //System.out.println("HULLO");
@@ -159,6 +170,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 					time2 = System.currentTimeMillis();
 					level1.getPlayer2().shoot(this);
 				}
+				System.out.println(level1.getBoss().getHealth());
 			}
 //			if (count == 7) {
 //				if (player1movement.contains("w") && (int) (level1.getPlayer1().getY() - cellHeight /* / 2 */) > -3) {
@@ -201,6 +213,8 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		}else if(state == State.LOSE) {
 		    clip1.start();
 			lost.draw(this);
+		}else if(state == State.WIN) {
+			won.draw(this);
 		}
 	}
 
