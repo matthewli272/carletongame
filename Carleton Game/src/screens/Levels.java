@@ -49,7 +49,7 @@ public class Levels {
 		this.player2 = player2;
 		this.boss = boss;
 		this.obstacle = obstacle;
-		map = new Entity[30][30];
+		map = new Entity[31][31];
 		for (Obstacle o : obstacle) {
 			int i = o.getX();
 			int j = o.getY();
@@ -67,17 +67,16 @@ public class Levels {
 		map[player2.getX()][player2.getY()] = player2;
 		map[boss.getX()][boss.getY()] = boss;
 		bullets = new Bullet(0, 0, "pistol");
-		bullet = new Bullet[30][30];
-		cellWidth = width / map[0].length;
-		cellHeight = height / map.length;
+		bullet = new Bullet[31][31];
+		cellWidth = width / (map[0].length - 1);
+		cellHeight = height / (map.length - 1);
 		// System.out.println("im in constructor " + (int) cellHeight);
 		allThings.add(this.boss);
 		for (int i = 0; i < 5; i++) {
 			// System.out.println("wat");
 			mobs.add(new Bosses("Reaper", 20, i * 4, 20, 1));
 		}
-		for (Bosses mob : mobs)
-			allThings.add(mob);
+		allThings.addAll(mobs);
 
 	}
 
@@ -106,6 +105,7 @@ public class Levels {
 			if (o != null)
 				o.setup(drawer);
 		}
+
 		pause = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "pause.png");
 	}
 
@@ -129,9 +129,8 @@ public class Levels {
 		/*
 		 * cellWidth = width / map[0].length; cellHeight = height / map.length;
 		 */
-	
-		for (int i = 0; i < map[0].length; i++) {
-			for (int j = 0; j < map.length; j++) {
+		for (int i = 0; i < map[0].length - 1; i++) {
+			for (int j = 0; j < map.length - 1; j++) {
 				drawer.rect(cellWidth * j + x, cellHeight * i + y, cellWidth, cellHeight);
 			}
 		}
@@ -156,13 +155,13 @@ public class Levels {
 				if (boss.getX() - player2.getX() > 0)
 					boss.shoot(3, drawer);
 				else
-					boss.shoot(4, drawer);
-			}
-			allThings.remove(boss);
-			boss.move(player1.getX(), player1.getY(), player2.getX(), player2.getY(), allThings);
-			allThings.add(boss);
-			for (Bosses mob : mobs) {
-				allThings.remove(mob);
+					boss.shoot(4,drawer);
+            }
+            /*allThings.remove(boss);
+            boss.move(player1.getX(),player1.getY(),player2.getX(),player2.getY(), allThings);
+            allThings.add(boss);*/
+            for(Bosses mob: mobs) {
+            	allThings.remove(mob);
 				mob.move(player1.getX(), player1.getY(), player2.getX(), player2.getY(), allThings);
 				allThings.add(mob);
 			}
@@ -198,6 +197,7 @@ public class Levels {
 		drawer.image(pause, 600, 0);
 		boss.draw(drawer);
 		for (Bosses mob : mobs) {
+	
 			mob.draw(drawer);
 			// System.out.println("what");
 		}
@@ -205,6 +205,16 @@ public class Levels {
 			if (o != null)
 				o.draw(drawer);
 		}
+		for(Bosses thing : allThings){
+			int testX = thing.getX()/20;
+			int testY = thing.getY()/20;
+			if(testX == -1)
+				testX = 0;
+			if(testY == -1)
+				testY = 0;
+			map[testX][testY] = thing;
+		}
+
 		count++;
 	}
 
@@ -219,10 +229,29 @@ public class Levels {
 	public void takeDmg() {
 		Players[] player = { player1, player2 };
 		Obstacle[] obs = {};
-		Bosses[] b = { boss };
-		ArrayList<Bullet> player1bullet = player1.getBullets();
 
-		Entity e = bullets.collisions(map, bullet, player, b, obs);
+		Bosses[] b = new Bosses[10];
+		for(int i = 0; i < allThings.size();i++){
+			b[i] = allThings.get(i);
+			//if(allThings.get(i) == boss)
+				//System.out.println("hullo");
+		}
+
+		ArrayList<Bullet>  player1bullet = player1.getBullets();
+
+
+		for(Bullet insertBullet : player1bullet){
+			int testX = insertBullet.getX()/20;
+			int testY = insertBullet.getY()/20;
+			if(testX == -1)
+				testX = 0;
+			if(testY == -1)
+				testY = 0;
+			bullet[testX][testY] = insertBullet;
+		}
+
+
+		/*Entity e = bullets.collisions(map, bullet, player, b, obs);
 		for (Players p : player) {
 			if (e == p) {
 				p.takeDamage(bullets);
@@ -238,6 +267,49 @@ public class Levels {
 		for (Obstacle o : obs) {
 			if (o == e)
 				map[bullets.getX()][bullets.getY()] = null;
+		}*/
+
+		for(int i = 0; i < player1bullet.size(); i++) {
+			Entity e = player1bullet.get(i).collisions(map, bullet, player, b, obs);
+			//System.out.println(e);
+			int testX = player1bullet.get(i).getX()/20;
+			int testY = player1bullet.get(i).getY()/20;
+			if(testX == -1)
+				testX = 0;
+			if(testY == -1)
+				testY = 0;
+
+			if(e != null) {
+				for (Players p : player) {
+					if (e == p) {
+						p.takeDamage(player1bullet.get(i));
+						map[testX][testY] = null;
+						System.out.println("wat");
+					}
+				}
+				for (Bosses s : b) {
+					if (e == s) {
+						//System.out.println(e + " ? " + s);
+						//System.out.println(s == boss);
+						s.takeDamage(player1bullet.get(i));
+						map[testX][testY] = null;
+						if(s.isDead()) {
+							allThings.remove(s);
+							if(s.getType() == 1)
+								mobs.remove(s);
+							//System.out.println("?");
+						}
+						//System.out.println("the");
+					}
+				}
+				for (Obstacle o : obs) {
+					if (o == e) {
+						map[testX][testY] = null;
+						System.out.println("fuck");
+					}
+
+				}
+			}
 		}
 	}
 

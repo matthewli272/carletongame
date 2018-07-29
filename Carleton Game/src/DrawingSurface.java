@@ -291,7 +291,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		}
 	}
 
-	public void keyReleased() {// this can be added to players class later
+	public void keyReleased() {
 		switch (key) {
 		case 'w':
 			level1.getPlayer1().getPlayerMovement().remove("w");
