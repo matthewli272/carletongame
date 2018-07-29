@@ -10,13 +10,14 @@ import sprites.Obstacle;
 import sprites.Players;
 import screens.Levels;
 import java.net.URI;
-
+import java.math.*;
 import javax.sound.sampled.*;
 
 public class DrawingSurface extends PApplet /* implements MouseListener, ActionListener, KeyListener */ {
 
 	private ArrayList<String> player1movement = new ArrayList<>(30);
 	private ArrayList<String> player2movement = new ArrayList<>(30);
+	private ArrayList<Obstacle> obstacles;
 	private MainMenu mainMenu;
 	private PauseMenu pauseMenu;
 	private Instructions instructions;
@@ -32,7 +33,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		PAUSED, MENU, GAME, INSTRUCTIONS, WIN, LOSE, STARTUP
 	};
 
-	private State state,prevState;
+	private State state, prevState;
 	private float cellWidth;
 	private float cellHeight;
 	private Clip clip1;
@@ -47,8 +48,14 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		instructions = new Instructions();
 		state = prevState = State.MENU;
 		won = new WinScreen();
+		obstacles = new ArrayList<Obstacle>();
+		for (int i = 0; i < 100; i++) {
+			int x = (int) (Math.random() * 29);
+			int y = (int) (Math.random() * 29);
+			obstacles.add(new Obstacle(x, y , x*20, y*20));
+		}
 		level1 = new Levels(new Players("Player One", 1, 0, 0), new Players("Player Two", 2, 0, 20),
-				new Bosses("Zambie", 100, 20, 20, 0), new ArrayList<Obstacle>(), 600, 600);
+				new Bosses("Zambie", 100, 20, 20, 0), obstacles, 600, 600);
 		time1 = time2 = count = 0;
 		pauseMenu = new PauseMenu();
 
@@ -67,8 +74,8 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			clip1.open(audioInputStream1);
 
 		} catch (Exception ex) {
-			//clip2.open(audioInputStream2);
-			//clip1.loop(Clip.LOOP_CONTINUOUSLY);
+			// clip2.open(audioInputStream2);
+			// clip1.loop(Clip.LOOP_CONTINUOUSLY);
 			System.out.println("*** Cannot find audio files ***");
 			System.exit(1);
 		}
@@ -105,6 +112,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		lost.setup(this);
 		won.setup(this);
 		instructions.setup(this);
+		
 	}
 
 	// The statements in draw() are executed until the
@@ -112,11 +120,10 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 	// sequence and after the last line is read, the first
 	// line is executed again.
 	public void draw() {
-		if(level1 == null) {
+		if (level1 == null) {
 			level1 = new Levels(new Players("Player One", 1, 0, 0), new Players("Player Two", 2, 0, 20),
-					new Bosses("Zambie", 100, 20, 20,0), new ArrayList<Obstacle>(), 600, 600);
+					new Bosses("Zambie", 100, 20, 20, 0), new ArrayList<Obstacle>(), 600, 600);
 			level1.setup(this);
-			System.out.println("setting up");
 		}
 		background(255); // Clear the screen with a white background
 		fill(255);
@@ -150,7 +157,6 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 
 		} else if (state == State.GAME) {
 			// } else {// this can be added to players class later
-			System.out.println("IN STATE.GAME");
 			clip1.stop();
 			level1.draw(this, 0, 0/* , 620, 530 */);
 			cellHeight = level1.getCellHeight();
@@ -165,7 +171,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 					time1 = System.currentTimeMillis();
 					level1.getPlayer1().shoot(this);
 				}
-				//System.out.println(level1.getBoss().getHealth());
+				// System.out.println(level1.getBoss().getHealth());
 			}
 			if (player2movement.contains("c")) {
 				// System.out.println("HULLO");
@@ -176,7 +182,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 					time2 = System.currentTimeMillis();
 					level1.getPlayer2().shoot(this);
 				}
-				//System.out.println(level1.getBoss().getHealth());
+				// System.out.println(level1.getBoss().getHealth());
 			}
 
 			level1.getPlayer1().draw(this, cellHeight, cellWidth);
@@ -184,12 +190,12 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			// count++;
 		} else if (state == State.PAUSED) {
 			pauseMenu.draw(this);
-		}else if(state == State.LOSE) {
-		    clip1.start();
+		} else if (state == State.LOSE) {
+			clip1.start();
 			lost.draw(this);
 		} else if (state == State.WIN) {
 			won.draw(this);
-		} else if(state == State.INSTRUCTIONS) {
+		} else if (state == State.INSTRUCTIONS) {
 			instructions.draw(this);
 		}
 	}
@@ -344,7 +350,6 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			} else if (mouseX >= 75 && mouseX <= 525 && mouseY >= 200 && mouseY <= 370) {
 				prevState = state;
 				state = State.GAME;
-				System.out.println("startGame");
 				player1ChangeName = false;
 				player2ChangeName = false;
 			} else {
@@ -355,7 +360,6 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			if (mouseX >= 600 && mouseX <= 620 && mouseY >= 0 && mouseY <= 20) {
 				prevState = state;
 				state = State.PAUSED;
-				System.out.println("Changed: " + state);
 			}
 		} else if (state == State.LOSE || state == State.WIN) {
 			if (mouseX >= 110 && mouseX <= 510 && mouseY >= 600 && mouseY <= 700) {
@@ -374,9 +378,9 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 				prevState = state;
 				state = State.MENU;
 				level1 = null;
-			} 
-		}else if (state == State.INSTRUCTIONS) {
-			if (mouseX >= 0 && mouseX <=620 && mouseY >= 500&& mouseY <=700) {
+			}
+		} else if (state == State.INSTRUCTIONS) {
+			if (mouseX >= 0 && mouseX <= 620 && mouseY >= 500 && mouseY <= 700) {
 				state = prevState;
 				prevState = State.INSTRUCTIONS;
 			}

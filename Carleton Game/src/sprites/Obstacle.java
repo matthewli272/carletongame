@@ -4,20 +4,23 @@ import processing.core.PImage;
 
 public class Obstacle implements Entity {
 	// fields
+	private int xIndex, yIndex;
 	private int x, y;
 	private PImage img;
 	// constructor
-	public Obstacle(int x, int y) {
+	public Obstacle(int xIndex, int yIndex, int x, int y) {
 		this.x = x;
 		this.y = y;
+		this.xIndex = xIndex;
+		this.yIndex = yIndex;
 	}
 
 	public int getX() {
-		return x;
+		return xIndex;
 	}
 
 	public int getY() {
-		return y;
+		return yIndex;
 	}
 
 	@Override
@@ -36,6 +39,8 @@ public class Obstacle implements Entity {
 
 	public void draw(PApplet drawer) {
 		drawer.image(img,x,y);
+		System.out.println("IN DRAW METHOD");
+
 	}
 
 }
