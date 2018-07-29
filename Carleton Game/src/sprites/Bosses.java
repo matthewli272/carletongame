@@ -59,6 +59,10 @@ public class Bosses implements Entity {
 		this.bossY = y;
 	}
 
+	public int getType(){
+		return type;
+	}
+
 	public void addBullets(Bullet bullet){
 		bossBullets.add(bullet);
 	}
@@ -264,6 +268,10 @@ public class Bosses implements Entity {
 	}
 	public int getHealth() {
 		return bossHealth;
+	}
+	public boolean isDead(){
+		//System.out.println("?");
+		return bossHealth <= 0;
 	}
 
 	public void shoot(int direct, PApplet drawer) {

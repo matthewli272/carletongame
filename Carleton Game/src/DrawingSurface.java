@@ -150,7 +150,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 
 		} else if (state == State.GAME) {
 			// } else {// this can be added to players class later
-			System.out.println("IN STATE.GAME");
+			//System.out.println("IN STATE.GAME");
 			clip1.stop();
 			level1.draw(this, 0, 0/* , 620, 530 */);
 			cellHeight = level1.getCellHeight();
@@ -285,7 +285,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		}
 	}
 
-	public void keyReleased() {// this can be added to players class later
+	public void keyReleased() {
 		switch (key) {
 		case 'w':
 			level1.getPlayer1().getPlayerMovement().remove("w");
