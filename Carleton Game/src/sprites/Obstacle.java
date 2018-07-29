@@ -35,6 +35,7 @@ public class Obstacle implements Entity {
 
 	public void setup(PApplet drawer) {
 		img = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "obstacle.png");
+		img.resize(0,20);
 	}
 
 	public void draw(PApplet drawer) {

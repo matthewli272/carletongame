@@ -160,7 +160,8 @@ public class Levels {
             /*allThings.remove(boss);
             boss.move(player1.getX(),player1.getY(),player2.getX(),player2.getY(), allThings);
             allThings.add(boss);*/
-            for(Bosses mob: mobs) {
+            for(int i = 0; i < allThings.size(); i++) {
+            	Bosses mob = allThings.get(i);
             	allThings.remove(mob);
 				mob.move(player1.getX(), player1.getY(), player2.getX(), player2.getY(), allThings);
 				allThings.add(mob);
@@ -195,8 +196,8 @@ public class Levels {
 		// }
 		// }
 		drawer.image(pause, 600, 0);
-		boss.draw(drawer);
-		for (Bosses mob : mobs) {
+		//boss.draw(drawer);
+		for (Bosses mob : allThings) {
 	
 			mob.draw(drawer);
 			// System.out.println("what");
