@@ -51,8 +51,12 @@ public class Levels {
 		this.obstacle = obstacle;
 		map = new Entity[31][31];
 		for (Obstacle o : obstacle) {
-			int i = o.getX();
-			int j = o.getY();
+			int i = o.getX() / 20;
+			int j = o.getY() / 20;
+			if(i < 0)
+				i = 0;
+			if(j < 0)
+				j = 0;
 			if (map[i][j] != null) {
 				counter.add(obstacle.indexOf(o));
 				continue;
@@ -90,6 +94,10 @@ public class Levels {
 
 	public Players getPlayer2() {
 		return player2;
+	}
+
+	public ArrayList<Obstacle> getObstacle() {
+		return obstacle;
 	}
 
 	public void update() {
@@ -229,7 +237,7 @@ public class Levels {
 
 	public void takeDmg() {
 		Players[] player = { player1, player2 };
-		Obstacle[] obs = {};
+		Obstacle[] obs = new Obstacle[110];
 
 		Bosses[] b = new Bosses[10];
 		for(int i = 0; i < allThings.size();i++){
@@ -238,10 +246,15 @@ public class Levels {
 				//System.out.println("hullo");
 		}
 
-		ArrayList<Bullet>  player1bullet = player1.getBullets();
+		for(int i = 0; i < obstacle.size();i++){
+			obs[i] = obstacle.get(i);
+		}
+
+		ArrayList<Bullet>  playerBullets = player1.getBullets();
+		playerBullets.addAll(player2.getBullets());
 
 
-		for(Bullet insertBullet : player1bullet){
+		for(Bullet insertBullet : playerBullets){
 			int testX = insertBullet.getX()/20;
 			int testY = insertBullet.getY()/20;
 			if(testX == -1)
@@ -270,11 +283,11 @@ public class Levels {
 				map[bullets.getX()][bullets.getY()] = null;
 		}*/
 
-		for(int i = 0; i < player1bullet.size(); i++) {
-			Entity e = player1bullet.get(i).collisions(map, bullet, player, b, obs);
+		for(int i = 0; i < playerBullets.size(); i++) {
+			Entity e = playerBullets.get(i).collisions(map, bullet, player, b, obs);
 			//System.out.println(e);
-			int testX = player1bullet.get(i).getX()/20;
-			int testY = player1bullet.get(i).getY()/20;
+			int testX = playerBullets.get(i).getX()/20;
+			int testY = playerBullets.get(i).getY()/20;
 			if(testX == -1)
 				testX = 0;
 			if(testY == -1)
@@ -283,7 +296,7 @@ public class Levels {
 			if(e != null) {
 				for (Players p : player) {
 					if (e == p) {
-						p.takeDamage(player1bullet.get(i));
+						p.takeDamage(playerBullets.get(i));
 						map[testX][testY] = null;
 						System.out.println("wat");
 					}
@@ -292,7 +305,7 @@ public class Levels {
 					if (e == s) {
 						//System.out.println(e + " ? " + s);
 						//System.out.println(s == boss);
-						s.takeDamage(player1bullet.get(i));
+						s.takeDamage(playerBullets.get(i));
 						map[testX][testY] = null;
 						if(s.isDead()) {
 							allThings.remove(s);

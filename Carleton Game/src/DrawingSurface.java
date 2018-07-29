@@ -185,8 +185,8 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 				// System.out.println(level1.getBoss().getHealth());
 			}
 
-			level1.getPlayer1().draw(this, cellHeight, cellWidth);
-			level1.getPlayer2().draw(this, cellHeight, cellWidth);
+			level1.getPlayer1().draw(this, cellHeight, cellWidth, level1.getObstacle());
+			level1.getPlayer2().draw(this, cellHeight, cellWidth, level1.getObstacle());
 			// count++;
 		} else if (state == State.PAUSED) {
 			pauseMenu.draw(this);

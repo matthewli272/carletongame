@@ -16,12 +16,14 @@ public class Obstacle implements Entity {
 	}
 
 	public int getX() {
-		return xIndex;
+		return x;
 	}
 
 	public int getY() {
-		return yIndex;
+		return y;
 	}
+
+
 
 	@Override
 	public void setX(int x) {

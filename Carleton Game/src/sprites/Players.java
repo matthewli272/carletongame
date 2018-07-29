@@ -124,7 +124,7 @@ public class Players implements Entity {
 
     }
 
-	public void draw(PApplet drawer, float cellHeight, float cellWidth) {
+	public void draw(PApplet drawer, float cellHeight, float cellWidth, ArrayList<Obstacle> obstacles) {
         knight = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "test.png");
 		placeHolder = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "runningsprite.gif");
 		drawer.textSize(20);
@@ -140,23 +140,39 @@ public class Players implements Entity {
 			drawer.fill(255,0,0);
 			drawer.rect(480 - (drawer.textWidth(name) + 20),640, playerHealth,20);
 		}
+		int change1 = 0;
+		int change2 = 0;
 
 		if (movementCount == 7) {
 			if (playerMovement.contains("w") && (int) (playerY - cellHeight /* / 2 */) > -3) {
-				playerY = ((int) (playerY - cellHeight /* / 2 */));
+				playerY = ((int) (playerY - cellHeight));
+				change1 = -20;
 				direction = Direction.UP;
 			}
 			if (playerMovement.contains("a") && (int) (playerX - cellWidth /* / 2 */) > -3) {
-				playerX = ((int) (playerX - cellWidth /* / 2 */));
+				playerX = ((int) (playerX - cellWidth));
+				change2 = -20;
 				direction = Direction.LEFT;
 			}
 			if (playerMovement.contains("s") && (int) (playerY - cellHeight /* / 2 */) < 560) {
-				playerY = ((int) (playerY + cellHeight /* / 2 */));
+				playerY = ((int) (playerY + cellHeight));
+				change1 = 20;
 				direction = Direction.DOWN;
 			}
 			if (playerMovement.contains("d") && (int) (playerX - cellWidth /* / 2 */) < 560) {
-				playerX = ((int) (playerX + cellWidth /* / 2 */));
+				playerX = ((int) (playerX + cellWidth));
+				change2 = 20;
 				direction = Direction.RIGHT;
+			}
+
+			for(Obstacle obs : obstacles){
+				//System.out.println(obs);
+				if(obs != null) {
+					if (obs.getX() == playerX && obs.getY() == playerY) {
+						playerY -= change1;
+						playerX -= change2;
+					}
+				}
 			}
 
 			movementCount = 0;
