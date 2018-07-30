@@ -86,11 +86,7 @@ public class Bullet implements Entity {
 		}
 
 		for (Bosses b : boss) {
-			//System.out.println("the");
-			//System.out.println(map[testX][testY] + "," + bullets[testX][testY]);
-			//System.out.println(map[testX][testY] + "," + b);
 			if (map[testX][testY] == b && bullets[testX][testY] != null) {
-
 				return b;
 			}
 		}
@@ -101,12 +97,6 @@ public class Bullet implements Entity {
 		}
 		return null;
 	}
-
-	/*
-	 * public void setup(PApplet drawer) { basicBullet =
-	 * drawer.loadImage("executable/sprites" + System.getProperty("file.separator")
-	 * + "smallcircle.png"); }
-	 */
 	public void draw(PApplet drawer) {
 		drawer.image(basicBullet, x, y);
 		move();

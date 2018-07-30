@@ -109,8 +109,7 @@ public class Bosses implements Entity {
 
 			for (int k = startIndexX; k <= endIndexX; k++) {
 				for (int l = startIndexY; l <= endIndexY; l++) {
-					if (map[k][l] == z) {
-						
+					if (map[k][l] == z) {		
 						direction(k, l, map);
 					}
 				}
@@ -120,11 +119,9 @@ public class Bosses implements Entity {
 	}
 
 	public void move(int player1X, int player1Y, int player2X, int player2Y, ArrayList<Bosses> mobs){
-
 		if ((bossX - player1X) * (bossX - player1X) + (bossY - player1Y)
 				* (bossY - player1Y) < (bossX - player2X) * (bossX - player2X)
 				+ (bossY - player2Y) * (bossY - player2Y)) {
-			// System.out.println("I am in x");
 			if (Math.abs((bossX - player1X)) > Math.abs((bossY - player1Y))) {
 				if (bossX > player1X) {
 					bossX = (bossX - Math.round(cellHeight));
@@ -134,7 +131,6 @@ public class Bosses implements Entity {
 							break;
 						}
 				} else {
-					//else if (boss.getX() < player1.getX()){
 					bossX = (bossX + Math.round(cellHeight));
 					for(int i = 0; i < mobs.size();i++)
 						if((bossX == mobs.get(i).getX()) && bossY == mobs.get(i).getY()) {
@@ -151,7 +147,6 @@ public class Bosses implements Entity {
 							break;
 						}
 				} else {
-					//if (boss.getY() < player1.getY()){
 					bossY = (bossY + Math.round(cellHeight));
 					for(int i = 0; i < mobs.size();i++)
 						if((bossY == mobs.get(i).getY()) && bossX == mobs.get(i).getX()) {
@@ -161,7 +156,6 @@ public class Bosses implements Entity {
 				}
 			}
 		} else {
-			// System.out.println("I am in y");
 			if (Math.abs((bossX - player2X)) > Math.abs((bossY - player2Y))) {
 				if (bossX > player2X) {
 					bossX = (bossX - Math.round(cellHeight));
@@ -171,7 +165,6 @@ public class Bosses implements Entity {
 							break;
 						}
 				} else {
-					//else if (boss.getX() < player2.getX()){
 					bossX = (bossX + Math.round(cellHeight));
 					for(int i = 0; i < mobs.size();i++)
 						if((bossX == mobs.get(i).getX()) && bossY == mobs.get(i).getY()) {
@@ -225,7 +218,6 @@ public class Bosses implements Entity {
 	}
 
 	public void setup(PApplet drawer,int bossSize) {
-		//System.out.println("im in bosses");]
 		cellHeight = bossSize;
 		drawer.smooth();
 		if(type == 0)
@@ -236,27 +228,17 @@ public class Bosses implements Entity {
 		Boss.resize(0,bossSize);
 		bossX = bossX * 20;
 		bossY = bossY * 20;
-//		myAnimation = new Gif(drawer,
-//				"executable/sprites" + System.getProperty("file.separator") + "TestTrump.gif");
-//		myAnimation.resize(0,bossSize);
-//		myAnimation.play();
 	}
-	//eventually determine damage taken by bullet type
 	public void takeDamage(Bullet b) {
 		bossHealth -= 15;
 	}
 	public void draw(PApplet drawer) {
-
 		drawer.image(Boss, bossX, bossY);
-		//System.out.println(bossX + " " + bossY);
-		//drawer.image(myAnimation, bossX, bossY);
 		drawer.fill(255,0,0);
 		drawer.rect(bossX - 2, bossY - 4, bossHealth / 2, 2);
 		drawer.fill(237, 24, 245);
 		drawer.textSize(10);
 		drawer.text(name, bossX, bossY);
-
-		//if(bossBullets.size() > 0)
 		for(int i = 0; i < bossBullets.size();i++){
             if(bossBullets.get(i).getX() < -10 || bossBullets.get(i).getY() < -10 || bossBullets.get(i).getX() > 600 || bossBullets.get(i).getY() > 600){
                 bossBullets.remove(i);
@@ -264,13 +246,11 @@ public class Bosses implements Entity {
                 bossBullets.get(i).draw(drawer);
             }
         }
-
 	}
 	public int getHealth() {
 		return bossHealth;
 	}
 	public boolean isDead(){
-		//System.out.println("?");
 		return bossHealth <= 0;
 	}
 
@@ -284,7 +264,7 @@ public class Bosses implements Entity {
         else if(direct == 4)
             direction = Direction.RIGHT;
 
-		Bullet bullet = new Bullet(bossX, bossY, "", direction/*direction*/,drawer);
+		Bullet bullet = new Bullet(bossX, bossY, "", direction,drawer);
 		bossBullets.add(bullet);
 
 	}

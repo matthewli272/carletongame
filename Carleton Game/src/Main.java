@@ -11,7 +11,7 @@ import java.awt.*;
 
 /**
  * 
- * @author matthewli, Jeffrey Chi
+ * @author Matthew Li, Jeffrey Chi
  *
  */
 public class Main extends JFrame {
@@ -23,8 +23,7 @@ public class Main extends JFrame {
 		PSurfaceAWT.SmoothCanvas canvas = (PSurfaceAWT.SmoothCanvas) surf.getNative();
 		JFrame window = (JFrame) canvas.getFrame();
 		surf.setResizable(false);
-
-		//drawing.addKeyListener(drawing);
+		window.setTitle("SunBeam");
 
 
 		window.setSize(620,700);

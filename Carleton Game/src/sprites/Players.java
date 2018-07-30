@@ -120,8 +120,6 @@ public class Players implements Entity {
 		return playerHealth;
 	}
 	public void setup(PApplet drawer){
-        //knight = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "test.png");
-
     }
 
 	public void draw(PApplet drawer, float cellHeight, float cellWidth, ArrayList<Obstacle> obstacles) {
@@ -178,15 +176,9 @@ public class Players implements Entity {
 			movementCount = 0;
 		}
 
-		// */
 		movementCount++;
 		drawer.fill(0, 0, 0);
-		// System.out.println(x + " " + y);
-
-		//drawer.rect(playerX, playerY, x, y);
-		//knight.resize(0,(int) y);
 		placeHolder.resize(0,20);
-		//otherKnight = knight.get(0,0,(int)x,(int)y);
 		knight.resize(0,(int) cellWidth);
 		if(count == 10) { //20/55
 			area += 7;
@@ -199,11 +191,7 @@ public class Players implements Entity {
 			if (area > 24)
 				area = 16;
 		}
-		//System.out.println(area);
-		//otherKnight = knight.get(area,0,(int) x - 2,(int) y);
-		//drawer.image(otherKnight,playerX,playerY);
 		drawer.image(placeHolder,playerX,playerY);
-
 		drawer.fill(237, 24, 245);
 		drawer.textSize(10);
 		drawer.textAlign(drawer.LEFT);
@@ -230,8 +218,7 @@ public class Players implements Entity {
 
 
 	}
-	//eventually determine damage taken by bullet type
-	public void takeDamage(Bullet b) {
+ 	public void takeDamage(Bullet b) {
 		playerHealth -= 15;
 	}
 	

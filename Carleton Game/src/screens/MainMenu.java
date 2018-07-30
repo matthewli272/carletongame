@@ -10,8 +10,7 @@ import processing.core.PImage;
 
 public class MainMenu {
 	Gif myAnimation;
-	PImage startButton;
-	//private Soundfile startMusic;
+	PImage startButton,sunbeam,instructions;
 
 	private int frames, totalFrames;
 
@@ -21,7 +20,7 @@ public class MainMenu {
 
 	}
 	public void settings() {
-		//size(400,400);
+	
 	}
 	public void setup(PApplet drawer) {
 		drawer.smooth();
@@ -30,7 +29,9 @@ public class MainMenu {
 		myAnimation.play();
 
 		startButton = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "start_button.png");
-		
+		sunbeam = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "SunBeam.png");
+		instructions = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "Instructions.png");
+
 
 
 	}
@@ -38,7 +39,10 @@ public class MainMenu {
 	public void draw(PApplet drawer) {
 		drawer.background(255);
 		drawer.image(myAnimation, 0, 0);
-
+		drawer.imageMode(drawer.CENTER);
+		drawer.image(instructions, drawer.width/2, drawer.height/2+85);
+		drawer.image(sunbeam, drawer.width/2, drawer.height/6);
+		drawer.imageMode(drawer.CORNER);
 		drawer.image(startButton,75,200);
 
 	}

@@ -50,8 +50,8 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		won = new WinScreen();
 		obstacles = new ArrayList<Obstacle>();
 		for (int i = 0; i < 100; i++) {
-			int x = (int) (Math.random() * 29);
-			int y = (int) (Math.random() * 29);
+			int x = (int) (Math.random() * 25)+4;
+			int y = (int) (Math.random() * 25)+4;
 			obstacles.add(new Obstacle(x, y , x*20, y*20));
 		}
 		level1 = new Levels(new Players("Player One", 1, 0, 0), new Players("Player Two", 2, 0, 20),
@@ -115,28 +115,22 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		
 	}
 
-	// The statements in draw() are executed until the
-	// program is stopped. Each statement is executed in
-	// sequence and after the last line is read, the first
-	// line is executed again.
 	public void draw() {
 		if (level1 == null) {
+			obstacles = new ArrayList<Obstacle>();
+			for (int i = 0; i < 100; i++) {
+				int x = (int) (Math.random() * 25)+4;
+				int y = (int) (Math.random() * 25)+4;
+				obstacles.add(new Obstacle(x, y , x*20, y*20));
+			}
 			level1 = new Levels(new Players("Player One", 1, 0, 0), new Players("Player Two", 2, 0, 20),
-					new Bosses("Zambie", 100, 20, 20, 0), new ArrayList<Obstacle>(), 600, 600);
+					new Bosses("Zambie", 100, 20, 20, 0), obstacles, 600, 600);
 			level1.setup(this);
 		}
 		background(255); // Clear the screen with a white background
 		fill(255);
 		textAlign(CENTER);
 		textSize(12);
-		// obstacle.draw(this);
-
-		// rect(x,y,20,20);
-		// System.out.println("im here");
-		/*
-		 * if (player1movement.contains("w")) { fill(0, 102, 153); textSize(32);
-		 * fill(255); }
-		 */
 		if (level1.getPlayer1().getHealth() == 0 && level1.getPlayer2().getHealth() == 0) {
 			prevState = state;
 			state = State.LOSE;
@@ -156,9 +150,8 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			text(level1.getPlayer2().getName(), 305, 172);
 
 		} else if (state == State.GAME) {
-			// } else {// this can be added to players class later
 			clip1.stop();
-			level1.draw(this, 0, 0/* , 620, 530 */);
+			level1.draw(this, 0, 0);
 			cellHeight = level1.getCellHeight();
 			cellWidth = level1.getCellWidth();
 			level1.takeDmg();
@@ -171,10 +164,8 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 					time1 = System.currentTimeMillis();
 					level1.getPlayer1().shoot(this);
 				}
-				// System.out.println(level1.getBoss().getHealth());
 			}
 			if (player2movement.contains("c")) {
-				// System.out.println("HULLO");
 				if (time2 == 0) {
 					time2 = System.currentTimeMillis();
 					level1.getPlayer2().shoot(this);
@@ -182,12 +173,10 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 					time2 = System.currentTimeMillis();
 					level1.getPlayer2().shoot(this);
 				}
-				// System.out.println(level1.getBoss().getHealth());
 			}
 
 			level1.getPlayer1().draw(this, cellHeight, cellWidth, level1.getObstacle());
 			level1.getPlayer2().draw(this, cellHeight, cellWidth, level1.getObstacle());
-			// count++;
 		} else if (state == State.PAUSED) {
 			pauseMenu.draw(this);
 		} else if (state == State.LOSE) {
@@ -203,17 +192,6 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 	public void keyPressed() {
 		if (state != State.MENU) {
 			switch (key) {
-			/*
-			 * case 'w': // this can be added to players class later if
-			 * (!player1movement.contains("w")) { player1movement.clear();
-			 * player1movement.add("w"); } break; case 'a': if
-			 * (!player1movement.contains("a")) { player1movement.clear();
-			 * player1movement.add("a"); } break; case 's': if
-			 * (!player1movement.contains("s")) { player1movement.clear();
-			 * player1movement.add("s"); } break; case 'd': // System.out.println("y"); if
-			 * (!player1movement.contains("d")) { player1movement.clear();
-			 * player1movement.add("d"); } break;
-			 */
 			case 'w': // this can be added to players class later
 				if (!level1.getPlayer1().getPlayerMovement().contains("w")) {
 					level1.getPlayer1().getPlayerMovement().clear();
@@ -336,23 +314,23 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 	}
 
 	public void mousePressed() {
-		System.out.println(mouseX + " " + mouseY);
-		System.out.println(state);
+		System.out.println(mouseX + ", " + mouseY);
 		if (state == State.MENU) {
 			if (mouseX >= 20 && mouseX <= 270 && mouseY >= 150 && mouseY <= 180) {
 				player2ChangeName = false;
 				player1ChangeName = true;
-				System.out.println("p1");
 			} else if (mouseX >= 300 && mouseX <= 550 && mouseY >= 150 && mouseY <= 180) {
 				player1ChangeName = false;
 				player2ChangeName = true;
-				System.out.println("p2");
-			} else if (mouseX >= 75 && mouseX <= 525 && mouseY >= 200 && mouseY <= 370) {
+			} else if (mouseX >= 75 && mouseX <= 525 && mouseY >= 240 && mouseY <= 340) {
 				prevState = state;
 				state = State.GAME;
 				player1ChangeName = false;
 				player2ChangeName = false;
-			} else {
+			} else if(mouseY>=350&&mouseY<480){
+				prevState = state;
+				state=State.INSTRUCTIONS;
+			}else {
 				player1ChangeName = false;
 				player2ChangeName = false;
 			}
@@ -371,7 +349,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			if (mouseX >= 0 && mouseX <= 620 && mouseY >= 200 && mouseY <= 400) {
 				prevState = state;
 				state = State.GAME;
-			} else if (mouseX >= 0 && mouseX <= 620 && mouseY > 400 && mouseY <= 500) {
+			} else if (mouseX >= 0 && mouseX <= 620 && mouseY > 400 && mouseY <= 530) {
 				prevState = state;
 				state = State.INSTRUCTIONS;
 			} else if (mouseX >= 110 && mouseX <= 510 && mouseY >= 580 && mouseY <= 680) {
@@ -386,28 +364,4 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			}
 		}
 	}
-
-	/*
-	 * @Override public void actionPerformed(ActionEvent e) { }
-	 * 
-	 * @Override public void keyTyped(KeyEvent e) { }
-	 * 
-	 * @Override public void keyPressed(KeyEvent e) { System.out.println("no");
-	 * switch (e.getKeyCode()) { case KeyEvent.VK_W:
-	 * if(!player1movement.contains("w")) player1movement.add("w"); break; } }
-	 * 
-	 * @Override public void keyReleased(KeyEvent e) { System.out.println("yes");
-	 * switch (e.getKeyCode()) { case KeyEvent.VK_W: player1movement.remove("w");
-	 * break; } }
-	 * 
-	 * @Override public void mouseClicked(MouseEvent e) { }
-	 * 
-	 * @Override public void mousePressed(MouseEvent e) { }
-	 * 
-	 * @Override public void mouseReleased(MouseEvent e) { }
-	 * 
-	 * @Override public void mouseEntered(MouseEvent e) { }
-	 * 
-	 * @Override public void mouseExited(MouseEvent e) { }
-	 */
 }

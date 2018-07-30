@@ -26,7 +26,7 @@ public class PauseMenu {
 		
 		drawer.imageMode(drawer.CENTER);
 		drawer.image(mainMenu, drawer.width / 2, drawer.height - 70);
-		drawer.image(instructions, drawer.width / 2, drawer.height-160);
+		drawer.image(instructions, drawer.width / 2, drawer.height-200);
 		drawer.image(back, drawer.width / 2, drawer.height-380);
 		drawer.imageMode(drawer.CORNER);
 	}
