@@ -50,9 +50,9 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		won = new WinScreen();
 		obstacles = new ArrayList<Obstacle>();
 		for (int i = 0; i < 100; i++) {
-			int x = (int) (Math.random() * 25)+4;
-			int y = (int) (Math.random() * 25)+4;
-			obstacles.add(new Obstacle(x, y , x*20, y*20));
+			int x = (int) (Math.random() * 25) + 4;
+			int y = (int) (Math.random() * 25) + 4;
+			obstacles.add(new Obstacle(x, y, x * 20, y * 20));
 		}
 		level1 = new Levels(new Players("Player One", 1, 0, 0), new Players("Player Two", 2, 0, 20),
 				new Bosses("Zambie", 100, 20, 20, 0), obstacles, 600, 600);
@@ -112,16 +112,16 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		lost.setup(this);
 		won.setup(this);
 		instructions.setup(this);
-		
+
 	}
 
 	public void draw() {
 		if (level1 == null) {
 			obstacles = new ArrayList<Obstacle>();
 			for (int i = 0; i < 100; i++) {
-				int x = (int) (Math.random() * 25)+4;
-				int y = (int) (Math.random() * 25)+4;
-				obstacles.add(new Obstacle(x, y , x*20, y*20));
+				int x = (int) (Math.random() * 25) + 4;
+				int y = (int) (Math.random() * 25) + 4;
+				obstacles.add(new Obstacle(x, y, x * 20, y * 20));
 			}
 			level1 = new Levels(new Players("Player One", 1, 0, 0), new Players("Player Two", 2, 0, 20),
 					new Bosses("Zambie", 100, 20, 20, 0), obstacles, 600, 600);
@@ -314,7 +314,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 	}
 
 	public void mousePressed() {
-		System.out.println(mouseX + ", " + mouseY);
+		//System.out.println(mouseX + ", " + mouseY);
 		if (state == State.MENU) {
 			if (mouseX >= 20 && mouseX <= 270 && mouseY >= 150 && mouseY <= 180) {
 				player2ChangeName = false;
@@ -327,10 +327,10 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 				state = State.GAME;
 				player1ChangeName = false;
 				player2ChangeName = false;
-			} else if(mouseY>=350&&mouseY<480){
+			} else if (mouseY >= 360 && mouseY < 475) {
 				prevState = state;
-				state=State.INSTRUCTIONS;
-			}else {
+				state = State.INSTRUCTIONS;
+			} else {
 				player1ChangeName = false;
 				player2ChangeName = false;
 			}
