@@ -20,7 +20,10 @@ public class Bullet implements Entity {
 		this.direction = direction;
 		counter = 0;
 
-		basicBullet = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "smallcircle.png");
+		if(type.equalsIgnoreCase("sun"))
+			basicBullet = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "sun.png");
+		else
+			basicBullet = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "smallcircle.png");
 		basicBullet.resize(0, 20);
 	}
 

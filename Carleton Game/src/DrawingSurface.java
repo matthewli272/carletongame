@@ -50,8 +50,8 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		won = new WinScreen();
 		obstacles = new ArrayList<Obstacle>();
 		for (int i = 0; i < 100; i++) {
-			int x = (int) (Math.random() * 29);
-			int y = (int) (Math.random() * 29);
+			int x = (int) (Math.random() * 27) + 2;
+			int y = (int) (Math.random() * 27) + 2;
 			obstacles.add(new Obstacle(x, y , x*20, y*20));
 		}
 		level1 = new Levels(new Players("Player One", 1, 0, 0), new Players("Player Two", 2, 0, 20),

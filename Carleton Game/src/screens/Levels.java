@@ -19,10 +19,13 @@ import sprites.*;
 */
 public class Levels {
 
+
+
 	private ArrayList<Bosses> mobs = new ArrayList<>(30);
 	private ArrayList<Bosses> allThings = new ArrayList<>(30);
 	private ArrayList<Obstacle> obstacle;
 	private PImage pause;
+	private PImage floorTile;
 	private Entity[][] map;
 	private Players player1;
 	private Players player2;
@@ -82,6 +85,7 @@ public class Levels {
 		}
 		allThings.addAll(mobs);
 
+
 	}
 
 	public Bosses getBoss() {
@@ -115,6 +119,9 @@ public class Levels {
 		}
 
 		pause = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "pause.png");
+		floorTile = drawer.loadImage("executable/sprites" + System.getProperty("file.separator") + "floor_tile.jpg");
+		floorTile.resize(0,20);
+
 	}
 
 	/**
@@ -139,7 +146,14 @@ public class Levels {
 		 */
 		for (int i = 0; i < map[0].length - 1; i++) {
 			for (int j = 0; j < map.length - 1; j++) {
-				drawer.rect(cellWidth * j + x, cellHeight * i + y, cellWidth, cellHeight);
+				//drawer.rect(cellWidth * j + x, cellHeight * i + y, cellWidth, cellHeight);
+				if((Math.abs((int) (cellWidth * j + x - player1.getX())) > 60 || Math.abs((int) (cellWidth * i + y - player1.getY())) > 60)
+						&&(Math.abs((int) (cellWidth * j + x - player2.getX())) > 60 || Math.abs((int) (cellWidth * i + y - player2.getY())) > 60)) {
+					drawer.fill(0,0,0);
+					drawer.rect(cellWidth * j + x, cellHeight * i + y, cellWidth, cellHeight);
+					drawer.fill(255,255,255);
+				}else
+					drawer.image(floorTile,cellWidth * j + x, cellHeight * i + y);
 			}
 		}
 		if (count == 20) {
@@ -298,7 +312,7 @@ public class Levels {
 					if (e == p) {
 						p.takeDamage(playerBullets.get(i));
 						map[testX][testY] = null;
-						System.out.println("wat");
+						//System.out.println("wat");
 					}
 				}
 				for (Bosses s : b) {
@@ -319,7 +333,7 @@ public class Levels {
 				for (Obstacle o : obs) {
 					if (o == e) {
 						map[testX][testY] = null;
-						System.out.println("fuck");
+						//System.out.println("fuck");
 					}
 
 				}

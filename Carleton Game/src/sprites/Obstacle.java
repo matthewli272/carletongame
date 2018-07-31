@@ -42,7 +42,7 @@ public class Obstacle implements Entity {
 
 	public void draw(PApplet drawer) {
 		drawer.image(img,x,y);
-		System.out.println("IN DRAW METHOD");
+		//System.out.println("IN DRAW METHOD");
 
 	}
 

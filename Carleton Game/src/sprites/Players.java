@@ -236,7 +236,7 @@ public class Players implements Entity {
 	}
 	
 	public void shoot(PApplet drawer) {
-		Bullet bullet = new Bullet(playerX, playerY, "", direction, drawer);
+		Bullet bullet = new Bullet(playerX, playerY, "sun", direction, drawer);
 		playerBullets.add(bullet);
 	}
 }
