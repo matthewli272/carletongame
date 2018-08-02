@@ -80,7 +80,6 @@ public class Bullet implements Entity {
 			testX = 0;
 		if(testY == -1)
 			testY = 0;
-		//System.out.println(testX + "," + testY);
 		for (Players p : player) {
 			//System.out.println("wat");
 			//System.out.println(map[testX][testY] + "," + bullets[testX][testY]);

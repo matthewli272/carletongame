@@ -131,7 +131,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 		fill(255);
 		textAlign(CENTER);
 		textSize(12);
-		if (level1.getPlayer1().getHealth() == 0 && level1.getPlayer2().getHealth() == 0) {
+		if (level1.getPlayer1().isDead() && level1.getPlayer2().isDead()) {
 			prevState = state;
 			state = State.LOSE;
 		}
@@ -256,15 +256,17 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 						|| ((int) key >= 48 && (int) key <= 57))
 					level1.getPlayer1().setName(level1.getPlayer1().getName() + key);
 				else if (key == 8)
-					level1.getPlayer1().setName(
-							level1.getPlayer1().getName().substring(0, level1.getPlayer1().getName().length() - 1));
+					if(level1.getPlayer1().getName().length() != 0)
+						level1.getPlayer1().setName(
+								level1.getPlayer1().getName().substring(0, level1.getPlayer1().getName().length() - 1));
 			} else if (player2ChangeName) {
 				if (((int) key >= 65 && (int) key <= 90) || ((int) key >= 97 && (int) key <= 122) || (int) key == 32
 						|| ((int) key >= 48 && (int) key <= 57))
 					level1.getPlayer2().setName(level1.getPlayer2().getName() + key);
 				else if (key == 8)
-					level1.getPlayer2().setName(
-							level1.getPlayer2().getName().substring(0, level1.getPlayer2().getName().length() - 1));
+					if(level1.getPlayer1().getName().length() != 0)
+						level1.getPlayer2().setName(
+								level1.getPlayer2().getName().substring(0, level1.getPlayer2().getName().length() - 1));
 			}
 		}
 	}

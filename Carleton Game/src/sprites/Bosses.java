@@ -118,76 +118,101 @@ public class Bosses implements Entity {
 		return 0;
 	}
 
-	public void move(int player1X, int player1Y, int player2X, int player2Y, ArrayList<Bosses> mobs){
+	public void move(int player1X, int player1Y, int player2X, int player2Y, ArrayList<Bosses> mobs, Players player1, Players player2){
 		if ((bossX - player1X) * (bossX - player1X) + (bossY - player1Y)
 				* (bossY - player1Y) < (bossX - player2X) * (bossX - player2X)
 				+ (bossY - player2Y) * (bossY - player2Y)) {
 			if (Math.abs((bossX - player1X)) > Math.abs((bossY - player1Y))) {
 				if (bossX > player1X) {
-					bossX = (bossX - Math.round(cellHeight));
-					for(int i = 0; i < mobs.size();i++)
-						if((bossX == mobs.get(i).getX()) && bossY == mobs.get(i).getY()) {
-							bossX = bossX + Math.round(cellHeight);
-							break;
-						}
+					//if(!(bossY == player1Y)) {
+					if (!(bossY == player1Y && bossX + Math.round(cellHeight)== player1X) && !(bossY == player2Y && bossX == player2X)) {
+						bossX = (bossX - Math.round(cellHeight));
+						for (int i = 0; i < mobs.size(); i++)
+							if ((bossX == mobs.get(i).getX()) && bossY == mobs.get(i).getY()) {
+								bossX = bossX + Math.round(cellHeight);
+								break;
+							}
+					}else
+						player1.takeDamage();
+
 				} else {
-					bossX = (bossX + Math.round(cellHeight));
-					for(int i = 0; i < mobs.size();i++)
-						if((bossX == mobs.get(i).getX()) && bossY == mobs.get(i).getY()) {
-							bossX = bossX - Math.round(cellHeight);
-							break;
-						}
+					if (!(bossY == player1Y && bossX == player1X) && !(bossY == player2Y && bossX == player2X)) {
+						bossX = (bossX + Math.round(cellHeight));
+						for (int i = 0; i < mobs.size(); i++)
+							if ((bossX == mobs.get(i).getX()) && bossY == mobs.get(i).getY()) {
+								bossX = bossX - Math.round(cellHeight);
+								break;
+							}
+					} else
+						player1.takeDamage();
 				}
 			} else {
 				if (bossY > player1Y) {
-					bossY = (bossY - Math.round(cellHeight));
-					for(int i = 0; i < mobs.size();i++)
-						if((bossY == mobs.get(i).getY()) && bossX == mobs.get(i).getX()) {
-							bossY = bossY + Math.round(cellHeight);
-							break;
-						}
+					if (!(bossY + Math.round(cellHeight)== player1Y && bossX == player1X) && !(bossY == player2Y && bossX == player2X)) {
+						bossY = (bossY - Math.round(cellHeight));
+						for (int i = 0; i < mobs.size(); i++)
+							if ((bossY == mobs.get(i).getY()) && bossX == mobs.get(i).getX()) {
+								bossY = bossY + Math.round(cellHeight);
+								break;
+							}
+					}else
+						player1.takeDamage();
 				} else {
-					bossY = (bossY + Math.round(cellHeight));
-					for(int i = 0; i < mobs.size();i++)
-						if((bossY == mobs.get(i).getY()) && bossX == mobs.get(i).getX()) {
-							bossY = bossY - Math.round(cellHeight);
-							break;
-						}
+					if (!(bossY == player1Y && bossX == player1X) && !(bossY == player2Y && bossX == player2X)) {
+						bossY = (bossY + Math.round(cellHeight));
+						for (int i = 0; i < mobs.size(); i++)
+							if ((bossY == mobs.get(i).getY()) && bossX == mobs.get(i).getX()) {
+								bossY = bossY - Math.round(cellHeight);
+								break;
+							}
+					}else
+						player1.takeDamage();
 				}
 			}
 		} else {
 			if (Math.abs((bossX - player2X)) > Math.abs((bossY - player2Y))) {
 				if (bossX > player2X) {
-					bossX = (bossX - Math.round(cellHeight));
-					for(int i = 0; i < mobs.size();i++)
-						if((bossX == mobs.get(i).getX()) && bossY == mobs.get(i).getY()) {
-							bossX = bossX + Math.round(cellHeight);
-							break;
-						}
+					if (!(bossY == player1Y && bossX == player1X) && !(bossY == player2Y && bossX + Math.round(cellHeight) == player2X)) {
+						bossX = (bossX - Math.round(cellHeight));
+						for (int i = 0; i < mobs.size(); i++)
+							if ((bossX == mobs.get(i).getX()) && bossY == mobs.get(i).getY()) {
+								bossX = bossX + Math.round(cellHeight);
+								break;
+							}
+					}else
+						player2.takeDamage();
 				} else {
-					bossX = (bossX + Math.round(cellHeight));
-					for(int i = 0; i < mobs.size();i++)
-						if((bossX == mobs.get(i).getX()) && bossY == mobs.get(i).getY()) {
-							bossX = bossX - Math.round(cellHeight);
-							break;
-						}
+					if (!(bossY == player2Y && bossX == player2X) && !(bossY == player1Y && bossX == player1X)) {
+						bossX = (bossX + Math.round(cellHeight));
+						for (int i = 0; i < mobs.size(); i++)
+							if ((bossX == mobs.get(i).getX()) && bossY == mobs.get(i).getY()) {
+								bossX = bossX - Math.round(cellHeight);
+								break;
+							}
+					}else
+						player2.takeDamage();
 				}
 			} else {
 				if (bossY > player2Y) {
-					bossY = (bossY - Math.round(cellHeight));
-					for(int i = 0; i < mobs.size();i++)
-						if((bossY == mobs.get(i).getY()) && bossX == mobs.get(i).getX()) {
-							bossY = bossY + Math.round(cellHeight);
-							break;
-						}
+					if (!(bossY == player1Y && bossX == player1X) && !(bossY + Math.round(cellHeight) == player2Y && bossX == player2X)) {
+						bossY = (bossY - Math.round(cellHeight));
+						for (int i = 0; i < mobs.size(); i++)
+							if ((bossY == mobs.get(i).getY()) && bossX == mobs.get(i).getX()) {
+								bossY = bossY + Math.round(cellHeight);
+								break;
+							}
+					}else
+						player2.takeDamage();
 				} else {
-					//if (boss.getY() < player2.getY()){
-					bossY = (bossY + Math.round(cellHeight));
-					for(int i = 0; i < mobs.size();i++)
-						if((bossY == mobs.get(i).getY()) && bossX == mobs.get(i).getX()) {
-							bossY = bossY - Math.round(cellHeight);
-							break;
-						}
+					if (!(bossY == player2Y && bossX == player2X) && !(bossY == player1Y && bossX == player1X)) {
+						bossY = (bossY + Math.round(cellHeight));
+						for (int i = 0; i < mobs.size(); i++)
+							if ((bossY == mobs.get(i).getY()) && bossX == mobs.get(i).getX()) {
+								bossY = bossY - Math.round(cellHeight);
+								break;
+							}
+					}else
+						player2.takeDamage();
 				}
 			}
 		}
@@ -230,7 +255,7 @@ public class Bosses implements Entity {
 		bossY = bossY * 20;
 	}
 	public void takeDamage(Bullet b) {
-		bossHealth -= 15;
+		bossHealth -= 5;
 	}
 	public void draw(PApplet drawer) {
 		drawer.image(Boss, bossX, bossY);
@@ -239,8 +264,10 @@ public class Bosses implements Entity {
 		drawer.fill(237, 24, 245);
 		drawer.textSize(10);
 		drawer.text(name, bossX, bossY);
+
 		for(int i = 0; i < bossBullets.size();i++){
-            if(bossBullets.get(i).getX() < -10 || bossBullets.get(i).getY() < -10 || bossBullets.get(i).getX() > 600 || bossBullets.get(i).getY() > 600){
+			//System.out.println("x");
+            if(bossBullets.get(i).getX() < -10 || bossBullets.get(i).getY() < -10 || bossBullets.get(i).getX() > 590 || bossBullets.get(i).getY() > 590){
                 bossBullets.remove(i);
             } else {
                 bossBullets.get(i).draw(drawer);

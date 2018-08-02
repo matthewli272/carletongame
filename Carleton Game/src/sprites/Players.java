@@ -61,7 +61,7 @@ public class Players implements Entity {
 	}
 
 	public boolean isDead() {
-		return playerHealth == 0;
+		return playerHealth <= 0;
 	}
 
 	public String getName() {
@@ -130,16 +130,20 @@ public class Players implements Entity {
 		if(playerType == 1){
 			drawer.textAlign(drawer.LEFT);
 			drawer.text(name, 10, 630);
+			drawer.text(playerHealth + "%",10,660);
 			drawer.fill(255,0,0);
 			drawer.rect(drawer.textWidth(name) + 20,610, playerHealth,20);
 		} else if (playerType == 2){
 			drawer.textAlign(drawer.RIGHT);
 			drawer.text(name, 580, 660);
+			drawer.text(playerHealth + "%",580,630);
 			drawer.fill(255,0,0);
 			drawer.rect(480 - (drawer.textWidth(name) + 20),640, playerHealth,20);
 		}
 		int change1 = 0;
 		int change2 = 0;
+		if(playerHealth < 0)
+			playerHealth = 0;
 
 		if (movementCount == 7) {
 			if (playerMovement.contains("w") && (int) (playerY - cellHeight /* / 2 */) > -3) {
@@ -218,8 +222,8 @@ public class Players implements Entity {
 
 
 	}
- 	public void takeDamage(Bullet b) {
-		playerHealth -= 15;
+ 	public void takeDamage(/*Bullet b*/) {
+		playerHealth -= 5;
 	}
 	
 	public void shoot(PApplet drawer) {
