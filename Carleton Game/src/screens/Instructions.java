@@ -19,7 +19,7 @@ public class Instructions {
 		drawer.textAlign(drawer.CENTER,drawer.CENTER);
 		drawer.fill(0);
 		drawer.stroke(0);
-		drawer.text("Welcome to 'Insert game name here'. Player 1 use wasd to move and 'c' to shoot.\n "
+		drawer.text("Welcome to 'SunBeam'. Player 1 use wasd to move and 'c' to shoot.\n "
 				+ "Player 2 use arrow keys to move and shift to shoot. Kill all bosses to beat the\n "
 				+ "level and move on to the next one. There are differnt types of weapons that may\n "
 				+ "be acquired by beating bosses. Good Luck!", drawer.width/2, drawer.height/2);

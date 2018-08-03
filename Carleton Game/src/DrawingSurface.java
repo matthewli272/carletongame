@@ -38,6 +38,7 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 	private float cellHeight;
 	private Clip clip1;
 	private Clip clip2;
+	private Clip clip3;
 	private SourceDataLine line = null;
 	private byte[] audioBytes;
 	private int numBytes;
@@ -61,17 +62,31 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 
 		// File soundFile1 = new File("executable/sound/seinfield.mp3");
 		File soundFile1 = new File("executable/sound/microsoft.wav");
-		// File soundFile2 = new File("Visager-DarkSanctumBossLoop.wav");
+		File soundFile2 = new File("executable/sound/Visager_-_17_-_Welcome_Player_Loop.wav");
+		File soundFile3 = new File("executable/sound/Visager_-_26_-_We_Can_Do_It_Loop.wav");
 		AudioInputStream audioInputStream1 = null;
-		AudioInputStream audioInputStream2;
+		AudioInputStream audioInputStream2 = null;
+		AudioInputStream audioInputStream3 = null;
 		try {
 			audioInputStream1 = AudioSystem.getAudioInputStream(soundFile1);
 			clip1 = AudioSystem.getClip();
 
-			// audioInputStream2 = AudioSystem.getAudioInputStream(soundFile2);
-			// clip2 = AudioSystem.getClip();
+			audioInputStream2 = AudioSystem.getAudioInputStream(soundFile2);
+			clip2 = AudioSystem.getClip();
+
+			audioInputStream3 = AudioSystem.getAudioInputStream(soundFile3);
+			clip3 = AudioSystem.getClip();
+
 
 			clip1.open(audioInputStream1);
+			clip2.open(audioInputStream2);
+			clip3.open(audioInputStream3);
+
+
+
+			clip2.loop(Clip.LOOP_CONTINUOUSLY);
+			clip3.loop(Clip.LOOP_CONTINUOUSLY);
+			clip2.stop();
 
 		} catch (Exception ex) {
 			// clip2.open(audioInputStream2);
@@ -136,10 +151,13 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 			state = State.LOSE;
 		}
 		if (level1.getBoss().getHealth() == 0 && state == State.GAME) {
+
 			prevState = state;
 			state = State.WIN;
 		}
 		if (state == State.MENU) {
+			clip2.stop();
+			clip3.start();
 			mainMenu.draw(this);
 			rect(20, 150, 250, 30);
 			rect(300, 150, 250, 30);
@@ -151,35 +169,44 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 
 		} else if (state == State.GAME) {
 			clip1.stop();
+			clip3.stop();
+			clip2.start();
 			level1.draw(this, 0, 0);
 			cellHeight = level1.getCellHeight();
 			cellWidth = level1.getCellWidth();
 			level1.takeDmg();
 
 			if (player1movement.contains("c")) {
-				if (time1 == 0) {
-					time1 = System.currentTimeMillis();
-					level1.getPlayer1().shoot(this);
-				} else if (System.currentTimeMillis() - time1 > 500) {
-					time1 = System.currentTimeMillis();
-					level1.getPlayer1().shoot(this);
+				if(!level1.getPlayer1().isDead()) {
+					if (time1 == 0) {
+						time1 = System.currentTimeMillis();
+						level1.getPlayer1().shoot(this);
+					} else if (System.currentTimeMillis() - time1 > 500) {
+						time1 = System.currentTimeMillis();
+						level1.getPlayer1().shoot(this);
+					}
 				}
 			}
 			if (player2movement.contains("c")) {
-				if (time2 == 0) {
-					time2 = System.currentTimeMillis();
-					level1.getPlayer2().shoot(this);
-				} else if (System.currentTimeMillis() - time2 > 500) {
-					time2 = System.currentTimeMillis();
-					level1.getPlayer2().shoot(this);
+				if(!level1.getPlayer2().isDead()) {
+					if (time2 == 0) {
+						time2 = System.currentTimeMillis();
+						level1.getPlayer2().shoot(this);
+					} else if (System.currentTimeMillis() - time2 > 500) {
+						time2 = System.currentTimeMillis();
+						level1.getPlayer2().shoot(this);
+					}
 				}
 			}
 
-			level1.getPlayer1().draw(this, cellHeight, cellWidth, level1.getObstacle());
-			level1.getPlayer2().draw(this, cellHeight, cellWidth, level1.getObstacle());
+			//if(!level1.getPlayer1().isDead())
+				level1.getPlayer1().draw(this, cellHeight, cellWidth, level1.getObstacle());
+			//if(!level1.getPlayer2().isDead())
+				level1.getPlayer2().draw(this, cellHeight, cellWidth, level1.getObstacle());
 		} else if (state == State.PAUSED) {
 			pauseMenu.draw(this);
 		} else if (state == State.LOSE) {
+			clip2.stop();
 			clip1.start();
 			lost.draw(this);
 		} else if (state == State.WIN) {
