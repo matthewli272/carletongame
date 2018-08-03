@@ -130,95 +130,103 @@ public class Players implements Entity {
 		if(playerType == 1){
 			drawer.textAlign(drawer.LEFT);
 			drawer.text(name, 10, 630);
-			drawer.text(playerHealth + "%",10,660);
+			if(isDead())
+				drawer.text("DEAD",580,630);
+			else
+				drawer.text(playerHealth + "%",10,660);
 			drawer.fill(255,0,0);
 			drawer.rect(drawer.textWidth(name) + 20,610, playerHealth,20);
 		} else if (playerType == 2){
 			drawer.textAlign(drawer.RIGHT);
 			drawer.text(name, 580, 660);
-			drawer.text(playerHealth + "%",580,630);
+			if(isDead())
+				drawer.text("DEAD",580,630);
+			else
+				drawer.text(playerHealth + "%",580,630);
 			drawer.fill(255,0,0);
 			drawer.rect(480 - (drawer.textWidth(name) + 20),640, playerHealth,20);
 		}
-		int change1 = 0;
-		int change2 = 0;
-		if(playerHealth < 0)
-			playerHealth = 0;
+		if(!isDead()) {
+			int change1 = 0;
+			int change2 = 0;
+			if (playerHealth < 0)
+				playerHealth = 0;
 
-		if (movementCount == 7) {
-			if (playerMovement.contains("w") && (int) (playerY - cellHeight /* / 2 */) > -3) {
-				playerY = ((int) (playerY - cellHeight));
-				change1 = -20;
-				direction = Direction.UP;
-			}
-			if (playerMovement.contains("a") && (int) (playerX - cellWidth /* / 2 */) > -3) {
-				playerX = ((int) (playerX - cellWidth));
-				change2 = -20;
-				direction = Direction.LEFT;
-			}
-			if (playerMovement.contains("s") && (int) (playerY - cellHeight /* / 2 */) < 560) {
-				playerY = ((int) (playerY + cellHeight));
-				change1 = 20;
-				direction = Direction.DOWN;
-			}
-			if (playerMovement.contains("d") && (int) (playerX - cellWidth /* / 2 */) < 560) {
-				playerX = ((int) (playerX + cellWidth));
-				change2 = 20;
-				direction = Direction.RIGHT;
-			}
+			if (movementCount == 7) {
+				if (playerMovement.contains("w") && (int) (playerY - cellHeight /* / 2 */) > -3) {
+					playerY = ((int) (playerY - cellHeight));
+					change1 = -20;
+					direction = Direction.UP;
+				}
+				if (playerMovement.contains("a") && (int) (playerX - cellWidth /* / 2 */) > -3) {
+					playerX = ((int) (playerX - cellWidth));
+					change2 = -20;
+					direction = Direction.LEFT;
+				}
+				if (playerMovement.contains("s") && (int) (playerY - cellHeight /* / 2 */) < 560) {
+					playerY = ((int) (playerY + cellHeight));
+					change1 = 20;
+					direction = Direction.DOWN;
+				}
+				if (playerMovement.contains("d") && (int) (playerX - cellWidth /* / 2 */) < 560) {
+					playerX = ((int) (playerX + cellWidth));
+					change2 = 20;
+					direction = Direction.RIGHT;
+				}
 
-			for(Obstacle obs : obstacles){
-				//System.out.println(obs);
-				if(obs != null) {
-					if (obs.getX() == playerX && obs.getY() == playerY) {
-						playerY -= change1;
-						playerX -= change2;
+				for (Obstacle obs : obstacles) {
+					//System.out.println(obs);
+					if (obs != null) {
+						if (obs.getX() == playerX && obs.getY() == playerY) {
+							playerY -= change1;
+							playerX -= change2;
+						}
 					}
+				}
+
+				movementCount = 0;
+			}
+
+			movementCount++;
+			drawer.fill(0, 0, 0);
+			placeHolder.resize(0, 20);
+			knight.resize(0, (int) cellWidth);
+			if (count == 10) { //20/55
+				area += 7;
+				count = 0;
+			}
+			if (playerX == testX && playerY == testY) {
+				if (area > 9)
+					area = 1;
+			} else {
+				if (area > 24)
+					area = 16;
+			}
+			drawer.image(placeHolder, playerX, playerY);
+			drawer.fill(237, 24, 245);
+			drawer.textSize(10);
+			drawer.textAlign(drawer.LEFT);
+			drawer.text(name, playerX, playerY);
+			drawer.fill(0, 0, 0);
+			drawer.textSize(fontHeight);
+			while (drawer.textWidth(name) > drawer.textWidth("PlayerTwoE")) {
+				fontHeight--;
+				drawer.textSize(fontHeight);
+			}
+
+			for (int i = 0; i < playerBullets.size(); i++) {
+				if (playerBullets.get(i).getX() < -10 || playerBullets.get(i).getY() < -10 || playerBullets.get(i).getX() > 590 || playerBullets.get(i).getY() > 590) {
+					playerBullets.remove(i);
+				} else {
+					playerBullets.get(i).draw(drawer);
 				}
 			}
 
-			movementCount = 0;
+			drawer.fill(255);
+			count++;
+			testX = playerX;
+			testY = playerY;
 		}
-
-		movementCount++;
-		drawer.fill(0, 0, 0);
-		placeHolder.resize(0,20);
-		knight.resize(0,(int) cellWidth);
-		if(count == 10) { //20/55
-			area += 7;
-			count = 0;
-		}
-		if(playerX == testX && playerY == testY) {
-			if (area > 9)
-				area = 1;
-		} else {
-			if (area > 24)
-				area = 16;
-		}
-		drawer.image(placeHolder,playerX,playerY);
-		drawer.fill(237, 24, 245);
-		drawer.textSize(10);
-		drawer.textAlign(drawer.LEFT);
-		drawer.text(name, playerX, playerY);
-		drawer.fill(0,0,0);
-		drawer.textSize(fontHeight);
-		while(drawer.textWidth(name) > drawer.textWidth("PlayerTwoE")) {
-			fontHeight--;
-			drawer.textSize(fontHeight);
-		}
-
-		for(int i = 0; i < playerBullets.size(); i++){
-			if(playerBullets.get(i).getX() < -10 || playerBullets.get(i).getY() < -10 || playerBullets.get(i).getX() > 590 || playerBullets.get(i).getY() > 590){
-				playerBullets.remove(i);
-			} else {
-				playerBullets.get(i).draw(drawer);
-			}
-		}
-
-		drawer.fill(255);
-		count++;
-		testX = playerX;
-		testY = playerY;
 
 
 	}
