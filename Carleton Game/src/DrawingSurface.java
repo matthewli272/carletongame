@@ -62,8 +62,8 @@ public class DrawingSurface extends PApplet /* implements MouseListener, ActionL
 
 		// File soundFile1 = new File("executable/sound/seinfield.mp3");
 		File soundFile1 = new File("executable/sound/microsoft.wav");
-		File soundFile2 = new File("executable/sound/Visager_-_17_-_Welcome_Player_Loop.wav");
-		File soundFile3 = new File("executable/sound/Visager_-_26_-_We_Can_Do_It_Loop.wav");
+		File soundFile2 = new File("executable/sound/MainScreen.wav");
+		File soundFile3 = new File("executable/sound/MainScreen2.wav");
 		AudioInputStream audioInputStream1 = null;
 		AudioInputStream audioInputStream2 = null;
 		AudioInputStream audioInputStream3 = null;
